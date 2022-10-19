@@ -1,0 +1,22 @@
+{
+  "name": "@numiko/jump-links",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/numiko/jump-links.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@numiko/dropdown-toggle": "bitbucket:numiko/dropdown-toggle",
+    "@numiko/utilities": "bitbucket:numiko/utilities",
+    "basicscroll": "^3.0.4",
+    "lodash": "^4.17.21"
+  }
+}
