@@ -1,12 +1,12 @@
-# Jumplinks
+# Jump Links
 A sticky navigation bar that will anchor down to sections with the page.  Also shows progress when scrolling through the jumplinks sections
 
 <br />
 
 ## Example of usage
 ---
-### Wonderlab Science Museum https://
-The [animation toggle on Wonderlab+](http://wonderlabplus.sciencemuseumgroup.org.uk/) was the inital concept for this.
+### SOAS
+[SOAS](https://www.soas.ac.uk/study/find-course/ba-africa-and-black-diaspora) contains example of jumplinks - using an older implementation of this.
 
 <br />
 
