@@ -12,6 +12,7 @@ class Jumplinks {
      */
     const defaults = {
       linksEl: '[data-js-jumplinks-link]',
+      labelEl: '[data-js-jumplinks-label]',
       dropdownButtonEl: '[data-js-jumplinks-button]',
       containerEl: '[data-js-jumplinks-container]',
       sectionEl: '[data-js-jumplinks-section]',
@@ -34,6 +35,7 @@ class Jumplinks {
      */
     this.jumplinksEl = typeof element === 'string' ? document.querySelector(element) : element;
     this.linksEl = typeof opts.linksEl === 'string' ? document.querySelectorAll(opts.linksEl) : opts.linksEl;
+    this.labelEl = typeof opts.labelEl === 'string' ? document.querySelector(opts.labelEl) : opts.labelEl;
     this.dropdownButtonEl = typeof opts.dropdownButtonEl === 'string' ? document.querySelector(opts.dropdownButtonEl) : opts.dropdownButtonEl;
     this.containerEl = typeof opts.containerEl === 'string' ? document.querySelector(opts.containerEl) : opts.containerEl;
     this.intersectionOptions = opts.intersectionOptions;
@@ -69,7 +71,7 @@ class Jumplinks {
         // Update label to show intersecting section
         const sliceLabelId = entry.target.getAttribute('aria-labelledby');
         const sliceLabel = document.querySelector(`#${sliceLabelId}`).innerText;
-        document.querySelector('[data-js-jumplinks-active]').innerText = sliceLabel;
+        this.labelEl.innerText = sliceLabel;
 
         // Additionally call user defined callback if present
         if (this.intersectionOptions.callback && typeof this.intersectionOptions.callback == 'function') {
