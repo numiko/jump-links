@@ -1,20 +1,23 @@
 # Jump Links
 A sticky navigation bar that will anchor down to sections with the page.  Also shows progress when scrolling through the jumplinks sections
 
-<br />
 
 ## Example of usage
 ---
 ### SOAS
 [SOAS](https://www.soas.ac.uk/study/find-course/ba-africa-and-black-diaspora) contains example of jumplinks - using an older implementation of this.
 
-<br />
 
 ## Installation
 ---
 `npm install bitbucket:numiko/@numiko/jump-links`
 
-<br />
+`npm install bitbucket:numiko/@numiko/jump-links#<TAG_NAME>`
+
+
+## Known Issues
+1. `basicScroll` dependency is erroring, due to vite wrapping its export an additional `default` object.  Only happening in `dev` mode. See https://github.com/vitejs/vite/issues/5560 & https://vitejs.dev/guide/dep-pre-bundling.html
+
 
 ## Example
 ---
@@ -120,7 +123,6 @@ pageJumplinks.init();
 </div>
 ```
 
-<br />
 
 ## Roadmap
 ---
