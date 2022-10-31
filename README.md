@@ -50,9 +50,6 @@ const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
     callback: (entries) => {}
   },
   // Custom intersectionObserver options
-
-  showProgress: true,
-  // Show progress bar - will download BasicScroll plugin.
 });
 
 // Initialise
