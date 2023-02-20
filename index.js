@@ -1,6 +1,7 @@
 import { scrollToElement, setPushState } from '@numiko/utilities';
 import DropdownToggle from '@numiko/dropdown-toggle';
 import _merge from 'lodash/merge';
+import  * as basicScroll from 'basicscroll';
 
 let scrollInstance, dropdownToggleInstance;
 
@@ -22,7 +23,6 @@ class Jumplinks {
         threshhold:'',
         callback: (entries) => {}
       },
-      showProgress: true,
     }
 
     /**
@@ -41,7 +41,6 @@ class Jumplinks {
     this.intersectionOptions = opts.intersectionOptions;
     this.sections = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
     this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions])
-    this.showProgress = opts.showProgress;
     this.validateOptions();
   }
 
@@ -69,8 +68,8 @@ class Jumplinks {
     entries.forEach( (entry) => {
       if (entry.isIntersecting) {
         // Update label to show intersecting section
-        const sliceLabelId = entry.target.getAttribute('aria-labelledby');
-        const sliceLabel = document.querySelector(`#${sliceLabelId}`).innerText;
+        const sliceLabel = entry.target.getAttribute('data-js-jumplinks-section-label');
+        console.log(sliceLabel);
         this.labelEl.innerText = sliceLabel;
 
         // Additionally call user defined callback if present
@@ -81,34 +80,7 @@ class Jumplinks {
     })
   }
 
-  /**
-   * Basic scroll plugin init to handle progress indicator
-   * Only import it if we have showProgress: true (default)
-   */
-  progressIndicator() {
 
-    const getBasicScroll = import('basicscroll')
-      .then(basicScroll => {
-        scrollInstance = basicScroll.create({
-          elem: this.containerEl,
-          from: 'top-bottom',
-          to: 'bottom-top',
-          props: {
-            '--scrollprogress': {
-              from: '-100%',
-              to: '0%',
-            }
-          }
-        })
-
-        scrollInstance.start();
-      })
-      .catch(err => {
-        console.error(err);
-      })
-
-      return getBasicScroll;
-  }
 
   /**
    * Register the dropdown button that reveals the jumplinks
@@ -123,11 +95,27 @@ class Jumplinks {
     dropdownToggleInstance.init();
   }
 
+  registerBasicScrollInstance() {
+    scrollInstance = basicScroll.create({
+      elem: this.containerEl,
+      from: 'top-bottom',
+      to: 'bottom-top',
+      props: {
+        '--scrollprogress': {
+          from: '-100%',
+          to: '0%',
+        }
+      }
+    })
+
+    scrollInstance.start();
+  }
+
   scrollToHash() {
     if (!window.location.hash) return;
     const elementToScrollTo = document.querySelector(window.location.hash);
     const heightOfJumpLinks = this.jumplinksEl.offsetHeight;
-    scrollToElement(elementToScrollTo, heightOfJumpLinks, true);
+    scrollToElement(elementToScrollTo, heightOfJumpLinks, false);
   }
 
   onLinkClick(e) {
@@ -170,36 +158,28 @@ class Jumplinks {
       this.scrollToHash();
     });
 
+    /**
+     * Clicking a jumplink to scroll to the section
+     */
     this.linksEl.forEach((link) => {
       link.addEventListener('click', this.onLinkClick.bind(this));
     });
   }
 
   init() {
-    if( this.jumplinksEl && this.containerEl  ) {
-      /**
-       * ProgressIndicator returns a promise as it might import another module
-       */
-      if(this.showProgress) {
-        this.progressIndicator().then( (response) => {
-          this.registerDropdownButton();
-          this.eventhandlers();
-        })
-      } else {
-        this.registerDropdownButton();
-        this.eventhandlers();
-      }
+    this.registerBasicScrollInstance();
+    this.registerDropdownButton();
+    this.eventhandlers();
 
-
-      /*
-      * Observe slices on the page so we know when they come into view.
-      */
-      this.sections.forEach((section) => {
-        this.sectionObserver.observe(section);
-      });
-
-    }
+    /*
+    * Observe slices on the page so we know when they come into view.
+    */
+    this.sections.forEach((section) => {
+      this.sectionObserver.observe(section);
+    });
   }
+
 }
+
 
 export { Jumplinks as default }

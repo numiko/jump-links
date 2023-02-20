@@ -23,7 +23,7 @@ A sticky navigation bar that will anchor down to sections with the page.  Also s
 ---
 ```javascript
 
-import Jumplinks from '@numiko/switch-toggle';
+import Jumplinks from '@numiko/jump-links';
 
 const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
   // options - defaults listed
@@ -108,15 +108,15 @@ pageJumplinks.init();
 
 <!-- Jumplinks Content -->
 <div data-js-jumplinks-container>
-  <section id="jump-link-1"  aria-labelledby="section-id-1" data-js-jumplinks-section>
+  <section id="jump-link-1"  aria-labelledby="section-id-1" data-js-jumplinks-section data-js-jumplinks-section-label="Section One">
     <h2 id="section-id-1">Section One</h2>
     <p>Aliquam erat volutpat. Praesent tristique, turpis vitae euismod viverra, sapien turpis gravida orci, quis ornare est arcu sit amet neque. Maecenas vel velit viverra, commodo risus nec, convallis sem. Phasellus posuere libero ac lacus convallis tristique. Duis dolor augue, congue vitae purus et, pharetra semper purus. Vestibulum aliquet metus erat. Donec non dui et risus ultrices fermentum non vitae arcu.</p>
   </section>
-  <section id="jump-link-2"  aria-labelledby="section-id-2" data-js-jumplinks-section>
+  <section id="jump-link-2"  aria-labelledby="section-id-2" data-js-jumplinks-section data-js-jumplinks-section-label="Section Two">
     <h2 id="section-id-2">Section Two</h2>
     <p>Aliquam erat volutpat. Praesent tristique, turpis vitae euismod viverra, sapien turpis gravida orci, quis ornare est arcu sit amet neque. Maecenas vel velit viverra, commodo risus nec, convallis sem. Phasellus posuere libero ac lacus convallis tristique. Duis dolor augue, congue vitae purus et, pharetra semper purus. Vestibulum aliquet metus erat. Donec non dui et risus ultrices fermentum non vitae arcu.</p>
   </section>
-  <section id="jump-link-3"  aria-labelledby="section-id-3" data-js-jumplinks-section>
+  <section id="jump-link-3"  aria-labelledby="section-id-3" data-js-jumplinks-section data-js-jumplinks-section-label="Section Three">
     <h2 id="section-id-3">Section Three</h2>
     <p>Aliquam erat volutpat. Praesent tristique, turpis vitae euismod viverra, sapien turpis gravida orci, quis ornare est arcu sit amet neque. Maecenas vel velit viverra, commodo risus nec, convallis sem. Phasellus posuere libero ac lacus convallis tristique. Duis dolor augue, congue vitae purus et, pharetra semper purus. Vestibulum aliquet metus erat. Donec non dui et risus ultrices fermentum non vitae arcu.</p>
   </section>
