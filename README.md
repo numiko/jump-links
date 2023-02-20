@@ -26,30 +26,35 @@ A sticky navigation bar that will anchor down to sections with the page.  Also s
 import Jumplinks from '@numiko/jump-links';
 
 const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
-  // options - defaults listed
-
-  linksEl: '[data-js-jumplinks-link]',
   // Link elements for the jumplinks - selector or DOM elements
+  linksEl: '[data-js-jumplinks-link]',
 
-  labelEl: '[data-js-jumplinks-label]',
   // Label element that shows the current section - selector or DOM element
+  labelEl: '[data-js-jumplinks-label]',
 
-  dropdownButtonEl: '[data-js-jumplinks-button]',
   // Button element that triggers the dropdown nav - selector or DOM element
+  dropdownButtonEl: '[data-js-jumplinks-button]',
 
-  containerEl: '[data-js-jumplinks-container]',
+  // Button label to open dropdown
+  dropdownButtonOpenLabel: 'Open',
+
+  // Button label to close dropdown
+  dropdownButtonCloseLabel: 'Close',
+
   // Container element that wraps around the jump-link sections - selector or DOM element
+  containerEl: '[data-js-jumplinks-container]',
 
-  sectionEl: '[data-js-jumplinks-section]',
   // section element for each jumplink block - selector or DOM element
+  sectionEl: '[data-js-jumplinks-section]',
 
+  // Custom intersectionObserver options
   intersectionOptions: {
     root: null,
     rootMargin:'-50% 0px',
     threshhold:'',
     callback: (entries) => {}
   },
-  // Custom intersectionObserver options
+
 });
 
 // Initialise

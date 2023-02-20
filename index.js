@@ -15,6 +15,8 @@ class Jumplinks {
       linksEl: '[data-js-jumplinks-link]',
       labelEl: '[data-js-jumplinks-label]',
       dropdownButtonEl: '[data-js-jumplinks-button]',
+      dropdownButtonOpenLabel: 'Open',
+      dropdownButtonCloseLabel: 'Close',
       containerEl: '[data-js-jumplinks-container]',
       sectionEl: '[data-js-jumplinks-section]',
       intersectionOptions: {
@@ -37,6 +39,8 @@ class Jumplinks {
     this.linksEl = typeof opts.linksEl === 'string' ? document.querySelectorAll(opts.linksEl) : opts.linksEl;
     this.labelEl = typeof opts.labelEl === 'string' ? document.querySelector(opts.labelEl) : opts.labelEl;
     this.dropdownButtonEl = typeof opts.dropdownButtonEl === 'string' ? document.querySelector(opts.dropdownButtonEl) : opts.dropdownButtonEl;
+    this.dropdownButtonOpenLabel = opts.dropdownButtonOpenLabel;
+    this.dropdownButtonCloseLabel = opts.dropdownButtonCloseLabel;
     this.containerEl = typeof opts.containerEl === 'string' ? document.querySelector(opts.containerEl) : opts.containerEl;
     this.intersectionOptions = opts.intersectionOptions;
     this.sections = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
@@ -87,8 +91,8 @@ class Jumplinks {
    */
   registerDropdownButton() {
     dropdownToggleInstance = new DropdownToggle(this.dropdownButtonEl, {
-      openLabel: 'Show',
-      closeLabel: 'Hide',
+      openLabel: this.dropdownButtonOpenLabel,
+      closeLabel: this.dropdownButtonCloseLabel,
       onOpenEnd() {},
       onCloseEnd() {}
     });
