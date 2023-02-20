@@ -32,6 +32,9 @@ const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
   // Label element that shows the current section - selector or DOM element
   labelEl: '[data-js-jumplinks-label]',
 
+  // Specify if the dropdown should be open (true) / closed (false) on load
+  dropdownOpenOnLoad: false,
+
   // Button element that triggers the dropdown nav - selector or DOM element
   dropdownButtonEl: '[data-js-jumplinks-button]',
 
@@ -40,6 +43,12 @@ const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
 
   // Button label to close dropdown
   dropdownButtonCloseLabel: 'Close',
+
+  // Dropdown Callbacks
+  dropdownOpenStart: () => {},
+  dropdownOpenEnd: () => {},
+  dropdownCloseStart: () => {},
+  dropdownCloseEnd: () => {},
 
   // Container element that wraps around the jump-link sections - selector or DOM element
   containerEl: '[data-js-jumplinks-container]',
