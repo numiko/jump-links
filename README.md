@@ -2,11 +2,6 @@
 A sticky navigation bar that will anchor down to sections with the page.  Also shows progress when scrolling through the jumplinks sections
 
 
-## Example of usage
----
-### SOAS
-[SOAS](https://www.soas.ac.uk/study/find-course/ba-africa-and-black-diaspora) contains example of jumplinks - using an older implementation of this.
-
 
 ## Installation
 ---
@@ -15,62 +10,64 @@ A sticky navigation bar that will anchor down to sections with the page.  Also s
 `npm install bitbucket:numiko/@numiko/jump-links#<TAG_NAME>`
 
 
-## Known Issues
-1. `basicScroll` dependency is erroring, due to vite wrapping its export an additional `default` object.  Only happening in `dev` mode. See https://github.com/vitejs/vite/issues/5560 & https://vitejs.dev/guide/dep-pre-bundling.html
-
-
-## Example
+## Example setup & options
 ---
 ```javascript
 
-import Jumplinks from '@numiko/switch-toggle';
+import Jumplinks from '@numiko/jump-links';
 
 const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
-  // options - defaults listed
-
-  linksEl: '[data-js-jumplinks-link]',
   // Link elements for the jumplinks - selector or DOM elements
+  linksEl: '[data-js-jumplinks-link]',
 
-  labelEl: '[data-js-jumplinks-label]',
   // Label element that shows the current section - selector or DOM element
+  labelEl: '[data-js-jumplinks-label]',
 
-  dropdownButtonEl: '[data-js-jumplinks-button]',
+  // Specify if the dropdown should be open (true) / closed (false) on load
+  dropdownOpenOnLoad: false,
+
   // Button element that triggers the dropdown nav - selector or DOM element
+  dropdownButtonEl: '[data-js-jumplinks-button]',
 
-  containerEl: '[data-js-jumplinks-container]',
+  // Button label to open dropdown
+  dropdownButtonOpenLabel: 'Open',
+
+  // Button label to close dropdown
+  dropdownButtonCloseLabel: 'Close',
+
+  // Dropdown Callbacks
+  dropdownOpenStart: () => {},
+  dropdownOpenEnd: () => {},
+  dropdownCloseStart: () => {},
+  dropdownCloseEnd: () => {},
+
   // Container element that wraps around the jump-link sections - selector or DOM element
+  containerEl: '[data-js-jumplinks-container]',
 
-  sectionEl: '[data-js-jumplinks-section]',
   // section element for each jumplink block - selector or DOM element
+  sectionEl: '[data-js-jumplinks-section]',
 
+  // Custom intersectionObserver options
   intersectionOptions: {
     root: null,
     rootMargin:'-50% 0px',
     threshhold:'',
     callback: (entries) => {}
   },
-  // Custom intersectionObserver options
+
 });
 
 // Initialise
 pageJumplinks.init();
 ```
+## Example HTML
 ```html
 <body>
 
-  <div class="flex flex-col gap-y-10 mb-10">
-    <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]">
-      <h2>Section outside jumplinks area</h2>
-    </section>
-    <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]">
-      <h2>Section outside jumplinks area</h2>
-    </section>
-  </div>
-
-
+  <!-- Jumplinks will stick/unstick to their relative parent -->
   <div class="relative">
 
-    <!-- Jumplinks sticky bar -->
+    <!-- Sticky bar -->
     <div data-js-jumplinks class="bg-color-black text-color-white z-50 sticky top-0" >
 
       <div class="container | py-5 flex items-center justify-between">
@@ -86,13 +83,13 @@ pageJumplinks.init();
         </button>
       </div>
 
-      <!-- Jumplink Progress Bar-->
+      <!-- Progress Bar-->
       <div class="bg-[#FFCCC9]">
         <span style="transform: translateX(var(--scrollprogress, -100%))"
           class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"></span>
       </div>
 
-      <!-- Jumplink Dropdown  -->
+      <!-- Dropdown with links  -->
       <div id="jumplinks-container" class="overflow-hidden hidden absolute top-full left-0 w-full bg-color-black">
         <div class="container">
           <div class="py-7 md:py-10">
@@ -112,39 +109,47 @@ pageJumplinks.init();
       </div>
     </div>
 
-    <!-- Jumplink sections-->
+    <!-- Jumplinkable sections-->
     <div data-js-jumplinks-container class="flex flex-col gap-y-10 mb-10">
-      <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]" id="jump-link-1"
-        aria-labelledby="section-id-1" data-js-jumplinks-section>
+      <section id="jump-link-1" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section One">
         <h2 id="section-id-1">Section One</h2>
       </section>
-      <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]" id="jump-link-2"
-        aria-labelledby="section-id-2" data-js-jumplinks-section>
+      <section id="jump-link-2" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section Two">
         <h2 id="section-id-2">Section Two</h2>
       </section>
-      <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]" id="jump-link-3"
-        aria-labelledby="section-id-3" data-js-jumplinks-section>
+      <section id="jump-link-3" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section Three">
         <h2 id="section-id-3">Section Three</h2>
       </section>
     </div>
-
   </div>
-
-  <div class="flex flex-col gap-y-10">
-    <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]">
-      <h2>Section outside jumplinks area</h2>
-    </section>
-    <section class="flex items-center justify-center p-10 bg-[#e1e1e1] min-h-[700px]">
-      <h2>Section outside jumplinks area</h2>
-    </section>
-  </div>
-
-
 </body>
 ```
+## Methods
+---
+```javascript
+const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
+  ...
+}
 
+// Initialise
+pageJumplinks.init();
+
+// Open
+pageJumplinks.open();
+
+// Close
+pageJumplinks.close();
+
+// Toggle
+pageJumplinks.toggle();
+
+// isOpen
+pageJumplinks.isOpen(); // true|false
+
+```
 
 ## Roadmap
 ---
-1. More complex/fleshed-out example
-2. Tests
+1. Tests!
+1. Allow custom tweens for animations
+1. Remove BasicScroll dependency
