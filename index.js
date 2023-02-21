@@ -75,7 +75,7 @@ class Jumplinks {
     }
 
     if(typeof(this.dropdownOpenStart) !== 'function' || typeof(this.dropdownOpenEnd) !== 'function' || typeof(this.dropdownCloseStart) !== 'function' || typeof(this.dropdownCloseEnd) !== 'function') {
-      throw 'Non function passed to callback option'
+      throw 'Jumplinks: Non function passed to callback option'
     }
   }
 
@@ -199,7 +199,20 @@ class Jumplinks {
     });
   }
 
-}
+  /**
+   * Expose 'open' method to programatically open the dropdown
+   */
+  open() {
+    dropdownToggleInstance.open();
+  }
 
+  /**
+   * Expose 'close' method to programatically close the dropdown
+   */
+  close() {
+    dropdownToggleInstance.close();
+  }
+
+}
 
 export { Jumplinks as default }
