@@ -138,7 +138,13 @@ pageJumplinks.init();
 pageJumplinks.open();
 
 // Close
-pageJumplinks.open();
+pageJumplinks.close();
+
+// Toggle
+pageJumplinks.toggle();
+
+// isOpen
+pageJumplinks.isOpen(); // true|false
 
 ```
 
