@@ -14,7 +14,14 @@ class Jumplinks {
     const defaults = {
       linksEl: '[data-js-jumplinks-link]',
       labelEl: '[data-js-jumplinks-label]',
+      dropdownOpenOnLoad: false,
       dropdownButtonEl: '[data-js-jumplinks-button]',
+      dropdownButtonOpenLabel: 'Open',
+      dropdownButtonCloseLabel: 'Close',
+      dropdownOpenStart: () => {},
+      dropdownOpenEnd: () => {},
+      dropdownCloseStart: () => {},
+      dropdownCloseEnd: () => {},
       containerEl: '[data-js-jumplinks-container]',
       sectionEl: '[data-js-jumplinks-section]',
       intersectionOptions: {
@@ -36,7 +43,14 @@ class Jumplinks {
     this.jumplinksEl = typeof element === 'string' ? document.querySelector(element) : element;
     this.linksEl = typeof opts.linksEl === 'string' ? document.querySelectorAll(opts.linksEl) : opts.linksEl;
     this.labelEl = typeof opts.labelEl === 'string' ? document.querySelector(opts.labelEl) : opts.labelEl;
+    this.dropdownOpenOnLoad = !!opts.dropdownOpenOnLoad;
     this.dropdownButtonEl = typeof opts.dropdownButtonEl === 'string' ? document.querySelector(opts.dropdownButtonEl) : opts.dropdownButtonEl;
+    this.dropdownButtonOpenLabel = opts.dropdownButtonOpenLabel;
+    this.dropdownButtonCloseLabel = opts.dropdownButtonCloseLabel;
+    this.dropdownOpenStart = opts.dropdownOpenStart;
+    this.dropdownOpenEnd = opts.dropdownOpenEnd;
+    this.dropdownCloseStart = opts.dropdownCloseStart;
+    this.dropdownCloseEnd = opts.dropdownCloseEnd;
     this.containerEl = typeof opts.containerEl === 'string' ? document.querySelector(opts.containerEl) : opts.containerEl;
     this.intersectionOptions = opts.intersectionOptions;
     this.sections = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
@@ -59,6 +73,10 @@ class Jumplinks {
     if (this.containerEl === null) {
       throw `Jumplinks: No matching DOM element for "containerEl"`;
     }
+
+    if(typeof(this.dropdownOpenStart) !== 'function' || typeof(this.dropdownOpenEnd) !== 'function' || typeof(this.dropdownCloseStart) !== 'function' || typeof(this.dropdownCloseEnd) !== 'function') {
+      throw 'Jumplinks: Non function passed to callback option';
+    }
   }
 
   /**
@@ -68,8 +86,7 @@ class Jumplinks {
     entries.forEach( (entry) => {
       if (entry.isIntersecting) {
         // Update label to show intersecting section
-        const sliceLabelId = entry.target.getAttribute('aria-labelledby');
-        const sliceLabel = document.querySelector(`#${sliceLabelId}`).innerText;
+        const sliceLabel = entry.target.getAttribute('data-js-jumplinks-section-label');
         this.labelEl.innerText = sliceLabel;
 
         // Additionally call user defined callback if present
@@ -87,10 +104,13 @@ class Jumplinks {
    */
   registerDropdownButton() {
     dropdownToggleInstance = new DropdownToggle(this.dropdownButtonEl, {
-      openLabel: 'Show',
-      closeLabel: 'Hide',
-      onOpenEnd() {},
-      onCloseEnd() {}
+      openOnLoad: this.dropdownOpenOnLoad,
+      onOpenStart: this.dropdownOpenStart,
+      onOpenEnd: this.dropdownOpenEnd,
+      onCloseStart: this.dropdownCloseStart,
+      onCloseEnd: this.dropdownCloseEnd,
+      openLabel: this.dropdownButtonOpenLabel,
+      closeLabel: this.dropdownButtonCloseLabel,
     });
     dropdownToggleInstance.init();
   }
@@ -179,7 +199,35 @@ class Jumplinks {
     });
   }
 
-}
+  /**
+   * Expose 'open' method to programatically open the dropdown
+   */
+  open() {
+    dropdownToggleInstance.open();
+  }
 
+  /**
+   * Expose 'close' method to programatically close the dropdown
+   */
+  close() {
+    dropdownToggleInstance.close();
+  }
+
+  /**
+   * Expose 'toggle' method to programatically toggle the dropdown
+   */
+  toggle() {
+    dropdownToggleInstance.toggle();
+  }
+
+  /**
+   * Check if dropdown is open or not (based on button class)
+   * @returns {Boolean}
+   */
+  isOpen() {
+    return dropdownToggleInstance.isActive();
+  }
+
+}
 
 export { Jumplinks as default }
