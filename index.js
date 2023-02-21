@@ -225,7 +225,7 @@ class Jumplinks {
    * @returns {Boolean}
    */
   isOpen() {
-    return dropdownToggleInstance.isActive();
+    return dropdownToggleInstance.isActive;
   }
 
 }
