@@ -220,6 +220,14 @@ class Jumplinks {
     dropdownToggleInstance.toggle();
   }
 
+  /**
+   * Check if dropdown is open or not (based on button class)
+   * @returns {Boolean}
+   */
+  isOpen() {
+    return dropdownToggleInstance.isActive();
+  }
+
 }
 
 export { Jumplinks as default }
