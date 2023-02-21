@@ -213,6 +213,13 @@ class Jumplinks {
     dropdownToggleInstance.close();
   }
 
+  /**
+   * Expose 'toggle' method to programatically toggle the dropdown
+   */
+  toggle() {
+    dropdownToggleInstance.toggle();
+  }
+
 }
 
 export { Jumplinks as default }
