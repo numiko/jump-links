@@ -75,7 +75,7 @@ class Jumplinks {
     }
 
     if(typeof(this.dropdownOpenStart) !== 'function' || typeof(this.dropdownOpenEnd) !== 'function' || typeof(this.dropdownCloseStart) !== 'function' || typeof(this.dropdownCloseEnd) !== 'function') {
-      throw 'Jumplinks: Non function passed to callback option'
+      throw 'Jumplinks: Non function passed to callback option';
     }
   }
 
