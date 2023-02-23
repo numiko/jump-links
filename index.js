@@ -1,9 +1,8 @@
-import { scrollToElement, setPushState } from '@numiko/utilities';
-import DropdownToggle from '@numiko/dropdown-toggle';
+import { scrollToElement, setPushState } from './utilities.js';
 import _merge from 'lodash/merge';
 import  * as basicScroll from 'basicscroll';
 
-let scrollInstance, dropdownToggleInstance;
+let scrollInstance;
 
 class Jumplinks {
   constructor(element, options) {
@@ -14,14 +13,6 @@ class Jumplinks {
     const defaults = {
       linksEl: '[data-js-jumplinks-link]',
       labelEl: '[data-js-jumplinks-label]',
-      dropdownOpenOnLoad: false,
-      dropdownButtonEl: '[data-js-jumplinks-button]',
-      dropdownButtonOpenLabel: 'Open',
-      dropdownButtonCloseLabel: 'Close',
-      dropdownOpenStart: () => {},
-      dropdownOpenEnd: () => {},
-      dropdownCloseStart: () => {},
-      dropdownCloseEnd: () => {},
       containerEl: '[data-js-jumplinks-container]',
       sectionEl: '[data-js-jumplinks-section]',
       intersectionOptions: {
@@ -43,14 +34,6 @@ class Jumplinks {
     this.jumplinksEl = typeof element === 'string' ? document.querySelector(element) : element;
     this.linksEl = typeof opts.linksEl === 'string' ? document.querySelectorAll(opts.linksEl) : opts.linksEl;
     this.labelEl = typeof opts.labelEl === 'string' ? document.querySelector(opts.labelEl) : opts.labelEl;
-    this.dropdownOpenOnLoad = !!opts.dropdownOpenOnLoad;
-    this.dropdownButtonEl = typeof opts.dropdownButtonEl === 'string' ? document.querySelector(opts.dropdownButtonEl) : opts.dropdownButtonEl;
-    this.dropdownButtonOpenLabel = opts.dropdownButtonOpenLabel;
-    this.dropdownButtonCloseLabel = opts.dropdownButtonCloseLabel;
-    this.dropdownOpenStart = opts.dropdownOpenStart;
-    this.dropdownOpenEnd = opts.dropdownOpenEnd;
-    this.dropdownCloseStart = opts.dropdownCloseStart;
-    this.dropdownCloseEnd = opts.dropdownCloseEnd;
     this.containerEl = typeof opts.containerEl === 'string' ? document.querySelector(opts.containerEl) : opts.containerEl;
     this.intersectionOptions = opts.intersectionOptions;
     this.sections = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
@@ -66,16 +49,8 @@ class Jumplinks {
       throw `Jumplinks: No matching DOM element for "jumplinkEl"`;
     }
 
-    if (this.dropdownButtonEl === null) {
-      throw `Jumplinks: No matching DOM element for "dropdownButtonEl"`;
-    }
-
     if (this.containerEl === null) {
       throw `Jumplinks: No matching DOM element for "containerEl"`;
-    }
-
-    if(typeof(this.dropdownOpenStart) !== 'function' || typeof(this.dropdownOpenEnd) !== 'function' || typeof(this.dropdownCloseStart) !== 'function' || typeof(this.dropdownCloseEnd) !== 'function') {
-      throw 'Jumplinks: Non function passed to callback option';
     }
   }
 
@@ -97,23 +72,6 @@ class Jumplinks {
     })
   }
 
-
-
-  /**
-   * Register the dropdown button that reveals the jumplinks
-   */
-  registerDropdownButton() {
-    dropdownToggleInstance = new DropdownToggle(this.dropdownButtonEl, {
-      openOnLoad: this.dropdownOpenOnLoad,
-      onOpenStart: this.dropdownOpenStart,
-      onOpenEnd: this.dropdownOpenEnd,
-      onCloseStart: this.dropdownCloseStart,
-      onCloseEnd: this.dropdownCloseEnd,
-      openLabel: this.dropdownButtonOpenLabel,
-      closeLabel: this.dropdownButtonCloseLabel,
-    });
-    dropdownToggleInstance.init();
-  }
 
   registerBasicScrollInstance() {
     scrollInstance = basicScroll.create({
@@ -141,30 +99,19 @@ class Jumplinks {
   onLinkClick(e) {
     e.preventDefault();
 
+    // the element clicked and its target from its # href value
     const element = e.currentTarget;
     const elementHref = element.getAttribute('href');
     const elementToScrollTo = document.querySelector(elementHref);
 
-    /**
-     * Close any open dropdown elements, and then run the scroll
-     * animation.
-     */
-    if (dropdownToggleInstance.isActive) {
-      dropdownToggleInstance.close().then(() => {
-        /**
-         * The height of our jumplinks. This is used as a custom offset to ensure
-         * our scroll position is correct.
-         * @type {Number}
-         */
-        const heightOfJumpLinks = this.jumplinksEl.offsetHeight;
+    // The height of our jumplinks. This is used as a custom offset to ensure our scroll position is correct.
+    const heightOfJumpLinks = this.jumplinksEl.offsetHeight;
 
-        // Scroll to the element
-        scrollToElement(elementToScrollTo, heightOfJumpLinks, true);
+    // Scroll to the element
+    scrollToElement(elementToScrollTo, heightOfJumpLinks, true);
 
-        // Set the push state
-        setPushState(elementHref);
-      })
-    }
+    // Set the push state
+    setPushState(elementHref);
   }
 
   eventhandlers() {
@@ -188,7 +135,6 @@ class Jumplinks {
 
   init() {
     this.registerBasicScrollInstance();
-    this.registerDropdownButton();
     this.eventhandlers();
 
     /*
@@ -197,35 +143,6 @@ class Jumplinks {
     this.sections.forEach((section) => {
       this.sectionObserver.observe(section);
     });
-  }
-
-  /**
-   * Expose 'open' method to programatically open the dropdown
-   */
-  open() {
-    dropdownToggleInstance.open();
-  }
-
-  /**
-   * Expose 'close' method to programatically close the dropdown
-   */
-  close() {
-    dropdownToggleInstance.close();
-  }
-
-  /**
-   * Expose 'toggle' method to programatically toggle the dropdown
-   */
-  toggle() {
-    dropdownToggleInstance.toggle();
-  }
-
-  /**
-   * Check if dropdown is open or not (based on button class)
-   * @returns {Boolean}
-   */
-  isOpen() {
-    return dropdownToggleInstance.isActive;
   }
 
 }
