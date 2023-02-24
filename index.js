@@ -1,4 +1,4 @@
-import { scrollToElement, setPushState } from './utilities.js';
+import { scrollToElement, setPushState } from '@numiko/utilities';
 import _merge from 'lodash/merge';
 import  * as basicScroll from 'basicscroll';
 
