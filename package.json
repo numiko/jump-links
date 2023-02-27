@@ -1,6 +1,6 @@
 {
   "name": "@numiko/jump-links",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -15,8 +15,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@numiko/dropdown-toggle": "bitbucket:numiko/dropdown-toggle",
-    "@numiko/utilities": "bitbucket:numiko/utilities",
+    "@numiko/dropdown-toggle": "bitbucket:numiko/dropdown-toggle#0.2.0",
+    "@numiko/utilities": "bitbucket:numiko/utilities#0.2.0",
     "basicscroll": "^3.0.4",
     "lodash": "^4.17.21"
   }
