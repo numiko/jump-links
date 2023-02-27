@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@numiko/dropdown-toggle": "bitbucket:numiko/dropdown-toggle",
+    "@numiko/dropdown-toggle": "bitbucket:numiko/dropdown-toggle#0.2.0",
     "@numiko/utilities": "bitbucket:numiko/utilities",
     "basicscroll": "^3.0.4",
     "lodash": "^4.17.21"
