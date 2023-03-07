@@ -1,13 +1,17 @@
 # Jump Links
-A sticky navigation bar that will anchor down to sections with the page.  Also shows progress when scrolling through the jumplinks sections
+
+Used to create a fixed bar at the top of the page that can be used to show users scroll progress and allow them to jump link to various sections.
+
+This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/  which is responsible for handling the hide/show dropdowns.
 
 
 
 ## Installation
 ---
-`npm install bitbucket:numiko/@numiko/jump-links`
+Install package using the latest tag.
 
 `npm install bitbucket:numiko/@numiko/jump-links#<TAG_NAME>`
+
 
 
 ## Example setup & options
@@ -16,38 +20,20 @@ A sticky navigation bar that will anchor down to sections with the page.  Also s
 
 import Jumplinks from '@numiko/jump-links';
 
-const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
-  // Link elements for the jumplinks - selector or DOM elements
+const stickyJumplinks = new Jumplinks(jumplinks , {
+  // link elements
   linksEl: '[data-js-jumplinks-link]',
 
-  // Label element that shows the current section - selector or DOM element
+  // label element that shows the current section
   labelEl: '[data-js-jumplinks-label]',
 
-  // Specify if the dropdown should be open (true) / closed (false) on load
-  dropdownOpenOnLoad: false,
-
-  // Button element that triggers the dropdown nav - selector or DOM element
-  dropdownButtonEl: '[data-js-jumplinks-button]',
-
-  // Button label to open dropdown
-  dropdownButtonOpenLabel: 'Open',
-
-  // Button label to close dropdown
-  dropdownButtonCloseLabel: 'Close',
-
-  // Dropdown Callbacks
-  dropdownOpenStart: () => {},
-  dropdownOpenEnd: () => {},
-  dropdownCloseStart: () => {},
-  dropdownCloseEnd: () => {},
-
-  // Container element that wraps around the jump-link sections - selector or DOM element
+  // container element that wraps around the jump-link sections. scrollprogress is based on scroll position within this container
   containerEl: '[data-js-jumplinks-container]',
 
-  // section element for each jumplink block - selector or DOM element
+  // section element for each jumplink block (normally some slice)
   sectionEl: '[data-js-jumplinks-section]',
 
-  // Custom intersectionObserver options
+  // custom intersectionObserver options
   intersectionOptions: {
     root: null,
     rootMargin:'-50% 0px',
@@ -55,98 +41,111 @@ const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
     callback: (entries) => {}
   },
 
+  // name for custom property that tracks scroll percentage (match this name in your template)
+  scrollCustomProperty: 'scrollprogress',
+
+  // offset scroll amount before containerEl top hits top of viewport - which triggers onSticky()
+  stickyOffset: 0,
+
+  // offset scroll amount before containerEl bottom hits top of viewport - which triggers onUnsticky()
+  unStickyOffset: 0,
+
+  // callback for when containerEl top hits top of viewport e.g. GSAP animation
+  onSticky() {
+    gsap.to(jumplinks, {
+      y:0,
+      duration: 0.5,
+    });
+  },
+  // callback for when containerEl bottom hits top of viewport e.g. GSAP animation
+  onUnsticky() {
+    gsap.to(jumplinks, {
+      y: "-101%",
+      duration: 0.5,
+      onStart: () => {
+        stickyJumplinksDropdown.close();
+      }
+    });
+  }
 });
 
 // Initialise
-pageJumplinks.init();
+stickyJumplinks.init();
 ```
 ## Example HTML
 ```html
-<body>
+  <!-- !! Please note: Some Tailwind CSS colour classes might not work with your config so change as needed -->
 
-  <!-- Jumplinks will stick/unstick to their relative parent -->
-  <div class="relative">
+  <!-- Jumplinks - Tweak CSS on here depending on your GSAP animations -->
+  <div data-js-jumplinks class="fixed top-0 left-0 w-full -translate-y-full">
 
-    <!-- Sticky bar -->
-    <div data-js-jumplinks class="bg-color-black text-color-white z-50 sticky top-0" >
+    <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
+    <div class="bg-[#FFCCC9]">
+      <span style="transform:  translateX( calc(-100% + var(--scrollprogress, 0%)))"
+        class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"></span>
+    </div>
 
-      <div class="container | py-5 flex items-center justify-between">
+    <!--Header - Contains your label and button to control your dropdown -->
+    <div class="py-5 bg-black text-white">
+      <div class="container mx-auto flex items-center justify-between">
         <p class="flex-grow relative overflow-hidden">
-          <span class="sr-only">You are viewing:</span>
+          <span class="">You are viewing:</span>
           <span class="whitespace-nowrap" data-js-jumplinks-label></span>
         </p>
 
-        <button type="button" class="flex-shrink-0" data-js-jumplinks-button aria-controls="jumplinks-container">
-          <span data-js-dropdown-label>
+        <!-- In this example i am using the dropdownToggle package too and this button controls the dropdown via the aria-controls attribute-->
+        <button type="button" class="flex-shrink-0 p-4 text-black bg-white" data-js-dropdown-button
+          aria-controls="jumplinks-dropdown">
+          <span data-js-dropdown-button>
             Show
           </span>
         </button>
       </div>
+    </div>
 
-      <!-- Progress Bar-->
-      <div class="bg-[#FFCCC9]">
-        <span style="transform: translateX(var(--scrollprogress, -100%))"
-          class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"></span>
-      </div>
 
-      <!-- Dropdown with links  -->
-      <div id="jumplinks-container" class="overflow-hidden hidden absolute top-full left-0 w-full bg-color-black">
-        <div class="container">
-          <div class="py-7 md:py-10">
-            <ul class="[ md:grid md:grid-cols-3 md:gap-6 ]">
-              <li class="mb-4 last:mb-0 ">
-                <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
-              </li>
-              <li class="mb-4 last:mb-0 ">
-                <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
-              </li>
-              <li class="mb-4 last:mb-0 ">
-                <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
-              </li>
-            </ul>
-          </div>
+    <!-- Dropdown - contains your links   -->
+    <div id="jumplinks-dropdown" class="overflow-hidden w-full bg-black text-white ">
+      <div class="container mx-auto">
+        <div class="py-7 md:py-10">
+          <ul class="[ md:grid md:grid-cols-3 md:gap-6 ]">
+            <li class="mb-4 last:mb-0 ">
+              <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
+            </li>
+            <li class="mb-4 last:mb-0 ">
+              <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
+            </li>
+            <li class="mb-4 last:mb-0 ">
+              <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- Jumplinkable sections-->
-    <div data-js-jumplinks-container class="flex flex-col gap-y-10 mb-10">
-      <section id="jump-link-1" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section One">
-        <h2 id="section-id-1">Section One</h2>
-      </section>
-      <section id="jump-link-2" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section Two">
-        <h2 id="section-id-2">Section Two</h2>
-      </section>
-      <section id="jump-link-3" class='h-screen' data-js-jumplinks-section data-js-jumplinks-section-label="Section Three">
-        <h2 id="section-id-3">Section Three</h2>
-      </section>
-    </div>
   </div>
-</body>
-```
-## Methods
----
-```javascript
-const pageJumplinks = new Jumplinks('[data-js-jumplinks]' , {
-  ...
-}
 
-// Initialise
-pageJumplinks.init();
-
-// Open
-pageJumplinks.open();
-
-// Close
-pageJumplinks.close();
-
-// Toggle
-pageJumplinks.toggle();
-
-// isOpen
-pageJumplinks.isOpen(); // true|false
+  <!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
+  <div data-js-jumplinks-container class="flex flex-col ">
+    <section id="jump-link-1" class='h-screen flex flex-col items-center justify-center bg-[#ffEE99]'
+      data-js-jumplinks-section data-js-jumplinks-section-label="Section One">
+      <h2 id="section-id-1" class="text-3xl font-bold mb-10">Section One</h2>
+    </section>
+    <section id="jump-link-2" class="h-screen flex flex-col items-center justify-center bg-[#EEFF99]"
+      data-js-jumplinks-section data-js-jumplinks-section-label="Section Two">
+      <h2 id="section-id-2" class="text-3xl font-bold mb-10">Section Two</h2>
+    </section>
+    <section id="jump-link-3" class='h-[50vh] flex flex-col items-center justify-center bg-[#88FFEE]'
+      data-js-jumplinks-section data-js-jumplinks-section-label="Section Three">
+      <h2 id="section-id-3" class="text-3xl font-bold mb-10">Section Three</h2>
+    </section>
+  </div>
 
 ```
+## Including the dropdownToggle package
+If you want your jumplinks to work in a dropdown hide/show container you will need to also install  https://bitbucket.org/numiko/dropdown-toggle/src/master/
+
+
 
 ## Roadmap
 ---
