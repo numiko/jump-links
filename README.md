@@ -155,5 +155,5 @@ If you want your jumplinks to work in a dropdown hide/show container you will ne
 ## Roadmap
 ---
 1. Tests!
-1. Allow custom tweens for animations
-1. Remove BasicScroll dependency
+1. ~~Allow custom tweens for animations~~
+1. ~~Remove BasicScroll dependency~~
