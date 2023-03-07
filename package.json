@@ -16,7 +16,6 @@
   "license": "ISC",
   "dependencies": {
     "@numiko/utilities": "bitbucket:numiko/utilities#0.2.0",
-    "basicscroll": "^3.0.4",
     "lodash": "^4.17.21"
   }
 }
