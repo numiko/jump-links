@@ -2,7 +2,7 @@
 
 Used to create a fixed jumplink bar at the top of the page that can be used to show scroll progress and allow users to jump link to various sections.
 
-This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/  which is responsible for handling the hide/show dropdowns.  Please see that repo for its associated options and methods.
+
 
 
 
@@ -16,6 +16,9 @@ Another format if the above doesn't work is
 
 `npm install ssh://git@bitbucket.org:numiko/accordion.git#<TAG_NAME>`
 
+## Including the dropdownToggle package
+---
+This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/  which is responsible for handling the hide/show dropdowns.  Please see that repo for its associated options and methods.
 
 
 ## Example setup & options
@@ -147,10 +150,37 @@ stickyJumplinks.init();
 </div>
 
 ```
-## Including the dropdownToggle package
-If you want your jumplinks to work in a dropdown hide/show container you will need to also install  https://bitbucket.org/numiko/dropdown-toggle/src/master/
 
-
+## Highlighting the jumplink that matches the intersecting section
+---
+You can use the callback function in the `intersectionOptions` to do this:
+```javascript
+...
+intersectionOptions: {
+    root: null,
+    rootMargin:'-50% 0px',
+    threshhold:'',
+    callback: (entry) => {
+      // Use tailwind classes to add to the active section link
+      const activeClasses = ['text-orange-500', 'font-bold'];
+      // Find the intersecting sections id
+      const intersectingSectionId = entry.target.getAttribute('id');
+      // Find all the jumplinks that match the intersecting section
+      const intersectingSectionLinks = [...jumplinksLinks].filter(link => {
+        return link.getAttribute("href") == `#${intersectingSectionId}`;
+      })
+      // Remove the active classes from all jumplinks
+      jumplinksLinks.forEach( (link) => {
+        link.classList.remove(...activeClasses);
+      })
+      // Add the active classes to the jumplinks that match interesecting section
+      intersectingSectionLinks.forEach( (link) => {
+        link.classList.add(...activeClasses);
+      })
+    }
+  },
+  ...
+```
 
 ## Roadmap
 ---

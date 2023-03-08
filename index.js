@@ -111,12 +111,12 @@ class Jumplinks {
     entries.forEach( (entry) => {
       if (entry.isIntersecting) {
         // Update label to show intersecting section
-        const sliceLabel = entry.target.getAttribute('data-js-jumplinks-section-label');
-        this.labelEl.innerText = sliceLabel;
+        const sectionLabel = entry.target.getAttribute('data-js-jumplinks-section-label');
+        this.labelEl.innerText = sectionLabel;
 
         // Additionally call user defined callback if present
         if (this.intersectionOptions.callback && typeof this.intersectionOptions.callback == 'function') {
-          this.intersectionOptions.callback();
+          this.intersectionOptions.callback(entry);
         }
       }
     })
