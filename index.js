@@ -155,7 +155,8 @@ class Jumplinks {
 
   scrollProgress() {
     const scrollTop = document.documentElement.scrollTop;
-    const containerTop = this.containerEl.offsetTop;
+    const containerRect = this.containerEl.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
     const containerHeight = this.getContainerHeight;
     const scrollProgress = Math.max(0, Math.min(1, (scrollTop - containerTop) / containerHeight));
     const scrollPercent = scrollProgress * 100;
