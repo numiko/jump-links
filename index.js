@@ -1,12 +1,10 @@
 import { scrollToElement, setPushState } from '@numiko/utilities';
 import _merge from 'lodash/merge';
 
-const root = document.documentElement;
 let rafTicking = false;
 let state = {
   isSticking: false
 }
-
 
 /**
  * Defaults
@@ -22,12 +20,13 @@ const defaults = {
     threshhold:'',
     callback: (entries) => {}
   },
+  direct: false,
   scrollCustomProperty: 'scrollprogress',
   stickyOffset: 0,
   unStickyOffset: 0,
   onSticky: () => {},
   onUnsticky: () => {},
-}
+};
 
 class Jumplinks {
   constructor(element, options) {
@@ -48,6 +47,7 @@ class Jumplinks {
     this.sectionsEl = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
     this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
     this.scrollCustomProperty = opts.scrollCustomProperty;
+    this.direct = opts.direct;
     this.stickyOffset = opts.stickyOffset;
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
@@ -160,7 +160,8 @@ class Jumplinks {
     const containerHeight = this.getContainerHeight;
     const scrollProgress = Math.max(0, Math.min(1, (scrollTop - containerTop) / containerHeight));
     const scrollPercent = scrollProgress * 100;
-    root.style.setProperty(`--${this.scrollCustomProperty}`, scrollPercent+"%");
+
+    this.setScrollCustomProperty(scrollPercent + '%');
   }
 
   onLinkClick(e) {
@@ -204,9 +205,29 @@ class Jumplinks {
       rafTicking = true;
     }
   }
-  setupscrollCustomProperty() {
-    root.style.setProperty(`--${this.scrollCustomProperty}`, '0%');
+
+
+  /**
+   * @returns {HTMLElement}
+   */
+  getElementToApplyScrollPropertyTo() {
+    if (this.direct === true) return this.jumplinksEl;
+
+    if (this.direct instanceof HTMLElement) {
+      return this.direct;
+    }
+
+    return document.documentElement;
   }
+
+  setScrollCustomProperty(scrollProgress = '0%') {
+    /**
+     * @type {HTMLElement}
+     */
+    const elToApplyPropertyTo = this.getElementToApplyScrollPropertyTo();
+    elToApplyPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
+  }
+
 
   eventhandlers() {
     /**
@@ -233,7 +254,7 @@ class Jumplinks {
   }
 
   init() {
-    this.setupscrollCustomProperty();
+    this.setScrollCustomProperty();
     this.eventhandlers();
 
     /*
