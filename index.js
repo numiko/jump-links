@@ -207,24 +207,29 @@ class Jumplinks {
     }
   }
 
-
   /**
    * @returns {HTMLElement}
    */
   getElementToApplyScrollPropertyTo() {
-    if (this.direct === true) return this.jumplinksEl;
+    // Apply the CSS custom property directly to the
+    // jumplink element.
+    if (this.direct === true) {
+      return this.jumplinksEl;
+    }
 
+    // Apply the CSS property to a custom HTML element if
+    // a valid HTML element has been passed in.
     if (this.direct instanceof HTMLElement) {
       return this.direct;
     }
 
+    // Default to the HTML element.
     return document.documentElement;
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
     this.elToApplyPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
-
 
   eventhandlers() {
     /**
