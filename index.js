@@ -52,6 +52,7 @@ class Jumplinks {
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
     this.onUnsticky = opts.onUnsticky;
+    this.elToApplyPropertyTo = this.getElementToApplyScrollPropertyTo();
 
     /**
      * Do some inital validation based on new options
@@ -221,11 +222,7 @@ class Jumplinks {
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
-    /**
-     * @type {HTMLElement}
-     */
-    const elToApplyPropertyTo = this.getElementToApplyScrollPropertyTo();
-    elToApplyPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
+    this.elToApplyPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
 
 
