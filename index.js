@@ -154,7 +154,7 @@ class Jumplinks {
     return this.getContainerTop + this.getContainerHeight + this.unStickyOffset <= 0
   }
 
-  scrollProgress() {
+  setScrollProgress() {
     const scrollTop = document.documentElement.scrollTop;
     const containerRect = this.containerEl.getBoundingClientRect();
     const containerTop = containerRect.top + scrollTop;
@@ -188,7 +188,7 @@ class Jumplinks {
       window.requestAnimationFrame(() => {
 
         rafTicking = false;
-        this.scrollProgress();
+        this.setScrollProgress();
 
         if ( this.hasReachedJumplinksContainerTop() && !this.hasReachedJumplinksContainerBottom() ) {
           // Only want to call this code once if the needs to stick
