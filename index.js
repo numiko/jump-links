@@ -182,7 +182,7 @@ class Jumplinks {
     setPushState(elementHref);
   }
 
-  onScroll(e) {
+  onScroll() {
     if(!rafTicking) {
       window.requestAnimationFrame(() => {
 
