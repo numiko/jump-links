@@ -211,13 +211,13 @@ class Jumplinks {
    * @returns {HTMLElement}
    */
   getElementToAttachScrollPropertyTo(options) {
-    if(!options.elToAttachScrollPropertyTo) return this.jumplinksEl;
+    if(!options.attachCustomPropertyTo) return this.jumplinksEl;
 
-    if(typeof options.elToAttachScrollPropertyTo === 'string') {
-      return document.querySelector(options.elToAttachScrollPropertyTo);
+    if(typeof options.attachCustomPropertyTo === 'string') {
+      return document.querySelector(options.attachCustomPropertyTo);
     }
 
-    return options.elToAttachScrollPropertyTo;
+    return options.attachCustomPropertyTo;
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
