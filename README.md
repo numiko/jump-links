@@ -49,7 +49,7 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
   // where to apply the custom scroll progress property to. By default this will be applied to
   // the jumplinks element, however, a selector or a HTML element can be passed to customise
   // this.
-  elToApplyScrollPropertyTo: HTMLElement || string
+  attachScrollPropertyTo: HTMLElement || string
 
   // offset scroll amount before containerEl top hits top of viewport - which triggers onSticky()
   stickyOffset: 0,

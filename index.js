@@ -21,7 +21,7 @@ const defaults = {
     callback: (entries) => {}
   },
   scrollCustomProperty: 'scrollprogress',
-  elToApplyScrollPropertyTo: null,
+  attachCustomPropertyTo: null,
   stickyOffset: 0,
   unStickyOffset: 0,
   onSticky: () => {},
@@ -47,7 +47,7 @@ class Jumplinks {
     this.sectionsEl = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
     this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
     this.scrollCustomProperty = opts.scrollCustomProperty;
-    this.elToApplyScrollPropertyTo = this.getElementToApplyScrollPropertyTo(opts);
+    this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(opts);
     this.stickyOffset = opts.stickyOffset;
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
@@ -210,18 +210,18 @@ class Jumplinks {
    * @type {Object} the options used when configuring the module
    * @returns {HTMLElement}
    */
-  getElementToApplyScrollPropertyTo(options) {
-    if(!options.elToApplyScrollPropertyTo) return this.jumplinksEl;
+  getElementToAttachScrollPropertyTo(options) {
+    if(!options.elToAttachScrollPropertyTo) return this.jumplinksEl;
 
-    if(typeof options.elToApplyScrollPropertyTo === 'string') {
-      return document.querySelector(options.elToApplyScrollPropertyTo);
+    if(typeof options.elToAttachScrollPropertyTo === 'string') {
+      return document.querySelector(options.elToAttachScrollPropertyTo);
     }
 
-    return options.elToApplyScrollPropertyTo;
+    return options.elToAttachScrollPropertyTo;
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
-    this.elToApplyScrollPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
+    this.elToAttachScrollPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
 
   eventhandlers() {
