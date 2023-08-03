@@ -4,17 +4,12 @@ Used to create a fixed jumplink bar at the top of the page that can be used to s
 
 
 
-
-
 ## Installation
 ---
-Install package using the latest tag.
+We want to install a specific tag because currently npm packages hosted privately on Bitbucket do not support semantic versioning.
 
-`npm install bitbucket:numiko/@numiko/jump-links#<TAG_NAME>`
+`npm install ssh://git@bitbucket.org:numiko/jump-links.git#<TAG_NAME>`
 
-Another format if the above doesn't work is
-
-`npm install ssh://git@bitbucket.org:numiko/accordion.git#<TAG_NAME>`
 
 ## Including the dropdownToggle package
 ---
@@ -50,6 +45,11 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
 
   // name for custom property that tracks scroll percentage (match this name in your template)
   scrollCustomProperty: 'scrollprogress',
+
+  // where to apply the custom scroll progress property to. By default this will be applied to
+  // the jumplinks element, however, a selector or a HTML element can be passed to customise
+  // this.
+  attachScrollPropertyTo: HTMLElement || string
 
   // offset scroll amount before containerEl top hits top of viewport - which triggers onSticky()
   stickyOffset: 0,

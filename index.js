@@ -1,12 +1,10 @@
 import { scrollToElement, setPushState } from '@numiko/utilities';
 import _merge from 'lodash/merge';
 
-const root = document.documentElement;
 let rafTicking = false;
 let state = {
   isSticking: false
 }
-
 
 /**
  * Defaults
@@ -23,11 +21,12 @@ const defaults = {
     callback: (entries) => {}
   },
   scrollCustomProperty: 'scrollprogress',
+  attachCustomPropertyTo: null,
   stickyOffset: 0,
   unStickyOffset: 0,
   onSticky: () => {},
   onUnsticky: () => {},
-}
+};
 
 class Jumplinks {
   constructor(element, options) {
@@ -48,6 +47,7 @@ class Jumplinks {
     this.sectionsEl = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
     this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
     this.scrollCustomProperty = opts.scrollCustomProperty;
+    this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(opts);
     this.stickyOffset = opts.stickyOffset;
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
@@ -153,13 +153,15 @@ class Jumplinks {
     return this.getContainerTop + this.getContainerHeight + this.unStickyOffset <= 0
   }
 
-  scrollProgress() {
+  setScrollProgress() {
     const scrollTop = document.documentElement.scrollTop;
-    const containerTop = this.containerEl.offsetTop;
+    const containerRect = this.containerEl.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
     const containerHeight = this.getContainerHeight;
     const scrollProgress = Math.max(0, Math.min(1, (scrollTop - containerTop) / containerHeight));
     const scrollPercent = scrollProgress * 100;
-    root.style.setProperty(`--${this.scrollCustomProperty}`, scrollPercent+"%");
+
+    this.setScrollCustomProperty(scrollPercent + '%');
   }
 
   onLinkClick(e) {
@@ -180,12 +182,12 @@ class Jumplinks {
     setPushState(elementHref);
   }
 
-  onScroll(e) {
+  onScroll() {
     if(!rafTicking) {
       window.requestAnimationFrame(() => {
 
         rafTicking = false;
-        this.scrollProgress();
+        this.setScrollProgress();
 
         if ( this.hasReachedJumplinksContainerTop() && !this.hasReachedJumplinksContainerBottom() ) {
           // Only want to call this code once if the needs to stick
@@ -203,8 +205,23 @@ class Jumplinks {
       rafTicking = true;
     }
   }
-  setupscrollCustomProperty() {
-    root.style.setProperty(`--${this.scrollCustomProperty}`, '0%');
+
+  /**
+   * @type {Object} the options used when configuring the module
+   * @returns {HTMLElement}
+   */
+  getElementToAttachScrollPropertyTo(options) {
+    if(!options.attachCustomPropertyTo) return this.jumplinksEl;
+
+    if(typeof options.attachCustomPropertyTo === 'string') {
+      return document.querySelector(options.attachCustomPropertyTo);
+    }
+
+    return options.attachCustomPropertyTo;
+  }
+
+  setScrollCustomProperty(scrollProgress = '0%') {
+    this.elToAttachScrollPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
 
   eventhandlers() {
@@ -232,7 +249,7 @@ class Jumplinks {
   }
 
   init() {
-    this.setupscrollCustomProperty();
+    this.setScrollCustomProperty();
     this.eventhandlers();
 
     /*
