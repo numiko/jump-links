@@ -46,12 +46,10 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
   // name for custom property that tracks scroll percentage (match this name in your template)
   scrollCustomProperty: 'scrollprogress',
 
-  // whether to apply the CSS property for the scroll progress to the HTML element, directly to the jumplinks
-  // element, or alternatively, a custom HTML element. Defaults to `false` which will apply it to the HTML element.
-  // `true` will apply it to the main jumplink element.
-  // `false` will apply it to the HTML element.
-  // `HTMLElement` will apply it to the passed in HTML element.
-  direct: true | false | HTMLElement
+  // where to apply the custom scroll progress property to. By default this will be applied to
+  // the jumplinks element, however, a selector or a HTML element can be passed to customise
+  // this.
+  elToApplyScrollPropertyTo: HTMLElement || string
 
   // offset scroll amount before containerEl top hits top of viewport - which triggers onSticky()
   stickyOffset: 0,

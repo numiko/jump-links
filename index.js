@@ -20,8 +20,8 @@ const defaults = {
     threshhold:'',
     callback: (entries) => {}
   },
-  direct: false,
   scrollCustomProperty: 'scrollprogress',
+  elToApplyScrollPropertyTo: null,
   stickyOffset: 0,
   unStickyOffset: 0,
   onSticky: () => {},
@@ -47,12 +47,11 @@ class Jumplinks {
     this.sectionsEl = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
     this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
     this.scrollCustomProperty = opts.scrollCustomProperty;
-    this.direct = opts.direct;
+    this.elToApplyScrollPropertyTo = this.getElementToApplyScrollPropertyTo(opts);
     this.stickyOffset = opts.stickyOffset;
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
     this.onUnsticky = opts.onUnsticky;
-    this.elToApplyPropertyTo = this.getElementToApplyScrollPropertyTo();
 
     /**
      * Do some inital validation based on new options
@@ -208,27 +207,21 @@ class Jumplinks {
   }
 
   /**
+   * @type {Object} the options used when configuring the module
    * @returns {HTMLElement}
    */
-  getElementToApplyScrollPropertyTo() {
-    // Apply the CSS custom property directly to the
-    // jumplink element.
-    if (this.direct === true) {
-      return this.jumplinksEl;
+  getElementToApplyScrollPropertyTo(options) {
+    if(!options.elToApplyScrollPropertyTo) return this.jumplinksEl;
+
+    if(typeof options.elToApplyScrollPropertyTo === 'string') {
+      return document.querySelector(options.elToApplyScrollPropertyTo);
     }
 
-    // Apply the CSS property to a custom HTML element if
-    // a valid HTML element has been passed in.
-    if (this.direct instanceof HTMLElement) {
-      return this.direct;
-    }
-
-    // Default to the HTML element.
-    return document.documentElement;
+    return options.elToApplyScrollPropertyTo;
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
-    this.elToApplyPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
+    this.elToApplyScrollPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
 
   eventhandlers() {
