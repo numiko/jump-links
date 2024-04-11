@@ -1,11 +1,6 @@
 import { scrollToElement, setPushState } from '@numiko/utilities';
 import _merge from 'lodash/merge';
 
-let rafTicking = false;
-let state = {
-  isSticking: false
-};
-
 /**
  * Defaults
  */
@@ -15,11 +10,12 @@ const defaults = {
   containerEl: '[data-js-jumplinks-container]',
   sectionEl: '[data-js-jumplinks-section]',
   intersectionOptions: {
-    root: null, // default in viewport
-    rootMargin:'-50% 0px',
-    threshhold:'',
-    callback: (entries) => {}
+    root: null, // default is viewport
+    rootMargin: '-50% 0px',
+    threshhold: '',
+    callback: () => {}
   },
+  hasScrollProgress: true,
   scrollCustomProperty: 'scrollprogress',
   attachCustomPropertyTo: null,
   stickyOffset: 0,
@@ -37,16 +33,22 @@ class Jumplinks {
      */
     const opts = _merge(defaults, options);
 
+    this.rafTicking = false;
+    this.state = {
+      isSticking: false
+    };
+
     /**
      * Properties
      */
     this.jumplinksEl = typeof element === 'string' ? document.querySelector(element) : element;
-    this.linksEl = typeof opts.linksEl === 'string' ? document.querySelectorAll(opts.linksEl) : opts.linksEl;
-    this.labelEl = typeof opts.labelEl === 'string' ? document.querySelector(opts.labelEl) : opts.labelEl;
+    this.linksEl = typeof opts.linksEl === 'string' ? this.jumplinksEl.querySelectorAll(opts.linksEl) : opts.linksEl;
+    this.labelEl = typeof opts.labelEl === 'string' ? this.jumplinksEl.querySelector(opts.labelEl) : opts.labelEl;
     this.containerEl = typeof opts.containerEl === 'string' ? document.querySelector(opts.containerEl) : opts.containerEl;
     this.intersectionOptions = opts.intersectionOptions;
     this.sectionsEl = typeof opts.sectionEl === 'string' ? document.querySelectorAll(opts.sectionEl) : opts.sectionEl;
-    this.sectionObserver = new IntersectionObserver( this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
+    this.sectionObserver = new IntersectionObserver(this.sectionIntersecting.bind(this) , ...[opts.intersectionOptions]);
+    this.hasScrollProgress = opts.hasScrollProgress;
     this.scrollCustomProperty = opts.scrollCustomProperty;
     this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(opts);
     this.stickyOffset = opts.stickyOffset;
@@ -66,44 +68,53 @@ class Jumplinks {
    */
   validateOptions() {
     if (this.jumplinksEl === null) {
-      throw `Jumplinks: No matching DOM element for "jumplinkEl"`;
+      throw 'Jumplinks: No matching DOM element for "jumplinkEl"';
     }
 
     if (!this.linksEl.length) {
-      throw `Jumplinks: No matching DOM elements for "linksEl"`;
+      throw 'Jumplinks: No matching DOM elements for "linksEl"';
     }
 
     if (this.containerEl === null) {
-      throw `Jumplinks: No matching DOM element for "containerEl"`;
+      throw 'Jumplinks: No matching DOM element for "containerEl"';
     }
 
     if (this.labelEl === null) {
-      throw `Jumplinks: No matching DOM element for "labelEl"`;
+      throw 'Jumplinks: No matching DOM element for "labelEl"';
     }
 
     if (!this.sectionsEl.length) {
-      throw `Jumplinks: No matching DOM elements for "sectionsEl"`;
+      throw 'Jumplinks: No matching DOM elements for "sectionsEl"';
     }
 
     if ( typeof this.scrollCustomProperty !== 'string' ||  this.scrollCustomProperty.length <= 0 ) {
-      throw `Jumplinks: please specify a valid string for "scrollCustomProperty" exluding the "--" part`;
+      throw 'Jumplinks: please specify a valid string for "scrollCustomProperty" exluding the "--" part';
     }
 
     if ( typeof this.stickyOffset !== 'number' ) {
-      throw `Jumplinks: please specify a valid number for "stickyOffset"`;
+      throw 'Jumplinks: please specify a valid number for "stickyOffset"';
     }
 
     if ( typeof this.unStickyOffset !== 'number' ) {
-      throw `Jumplinks: please specify a valid number for "unStickyOffset"`;
+      throw 'Jumplinks: please specify a valid number for "unStickyOffset"';
     }
 
     if (typeof this.onSticky !== 'function') {
-      throw `Jumplinks: please specify a valid function for "onSticky"`;
+      throw 'Jumplinks: please specify a valid function for "onSticky"';
     }
 
     if (typeof this.onUnsticky !== 'function') {
-      throw `Jumplinks: please specify a valid function for "onUnsticky"`;
+      throw 'Jumplinks: please specify a valid function for "onUnsticky"';
     }
+  }
+
+  /**
+   * Set jumplinks section to first content item if intersection observer hasn't fired
+   */
+  setFirstJumplinksSectionLabel() {
+    const sectionLabel = this.sectionsEl[0].getAttribute('data-js-jumplinks-section-label');
+
+    this.labelEl.innerText = sectionLabel;
   }
 
   /**
@@ -158,12 +169,15 @@ class Jumplinks {
   }
 
   setScrollProgress() {
+
+    if (this.hasScrollProgress === false) return;
+
     const scrollTop = document.documentElement.scrollTop;
     const containerRect = this.containerEl.getBoundingClientRect();
     const containerTop = containerRect.top + scrollTop;
     const containerHeight = this.getContainerHeight;
     const scrollProgress = Math.max(0, Math.min(1, (scrollTop - containerTop) / containerHeight));
-    const scrollPercent = scrollProgress * 100;
+    const scrollPercent = (scrollProgress * 100).toFixed(2);
 
     this.setScrollCustomProperty(scrollPercent + '%');
   }
@@ -190,26 +204,29 @@ class Jumplinks {
   }
 
   onScroll() {
-    if (!rafTicking) {
+    if (!this.rafTicking) {
       window.requestAnimationFrame(() => {
 
-        rafTicking = false;
+        this.rafTicking = false;
         this.setScrollProgress();
 
         if ( this.hasReachedJumplinksContainerTop() && !this.hasReachedJumplinksContainerBottom() ) {
           // Only want to call this code once if the needs to stick
-          if (state.isSticking) return;
+          if (this.state.isSticking) return;
+
           // Call the user callback to onSticky()
           this.onSticky();
           // Toggle the state so this will only be called again once it 'unsticks'
-          state.isSticking = true;
+          this.state.isSticking = true;
         } else {
-          if (!state.isSticking) return;
+          if (!this.state.isSticking) return;
+
           this.onUnsticky();
-          state.isSticking = false;
+          this.state.isSticking = false;
         }
       });
-      rafTicking = true;
+
+      this.rafTicking = true;
     }
   }
 
@@ -228,16 +245,18 @@ class Jumplinks {
   }
 
   setScrollCustomProperty(scrollProgress = '0%') {
+    if (this.hasScrollProgress ===  false) return;
+
     this.elToAttachScrollPropertyTo.style.setProperty(`--${this.scrollCustomProperty}`, scrollProgress);
   }
 
   eventhandlers() {
     /**
-   * On document load, if a hash exists, we want to run our own
-   * logic to ensure the scroll position is correct, and the custom
-   * offset is used. Without this, the sticky jumplinks would overlap
-   * the content that is scrolled to.
-   */
+     * On document load, if a hash exists, we want to run our own
+     * logic to ensure the scroll position is correct, and the custom
+     * offset is used. Without this, the sticky jumplinks would overlap
+     * the content that is scrolled to.
+     */
     window.addEventListener('load', () => {
       this.scrollToHash();
     });
@@ -256,6 +275,7 @@ class Jumplinks {
   }
 
   init() {
+    this.setFirstJumplinksSectionLabel();
     this.setScrollCustomProperty();
     this.eventhandlers();
 
@@ -266,7 +286,6 @@ class Jumplinks {
       this.sectionObserver.observe(section);
     });
   }
-
 }
 
 export { Jumplinks as default };
