@@ -4,7 +4,7 @@ import _merge from 'lodash/merge';
 let rafTicking = false;
 let state = {
   isSticking: false
-}
+};
 
 /**
  * Defaults
@@ -26,6 +26,7 @@ const defaults = {
   unStickyOffset: 0,
   onSticky: () => {},
   onUnsticky: () => {},
+  customOffsetValue: null,
 };
 
 class Jumplinks {
@@ -52,6 +53,7 @@ class Jumplinks {
     this.unStickyOffset = opts.unStickyOffset;
     this.onSticky = opts.onSticky;
     this.onUnsticky = opts.onUnsticky;
+    this.customOffsetValue = opts.customOffsetValue;
 
     /**
      * Do some inital validation based on new options
@@ -119,7 +121,7 @@ class Jumplinks {
           this.intersectionOptions.callback(entry);
         }
       }
-    })
+    });
   }
 
   /**
@@ -135,22 +137,24 @@ class Jumplinks {
    * @return {number} distance from top of viewport to containerEl top
    */
   get getContainerTop() {
-    return this.containerEl.getBoundingClientRect().top
+    return this.containerEl.getBoundingClientRect().top;
   }
 
   scrollToHash() {
     if (!window.location.hash) return;
     const elementToScrollTo = document.querySelector(window.location.hash);
     const heightOfJumpLinks = this.jumplinksEl.offsetHeight;
-    scrollToElement(elementToScrollTo, heightOfJumpLinks, false);
+    const offSetValue = this.customOffsetValue === null ? heightOfJumpLinks : this.customOffsetValue;
+
+    scrollToElement(elementToScrollTo, offSetValue, false);
   }
 
   hasReachedJumplinksContainerTop() {
-    return this.getContainerTop + this.stickyOffset <= 0
+    return this.getContainerTop + this.stickyOffset <= 0;
   }
 
   hasReachedJumplinksContainerBottom() {
-    return this.getContainerTop + this.getContainerHeight + this.unStickyOffset <= 0
+    return this.getContainerTop + this.getContainerHeight + this.unStickyOffset <= 0;
   }
 
   setScrollProgress() {
@@ -172,18 +176,21 @@ class Jumplinks {
     const elementHref = element.getAttribute('href');
     const elementToScrollTo = document.querySelector(elementHref);
 
-    // The height of our jumplinks. This is used as a custom offset to ensure our scroll position is correct.
+    // The height of our jumplinks. This is used as a custom offset if no custom offset has been defined, to ensure our scroll position is correct.
     const heightOfJumpLinks = this.jumplinksEl.offsetHeight;
 
+    // The custom offset value, if one has been defined. Otherise will use the height of the jumplinks.
+    const offSetValue = this.customOffsetValue === null ? heightOfJumpLinks : this.customOffsetValue;
+
     // Scroll to the element
-    scrollToElement(elementToScrollTo, heightOfJumpLinks, true);
+    scrollToElement(elementToScrollTo, offSetValue, true);
 
     // Set the push state
     setPushState(elementHref);
   }
 
   onScroll() {
-    if(!rafTicking) {
+    if (!rafTicking) {
       window.requestAnimationFrame(() => {
 
         rafTicking = false;
@@ -191,17 +198,17 @@ class Jumplinks {
 
         if ( this.hasReachedJumplinksContainerTop() && !this.hasReachedJumplinksContainerBottom() ) {
           // Only want to call this code once if the needs to stick
-          if(state.isSticking) return;
+          if (state.isSticking) return;
           // Call the user callback to onSticky()
           this.onSticky();
           // Toggle the state so this will only be called again once it 'unsticks'
           state.isSticking = true;
         } else {
-          if(!state.isSticking) return;
+          if (!state.isSticking) return;
           this.onUnsticky();
           state.isSticking = false;
         }
-      })
+      });
       rafTicking = true;
     }
   }
@@ -211,9 +218,9 @@ class Jumplinks {
    * @returns {HTMLElement}
    */
   getElementToAttachScrollPropertyTo(options) {
-    if(!options.attachCustomPropertyTo) return this.jumplinksEl;
+    if (!options.attachCustomPropertyTo) return this.jumplinksEl;
 
-    if(typeof options.attachCustomPropertyTo === 'string') {
+    if (typeof options.attachCustomPropertyTo === 'string') {
       return document.querySelector(options.attachCustomPropertyTo);
     }
 
@@ -262,4 +269,4 @@ class Jumplinks {
 
 }
 
-export { Jumplinks as default }
+export { Jumplinks as default };
