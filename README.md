@@ -74,6 +74,9 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
       }
     });
   }
+
+  // offset value for jumplinks container, will be set to the height of the jumplinks if not defined
+  customOffsetValue: null,
 });
 
 // Initialise
