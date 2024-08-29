@@ -19,6 +19,64 @@ This package is usually used along with our `dropdownToggle` package https://bit
 
 ### JS
 
+```HTML
+<div data-js-jumplinks>
+  <div>
+    <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
+    <span
+      style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
+    >
+    </span>
+
+    <span>You are viewing:</span>
+    <span data-js-jumplinks-label></span>
+  </div>
+
+  <div
+    id="jumplinks-dropdown"
+  >
+    <ul>
+      <li>
+        <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
+      </li>
+      <li>
+        <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
+      </li>
+      <li>
+        <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
+<div data-js-jumplinks-container">
+  <section
+    id="jump-link-1"
+    data-js-jumplinks-section
+    data-js-jumplinks-section-label="Section One"
+  >
+    <h2 id="section-id-1">Section One</h2>
+  </section>
+  <section
+    id="jump-link-2"
+    data-js-jumplinks-section
+    data-js-jumplinks-section-label="Section Two"
+  >
+    <h2 id="section-id-2">Section Two</h2>
+  </section>
+  <section
+    id="jump-link-3"
+    data-js-jumplinks-section
+    data-js-jumplinks-section-label="Section Three"
+  >
+    <h2 id="section-id-3">
+      Section Three
+    </h2>
+  </section>
+</div>
+```
+
 ```javascript
 const jumplinks = document.querySelector('[data-js-jumplinks]');
 
