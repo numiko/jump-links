@@ -7,9 +7,9 @@ Used to create a fixed jumplink bar on the page that can be used to show scroll 
 The package can be installed from BitBucket. If the package has reached version 1,
 prefer the semver method; if the package is not yet stable, we recommend installing via the tag.
 
-`npm install ssh://git@bitbucket.org:numiko/[jump-links].git#<TAG_NAME>`
+`npm install ssh://git@bitbucket.org:numiko/jump-links.git#<TAG_NAME>`
 
-`npm install ssh://git@bitbucket.org:numiko/[jump-links].git##semver:<VERSION>`
+`npm install ssh://git@bitbucket.org:numiko/jump-links.git##semver:<VERSION>`
 
 ### Including the dropdownToggle package
 
