@@ -15,7 +15,6 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
   attachScrollPropertyTo: HTMLElement,
   stickyOffset: 0,
   unStickyOffset: 0,
-
 });
 
 // Initialise

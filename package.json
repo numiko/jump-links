@@ -20,8 +20,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/Package.es.js",
-      "require": "./dist/Package.umd.js"
+      "import": "./dist/Jumplinks.es.js",
+      "require": "./dist/Jumplinks.umd.js"
     }
   },
   "repository": {
@@ -31,7 +31,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@numiko/utilities": "bitbucket:numiko/utilities#0.2.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

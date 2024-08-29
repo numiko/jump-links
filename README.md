@@ -17,9 +17,6 @@ This package is usually used along with our `dropdownToggle` package https://bit
 
 ## Usage
 
-Usage
-An example of how to use the package. This may include both JavaScript and HTML.
-
 ### JS
 
 ```javascript
