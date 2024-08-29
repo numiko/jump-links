@@ -30,7 +30,7 @@ const pageJumplinks = new Jumplinks(jumplinks, {
   intersectionOptions: {
     root: null,
     rootMargin:'-50% 0px',
-    threshhold:'',
+    threshhold: 0,
   },
 });
 
