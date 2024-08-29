@@ -62,6 +62,7 @@ pageJumplinks.init();
 | `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of viewport - which triggers onUnsticky() | `number` | `number`
 | `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `function`
 | `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
+| `options.customOffsetValue` | Offset value for jumplinks container, will be set to the height of the jumplinks if not defined | `number` | `null`
 
 ### Methods
 
