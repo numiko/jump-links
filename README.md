@@ -32,21 +32,17 @@ This package is usually used along with our `dropdownToggle` package https://bit
     <span data-js-jumplinks-label></span>
   </div>
 
-  <div
-    id="jumplinks-dropdown"
-  >
-    <ul>
-      <li>
-        <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
-      </li>
-      <li>
-        <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
-      </li>
-      <li>
-        <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li>
+      <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
+    </li>
+    <li>
+      <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
+    </li>
+    <li>
+      <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
+    </li>
+  </ul>
 </div>
 
 <!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
@@ -106,8 +102,8 @@ pageJumplinks.init();
 | `jumplinksEl` | The HTML element to initialise the jumplinks. | `string` or `HTMLElement` | `null`
 | `options` | Configurable options for the module. | `object` | `object`
 | `options.linksEl` | The HTML link in the jumplinks used to navigate to its section. | `string` or `HTMLElement` | `string`
-| `options.labelEl` | The text in the jumplinks which displays the current jumplinks section. | `string` or `HTMLElement` | `string`
-| `options.containerEl` | The section that contains all of the jumplink sections. | `string` or `HTMLElement` | `string`
+| `options.labelEl` | The text in the jumplinks which displays the title of the current section in the viewport. | `string` or `HTMLElement` | `string`
+| `options.containerEl` | The parent section that contains all of the jumplink sections. | `string` or `HTMLElement` | `string`
 | `options.sectionEl` | The individual section that will be added to the jumplinks | `string` or `HTMLElement` | `string`
 | `options.intersectionOptions` | Configurable options for the intersection of sections | `object` | `object`
 | `options.intersectionOptions.root` | By default it is the viewport however this can be changed to an HTML element | `Document` or `HTMLElement` | `null`
@@ -121,7 +117,7 @@ pageJumplinks.init();
 | `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of viewport - which triggers onUnsticky() | `number` | `number`
 | `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `function`
 | `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
-| `options.customOffsetValue` | Offset value for jumplinks container, will be set to the height of the jumplinks if not defined | `number` | `null`
+| `options.customOffsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
 
 ### Methods
 
