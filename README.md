@@ -17,7 +17,7 @@ This package is usually used along with our `dropdownToggle` package https://bit
 
 ## Usage
 
-### JS
+### HTML
 
 ```HTML
 <div data-js-jumplinks>
@@ -76,6 +76,8 @@ This package is usually used along with our `dropdownToggle` package https://bit
   </section>
 </div>
 ```
+
+### JS
 
 ```javascript
 const jumplinks = document.querySelector('[data-js-jumplinks]');
