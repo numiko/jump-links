@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jumplinks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="p-10">
+
+    <!-- Jumplinks - Tweak CSS on here depending on your GSAP animations -->
+    <div data-js-jumplinks class="fixed top-0 left-0 w-full">
+      <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
+      <div class="bg-[#FFCCC9]">
+        <span
+          style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
+          class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"
+        >
+        </span>
+      </div>
+
+      <!--Header - Contains your jumplinks label  -->
+      <div class="py-5 bg-black text-white">
+        <div class="container mx-auto flex items-center justify-between">
+          <p class="flex-grow relative overflow-hidden">
+            <span class="">You are viewing:</span>
+            <span class="whitespace-nowrap" data-js-jumplinks-label></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Dropdown - contains your links   -->
+      <div
+        id="jumplinks-dropdown"
+        class="overflow-hidden w-full bg-black text-white"
+      >
+        <div class="container mx-auto">
+          <div class="py-7 md:py-10">
+            <ul class="[ md:grid md:grid-cols-3 md:gap-6 ]">
+              <li class="mb-4 last:mb-0">
+                <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
+              </li>
+              <li class="mb-4 last:mb-0">
+                <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
+              </li>
+              <li class="mb-4 last:mb-0">
+                <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
+    <div data-js-jumplinks-container class="flex flex-col">
+      <section
+        id="jump-link-1"
+        class="h-screen flex flex-col items-center justify-center bg-[#ffEE99]"
+        data-js-jumplinks-section
+        data-js-jumplinks-section-label="Section One"
+      >
+        <h2 id="section-id-1" class="text-3xl font-bold mb-10">Section One</h2>
+      </section>
+      <section
+        id="jump-link-2"
+        class="h-screen flex flex-col items-center justify-center bg-[#EEFF99]"
+        data-js-jumplinks-section
+        data-js-jumplinks-section-label="Section Two"
+      >
+        <h2 id="section-id-2" class="text-3xl font-bold mb-10">Section Two</h2>
+      </section>
+      <section
+        id="jump-link-3"
+        class="h-screen flex flex-col items-center justify-center bg-[#88FFEE]"
+        data-js-jumplinks-section
+        data-js-jumplinks-section-label="Section Three"
+      >
+        <h2 id="section-id-3" class="text-3xl font-bold mb-10">
+          Section Three
+        </h2>
+      </section>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
