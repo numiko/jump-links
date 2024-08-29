@@ -20,6 +20,8 @@ This package is usually used along with our `dropdownToggle` package https://bit
 ### JS
 
 ```javascript
+const jumplinks = document.querySelector('[data-js-jumplinks]');
+
 const pageJumplinks = new Jumplinks(jumplinks, {
   linksEl: '[data-js-jumplinks-link]',
   labelEl: '[data-js-jumplinks-section-label]',
