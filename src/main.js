@@ -8,7 +8,6 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
   containerEl: '[data-js-jumplinks-container]',
   sectionEl: '[data-js-jumplinks-section]',
   intersectionOptions: {
-    root: null,
     rootMargin:'-50% 0px',
   },
   scrollCustomProperty: 'scrollprogress',

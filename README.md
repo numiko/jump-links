@@ -13,7 +13,7 @@ prefer the semver method; if the package is not yet stable, we recommend install
 
 ### Including the dropdownToggle package
 
-This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/  which is responsible for handling the hide/show dropdowns.  Please see that repo for its associated options and methods.
+This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/ which is responsible for handling the hide/show dropdowns. Please see that repo for its associated options and methods.
 
 ## Usage
 
@@ -113,8 +113,8 @@ pageJumplinks.init();
 | `options.hasScrollProgress` | Sets whether to display the scroll percentage bar or not  | `boolean` | `boolean`
 | `options.scrollCustomProperty` | Name for custom property that tracks scroll percentage | `string` | `string`
 | `options.attachCustomPropertyTo` | Where to apply the custom scroll progress property to. By default, will be set to the jumplinks element | `string` or `HTMLElement` | `null`
-| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of viewport - which triggers onSticky() | `number` | `number`
-| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of viewport - which triggers onUnsticky() | `number` | `number`
+| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of its specified viewport - which triggers onSticky() | `number` | `number`
+| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of its specified viewport - which triggers onUnsticky() | `number` | `number`
 | `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `function`
 | `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
 | `options.customOffsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
