@@ -6,30 +6,30 @@ function Ct() {
   this.__data__ = [], this.size = 0;
 }
 var jt = Ct;
-function Pt(t, e) {
+function kt(t, e) {
   return t === e || t !== t && e !== e;
 }
-var j = Pt, wt = j;
-function At(t, e) {
+var j = kt, Et = j;
+function Pt(t, e) {
   for (var r = t.length; r--; )
-    if (wt(t[r][0], e))
+    if (Et(t[r][0], e))
       return r;
   return -1;
 }
-var P = At, Et = P, kt = Array.prototype, xt = kt.splice;
+var k = Pt, wt = k, At = Array.prototype, xt = At.splice;
 function It(t) {
-  var e = this.__data__, r = Et(e, t);
+  var e = this.__data__, r = wt(e, t);
   if (r < 0)
     return !1;
   var n = e.length - 1;
   return r == n ? e.pop() : xt.call(e, r, 1), --this.size, !0;
 }
-var Mt = It, Lt = P;
+var Mt = It, Lt = k;
 function Dt(t) {
   var e = this.__data__, r = Lt(e, t);
   return r < 0 ? void 0 : e[r][1];
 }
-var Ft = Dt, Ht = P;
+var Ft = Dt, Ht = k;
 function Gt(t) {
   return Ht(this.__data__, t) > -1;
 }
@@ -38,7 +38,7 @@ function Bt(t, e) {
   var r = this.__data__, n = Ut(r, t);
   return n < 0 ? (++this.size, r.push([t, e])) : r[n][1] = e, this;
 }
-var Nt = Bt, Vt = jt, Jt = Mt, qt = Ft, zt = Rt, Kt = Nt;
+var Bt = Nt, Vt = jt, Jt = Mt, qt = Ft, zt = Rt, Kt = Bt;
 function g(t) {
   var e = -1, r = t == null ? 0 : t.length;
   for (this.clear(); ++e < r; ) {
@@ -51,7 +51,7 @@ g.prototype.delete = Jt;
 g.prototype.get = qt;
 g.prototype.has = zt;
 g.prototype.set = Kt;
-var w = g, Xt = w;
+var E = g, Xt = E;
 function Yt() {
   this.__data__ = new Xt(), this.size = 0;
 }
@@ -87,24 +87,24 @@ var ye = de, R = it, be = pe, _e = ye, $e = "[object Null]", me = "[object Undef
 function Oe(t) {
   return t == null ? t === void 0 ? me : $e : U && U in Object(t) ? be(t) : _e(t);
 }
-var A = Oe;
+var P = Oe;
 function Te(t) {
   var e = typeof t;
   return t != null && (e == "object" || e == "function");
 }
-var p = Te, Se = A, Ce = p, je = "[object AsyncFunction]", Pe = "[object Function]", we = "[object GeneratorFunction]", Ae = "[object Proxy]";
-function Ee(t) {
+var p = Te, Se = P, Ce = p, je = "[object AsyncFunction]", ke = "[object Function]", Ee = "[object GeneratorFunction]", Pe = "[object Proxy]";
+function we(t) {
   if (!Ce(t))
     return !1;
   var e = Se(t);
-  return e == Pe || e == we || e == je || e == Ae;
+  return e == ke || e == Ee || e == je || e == Pe;
 }
-var M = Ee, ke = d, xe = ke["__core-js_shared__"], Ie = xe, I = Ie, B = function() {
+var M = we, Ae = d, xe = Ae["__core-js_shared__"], Ie = xe, I = Ie, N = function() {
   var t = /[^.]+$/.exec(I && I.keys && I.keys.IE_PROTO || "");
   return t ? "Symbol(src)_1." + t : "";
 }();
 function Me(t) {
-  return !!B && B in t;
+  return !!N && N in t;
 }
 var Le = Me, De = Function.prototype, Fe = De.toString;
 function He(t) {
@@ -120,14 +120,14 @@ function He(t) {
   }
   return "";
 }
-var Ge = He, Re = M, Ue = Le, Be = p, Ne = Ge, Ve = /[\\^$.*+?()[\]{}|]/g, Je = /^\[object .+?Constructor\]$/, qe = Function.prototype, ze = Object.prototype, Ke = qe.toString, Xe = ze.hasOwnProperty, Ye = RegExp(
+var Ge = He, Re = M, Ue = Le, Ne = p, Be = Ge, Ve = /[\\^$.*+?()[\]{}|]/g, Je = /^\[object .+?Constructor\]$/, qe = Function.prototype, ze = Object.prototype, Ke = qe.toString, Xe = ze.hasOwnProperty, Ye = RegExp(
   "^" + Ke.call(Xe).replace(Ve, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function We(t) {
-  if (!Be(t) || Ue(t))
+  if (!Ne(t) || Ue(t))
     return !1;
   var e = Re(t) ? Ye : Je;
-  return e.test(Ne(t));
+  return e.test(Be(t));
 }
 var Ze = We;
 function Qe(t, e) {
@@ -140,14 +140,14 @@ function nr(t, e) {
 }
 var L = nr, ar = L, ir = d, sr = ar(ir, "Map"), ot = sr, or = L, cr = or(Object, "create"), E = cr, N = E;
 function lr() {
-  this.__data__ = N ? N(null) : {}, this.size = 0;
+  this.__data__ = B ? B(null) : {}, this.size = 0;
 }
 var ur = lr;
 function fr(t) {
   var e = this.has(t) && delete this.__data__[t];
   return this.size -= e ? 1 : 0, e;
 }
-var hr = fr, pr = E, vr = "__lodash_hash_undefined__", gr = Object.prototype, dr = gr.hasOwnProperty;
+var hr = fr, pr = w, vr = "__lodash_hash_undefined__", gr = Object.prototype, dr = gr.hasOwnProperty;
 function yr(t) {
   var e = this.__data__;
   if (pr) {
@@ -161,7 +161,7 @@ function Or(t) {
   var e = this.__data__;
   return _r ? e[t] !== void 0 : mr.call(e, t);
 }
-var Tr = Or, Sr = E, Cr = "__lodash_hash_undefined__";
+var Tr = Or, Sr = w, Cr = "__lodash_hash_undefined__";
 function jr(t, e) {
   var r = this.__data__;
   return this.size += this.has(t) ? 0 : 1, r[t] = Sr && e === void 0 ? Cr : e, this;
@@ -174,12 +174,12 @@ function y(t) {
     this.set(n[0], n[1]);
   }
 }
-y.prototype.clear = wr;
-y.prototype.delete = Ar;
-y.prototype.get = Er;
-y.prototype.has = kr;
+y.prototype.clear = Er;
+y.prototype.delete = Pr;
+y.prototype.get = wr;
+y.prototype.has = Ar;
 y.prototype.set = xr;
-var Ir = y, V = Ir, Mr = w, Lr = ot;
+var Ir = y, V = Ir, Mr = E, Lr = ot;
 function Dr() {
   this.size = 0, this.__data__ = {
     hash: new V(),
@@ -197,20 +197,20 @@ function Ur(t, e) {
   var r = t.__data__;
   return Rr(e) ? r[typeof e == "string" ? "string" : "hash"] : r.map;
 }
-var k = Ur, Br = k;
-function Nr(t) {
-  var e = Br(this, t).delete(t);
+var A = Ur, Nr = A;
+function Br(t) {
+  var e = Nr(this, t).delete(t);
   return this.size -= e ? 1 : 0, e;
 }
-var Vr = Nr, Jr = k;
+var Vr = Br, Jr = A;
 function qr(t) {
   return Jr(this, t).get(t);
 }
-var zr = qr, Kr = k;
+var zr = qr, Kr = A;
 function Xr(t) {
   return Kr(this, t).has(t);
 }
-var Yr = Xr, Wr = k;
+var Yr = Xr, Wr = A;
 function Zr(t, e) {
   var r = Wr(this, t), n = r.size;
   return r.set(t, e), this.size += r.size == n ? 0 : 1, this;
@@ -429,10 +429,10 @@ function ji(t, e) {
     n[r] = e(r);
   return n;
 }
-var Pi = ji, wi = 9007199254740991, Ai = /^(?:0|[1-9]\d*)$/;
-function Ei(t, e) {
+var ki = ji, Ei = 9007199254740991, Pi = /^(?:0|[1-9]\d*)$/;
+function wi(t, e) {
   var r = typeof t;
-  return e = e ?? wi, !!e && (r == "number" || r != "symbol" && Ai.test(t)) && t > -1 && t % 1 == 0 && t < e;
+  return e = e ?? Ei, !!e && (r == "number" || r != "symbol" && Pi.test(t)) && t > -1 && t % 1 == 0 && t < e;
 }
 var $t = Ei, ki = Pi, xi = pt, Ii = vt, Mi = dt, Li = $t, Di = bt, Fi = Object.prototype, Hi = Fi.hasOwnProperty;
 function Gi(t, e) {
@@ -453,9 +453,9 @@ function Ui(t) {
       e.push(r);
   return e;
 }
-var Bi = Ui, Ni = p, Vi = ft, Ji = Bi, qi = Object.prototype, zi = qi.hasOwnProperty;
+var Ni = Ui, Bi = p, Vi = ft, Ji = Ni, qi = Object.prototype, zi = qi.hasOwnProperty;
 function Ki(t) {
-  if (!Ni(t))
+  if (!Bi(t))
     return Ji(t);
   var e = Vi(t), r = [];
   for (var n in t)
@@ -513,8 +513,8 @@ function js(t, e, r) {
   }
   return t.apply(e, r);
 }
-var Ps = js, ws = Ps, et = Math.max;
-function As(t, e, r) {
+var ks = js, Es = ks, et = Math.max;
+function Ps(t, e, r) {
   return e = et(e === void 0 ? t.length - 1 : e, 0), function() {
     for (var n = arguments, a = -1, s = et(n.length - e, 0), o = Array(s); ++a < s; )
       o[a] = n[e + a];
@@ -524,13 +524,13 @@ function As(t, e, r) {
     return i[e] = r(o), ws(t, this, i);
   };
 }
-var Es = As;
-function ks(t) {
+var ws = Ps;
+function As(t) {
   return function() {
     return t;
   };
 }
-var xs = ks, Is = xs, rt = ct, Ms = Tt, Ls = rt ? function(t, e) {
+var xs = As, Is = xs, rt = ct, Ms = Tt, Ls = rt ? function(t, e) {
   return rt(t, "toString", {
     configurable: !0,
     enumerable: !1,
@@ -550,7 +550,7 @@ function Rs(t) {
     return t.apply(void 0, arguments);
   };
 }
-var Us = Rs, Bs = Ds, Ns = Us, Vs = Ns(Bs), Js = Vs, qs = Tt, zs = Es, Ks = Js;
+var Us = Rs, Ns = Ds, Bs = Us, Vs = Bs(Ns), Js = Vs, qs = Tt, zs = ws, Ks = Js;
 function Xs(t, e) {
   return Ks(zs(t, e, qs), t + "");
 }
@@ -619,7 +619,10 @@ const vo = {
   },
   onUnsticky: () => {
   },
-  customOffsetValue: null
+  customOffsetValue: null,
+  customOffsetEl: null,
+  onLinkClicked: () => {
+  }
 };
 class go {
   constructor(e, r) {
@@ -654,6 +657,10 @@ class go {
       throw 'Jumplinks: please specify a valid function for "onUnsticky"';
     if (typeof this.customOffsetValue != "number" && this.customOffsetValue !== null)
       throw 'Jumplinks: please specify a valid number for "customOffsetValue"';
+    if (this.customOffsetEl === null)
+      throw 'Jumplinks: No matching DOM element for "customOffsetEl"';
+    if (typeof this.onLinkClicked != "function")
+      throw 'Jumplinks: please specify a valid function for "onLinkClicked"';
   }
   /**
    * Set jumplinks section to first content item if intersection observer hasn't fired
@@ -688,6 +695,7 @@ class go {
     return this.containerEl.getBoundingClientRect().top;
   }
   scrollToHash() {
+    var a;
     if (!window.location.hash) return;
     const e = document.querySelector(window.location.hash), r = this.jumplinksEl.offsetHeight, n = this.customOffsetValue === null ? r : this.customOffsetValue;
     nt(e, n, !1);
@@ -704,6 +712,7 @@ class go {
     this.setScrollCustomProperty(o + "%");
   }
   onLinkClick(e) {
+    var i;
     e.preventDefault();
     const n = e.currentTarget.getAttribute("href"), a = document.querySelector(n), s = this.jumplinksEl.offsetHeight, o = this.customOffsetValue === null ? s : this.customOffsetValue;
     nt(a, o, !0), po(n);
