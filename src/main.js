@@ -11,7 +11,6 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
     rootMargin:'-50% 0px',
   },
   scrollCustomProperty: 'scrollprogress',
-  attachScrollPropertyTo: HTMLElement,
   stickyOffset: 0,
   unStickyOffset: 0,
 });
