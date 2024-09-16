@@ -35,7 +35,9 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.0.4",
-    "eslint": "^8.56.0",
+    "@stylistic/eslint-plugin": "^2.6.2",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
     "happy-dom": "^14.12.3",
     "vite": "^5.3.5",
     "vite-plugin-eslint": "^1.8.1",
