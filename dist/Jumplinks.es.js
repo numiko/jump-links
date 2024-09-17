@@ -33,8 +33,8 @@ var Ft = Dt, Ht = k;
 function Gt(t) {
   return Ht(this.__data__, t) > -1;
 }
-var Rt = Gt, Ut = P;
-function Bt(t, e) {
+var Rt = Gt, Ut = k;
+function Nt(t, e) {
   var r = this.__data__, n = Ut(r, t);
   return n < 0 ? (++this.size, r.push([t, e])) : r[n][1] = e, this;
 }
@@ -138,7 +138,7 @@ function nr(t, e) {
   var r = rr(t, e);
   return er(r) ? r : void 0;
 }
-var L = nr, ar = L, ir = d, sr = ar(ir, "Map"), ot = sr, or = L, cr = or(Object, "create"), E = cr, N = E;
+var L = nr, ar = L, ir = d, sr = ar(ir, "Map"), ot = sr, or = L, cr = or(Object, "create"), w = cr, B = w;
 function lr() {
   this.__data__ = B ? B(null) : {}, this.size = 0;
 }
@@ -156,7 +156,7 @@ function yr(t) {
   }
   return dr.call(e, t) ? e[t] : void 0;
 }
-var br = yr, _r = E, $r = Object.prototype, mr = $r.hasOwnProperty;
+var br = yr, _r = w, $r = Object.prototype, mr = $r.hasOwnProperty;
 function Or(t) {
   var e = this.__data__;
   return _r ? e[t] !== void 0 : mr.call(e, t);
@@ -166,7 +166,7 @@ function jr(t, e) {
   var r = this.__data__;
   return this.size += this.has(t) ? 0 : 1, r[t] = Sr && e === void 0 ? Cr : e, this;
 }
-var Pr = jr, wr = ur, Ar = hr, Er = br, kr = Tr, xr = Pr;
+var kr = jr, Er = ur, Pr = hr, wr = br, Ar = Tr, xr = kr;
 function y(t) {
   var e = -1, r = t == null ? 0 : t.length;
   for (this.clear(); ++e < r; ) {
@@ -228,7 +228,7 @@ b.prototype.delete = en;
 b.prototype.get = rn;
 b.prototype.has = nn;
 b.prototype.set = an;
-var sn = b, on = w, cn = ot, ln = sn, un = 200;
+var sn = b, on = E, cn = ot, ln = sn, un = 200;
 function fn(t, e) {
   var r = this.__data__;
   if (r instanceof on) {
@@ -239,7 +239,7 @@ function fn(t, e) {
   }
   return r.set(t, e), this.size = r.size, this;
 }
-var hn = fn, pn = w, vn = Wt, gn = Qt, dn = ee, yn = ne, bn = hn;
+var hn = fn, pn = E, vn = Wt, gn = Qt, dn = ee, yn = ne, bn = hn;
 function _(t) {
   var e = this.__data__ = new pn(t);
   this.size = e.size;
@@ -279,7 +279,7 @@ function jn(t) {
     return e;
   };
 }
-var Pn = jn, wn = Pn, An = wn(), En = An, T = { exports: {} };
+var kn = jn, En = kn, Pn = En(), wn = Pn, T = { exports: {} };
 T.exports;
 (function(t, e) {
   var r = d, n = e && !e.nodeType && e, a = n && !0 && t && !t.nodeType && t, s = a && a.exports === n, o = s ? r.Buffer : void 0, i = o ? o.allocUnsafe : void 0;
@@ -291,7 +291,7 @@ T.exports;
   }
   t.exports = c;
 })(T, T.exports);
-var kn = T.exports, xn = d, In = xn.Uint8Array, Mn = In, q = Mn;
+var An = T.exports, xn = d, In = xn.Uint8Array, Mn = In, q = Mn;
 function Ln(t) {
   var e = new t.constructor(t.byteLength);
   return new q(e).set(new q(t)), e;
@@ -308,11 +308,11 @@ function Rn(t, e) {
     e[r] = t[r];
   return e;
 }
-var Un = Rn, Bn = p, z = Object.create, Nn = /* @__PURE__ */ function() {
+var Un = Rn, Nn = p, z = Object.create, Bn = /* @__PURE__ */ function() {
   function t() {
   }
   return function(e) {
-    if (!Bn(e))
+    if (!Nn(e))
       return {};
     if (z)
       return z(e);
@@ -320,7 +320,7 @@ var Un = Rn, Bn = p, z = Object.create, Nn = /* @__PURE__ */ function() {
     var r = new t();
     return t.prototype = void 0, r;
   };
-}(), Vn = Nn;
+}(), Vn = Bn;
 function Jn(t, e) {
   return function(r) {
     return t(e(r));
@@ -339,7 +339,7 @@ var ea = ta;
 function ra(t) {
   return t != null && typeof t == "object";
 }
-var m = ra, na = A, aa = m, ia = "[object Arguments]";
+var m = ra, na = P, aa = m, ia = "[object Arguments]";
 function sa(t) {
   return aa(t) && na(t) == ia;
 }
@@ -369,19 +369,19 @@ S.exports;
   var r = d, n = Ta, a = e && !e.nodeType && e, s = a && !0 && t && !t.nodeType && t, o = s && s.exports === a, i = o ? r.Buffer : void 0, c = i ? i.isBuffer : void 0, u = c || n;
   t.exports = u;
 })(S, S.exports);
-var dt = S.exports, Sa = A, Ca = ut, ja = m, Pa = "[object Object]", wa = Function.prototype, Aa = Object.prototype, yt = wa.toString, Ea = Aa.hasOwnProperty, ka = yt.call(Object);
+var dt = S.exports, Sa = P, Ca = ut, ja = m, ka = "[object Object]", Ea = Function.prototype, Pa = Object.prototype, yt = Ea.toString, wa = Pa.hasOwnProperty, Aa = yt.call(Object);
 function xa(t) {
-  if (!ja(t) || Sa(t) != Pa)
+  if (!ja(t) || Sa(t) != ka)
     return !1;
   var e = Ca(t);
   if (e === null)
     return !0;
-  var r = Ea.call(e, "constructor") && e.constructor;
-  return typeof r == "function" && r instanceof r && yt.call(r) == ka;
+  var r = wa.call(e, "constructor") && e.constructor;
+  return typeof r == "function" && r instanceof r && yt.call(r) == Aa;
 }
-var Ia = xa, Ma = A, La = gt, Da = m, Fa = "[object Arguments]", Ha = "[object Array]", Ga = "[object Boolean]", Ra = "[object Date]", Ua = "[object Error]", Ba = "[object Function]", Na = "[object Map]", Va = "[object Number]", Ja = "[object Object]", qa = "[object RegExp]", za = "[object Set]", Ka = "[object String]", Xa = "[object WeakMap]", Ya = "[object ArrayBuffer]", Wa = "[object DataView]", Za = "[object Float32Array]", Qa = "[object Float64Array]", ti = "[object Int8Array]", ei = "[object Int16Array]", ri = "[object Int32Array]", ni = "[object Uint8Array]", ai = "[object Uint8ClampedArray]", ii = "[object Uint16Array]", si = "[object Uint32Array]", l = {};
+var Ia = xa, Ma = P, La = gt, Da = m, Fa = "[object Arguments]", Ha = "[object Array]", Ga = "[object Boolean]", Ra = "[object Date]", Ua = "[object Error]", Na = "[object Function]", Ba = "[object Map]", Va = "[object Number]", Ja = "[object Object]", qa = "[object RegExp]", za = "[object Set]", Ka = "[object String]", Xa = "[object WeakMap]", Ya = "[object ArrayBuffer]", Wa = "[object DataView]", Za = "[object Float32Array]", Qa = "[object Float64Array]", ti = "[object Int8Array]", ei = "[object Int16Array]", ri = "[object Int32Array]", ni = "[object Uint8Array]", ai = "[object Uint8ClampedArray]", ii = "[object Uint16Array]", si = "[object Uint32Array]", l = {};
 l[Za] = l[Qa] = l[ti] = l[ei] = l[ri] = l[ni] = l[ai] = l[ii] = l[si] = !0;
-l[Fa] = l[Ha] = l[Ya] = l[Ga] = l[Wa] = l[Ra] = l[Ua] = l[Ba] = l[Na] = l[Va] = l[Ja] = l[qa] = l[za] = l[Ka] = l[Xa] = !1;
+l[Fa] = l[Ha] = l[Ya] = l[Ga] = l[Wa] = l[Ra] = l[Ua] = l[Na] = l[Ba] = l[Va] = l[Ja] = l[qa] = l[za] = l[Ka] = l[Xa] = !1;
 function oi(t) {
   return Da(t) && La(t.length) && !!l[Ma(t)];
 }
@@ -434,9 +434,9 @@ function wi(t, e) {
   var r = typeof t;
   return e = e ?? Ei, !!e && (r == "number" || r != "symbol" && Pi.test(t)) && t > -1 && t % 1 == 0 && t < e;
 }
-var $t = Ei, ki = Pi, xi = pt, Ii = vt, Mi = dt, Li = $t, Di = bt, Fi = Object.prototype, Hi = Fi.hasOwnProperty;
+var $t = wi, Ai = ki, xi = pt, Ii = vt, Mi = dt, Li = $t, Di = bt, Fi = Object.prototype, Hi = Fi.hasOwnProperty;
 function Gi(t, e) {
-  var r = Ii(t), n = !r && xi(t), a = !r && !n && Mi(t), s = !r && !n && !a && Di(t), o = r || n || a || s, i = o ? ki(t.length, String) : [], c = i.length;
+  var r = Ii(t), n = !r && xi(t), a = !r && !n && Mi(t), s = !r && !n && !a && Di(t), o = r || n || a || s, i = o ? Ai(t.length, String) : [], c = i.length;
   for (var u in t)
     (e || Hi.call(t, u)) && !(o && // Safari 9 has enumerable `arguments.length` in strict mode.
     (u == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
@@ -470,7 +470,7 @@ var mt = Qi, ts = Ci, es = mt;
 function rs(t) {
   return ts(t, es(t));
 }
-var ns = rs, W = lt, as = kn, is = Gn, ss = Un, os = ea, Z = pt, Q = vt, cs = ma, ls = dt, us = M, fs = p, hs = Ia, ps = bt, tt = _t, vs = ns;
+var ns = rs, W = lt, as = An, is = Gn, ss = Un, os = ea, Z = pt, Q = vt, cs = ma, ls = dt, us = M, fs = p, hs = Ia, ps = bt, tt = _t, vs = ns;
 function gs(t, e, r, n, a, s, o) {
   var i = tt(t, r), c = tt(e, r), u = o.get(c);
   if (u) {
@@ -484,7 +484,7 @@ function gs(t, e, r, n, a, s, o) {
   }
   h && (o.set(c, f), a(f, c, n, s, o), o.delete(c)), W(t, r, f);
 }
-var ds = gs, ys = _n, bs = lt, _s = En, $s = ds, ms = p, Os = mt, Ts = _t;
+var ds = gs, ys = _n, bs = lt, _s = wn, $s = ds, ms = p, Os = mt, Ts = _t;
 function Ot(t, e, r, n, a) {
   t !== e && _s(e, function(s, o) {
     if (a || (a = new ys()), ms(s))
@@ -521,7 +521,7 @@ function Ps(t, e, r) {
     a = -1;
     for (var i = Array(e + 1); ++a < e; )
       i[a] = n[a];
-    return i[e] = r(o), ws(t, this, i);
+    return i[e] = r(o), Es(t, this, i);
   };
 }
 var ws = Ps;
@@ -629,7 +629,7 @@ class go {
     const n = fo(vo, r);
     this.rafTicking = !1, this.state = {
       isSticking: !1
-    }, this.jumplinksEl = typeof e == "string" ? document.querySelector(e) : e, this.linksEl = typeof n.linksEl == "string" ? this.jumplinksEl.querySelectorAll(n.linksEl) : n.linksEl, this.labelEl = typeof n.labelEl == "string" ? this.jumplinksEl.querySelector(n.labelEl) : n.labelEl, this.containerEl = typeof n.containerEl == "string" ? document.querySelector(n.containerEl) : n.containerEl, this.intersectionOptions = n.intersectionOptions, this.sectionsEl = typeof n.sectionEl == "string" ? document.querySelectorAll(n.sectionEl) : n.sectionEl, this.sectionObserver = new IntersectionObserver(this.sectionIntersecting.bind(this), n.intersectionOptions), this.hasScrollProgress = n.hasScrollProgress, this.scrollCustomProperty = n.scrollCustomProperty, this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(n), this.stickyOffset = n.stickyOffset, this.unStickyOffset = n.unStickyOffset, this.onSticky = n.onSticky, this.onUnsticky = n.onUnsticky, this.customOffsetValue = n.customOffsetValue, this.validateOptions();
+    }, this.jumplinksEl = typeof e == "string" ? document.querySelector(e) : e, this.linksEl = typeof n.linksEl == "string" ? this.jumplinksEl.querySelectorAll(n.linksEl) : n.linksEl, this.labelEl = typeof n.labelEl == "string" ? this.jumplinksEl.querySelector(n.labelEl) : n.labelEl, this.containerEl = typeof n.containerEl == "string" ? document.querySelector(n.containerEl) : n.containerEl, this.intersectionOptions = n.intersectionOptions, this.sectionsEl = typeof n.sectionEl == "string" ? document.querySelectorAll(n.sectionEl) : n.sectionEl, this.sectionObserver = new IntersectionObserver(this.sectionIntersecting.bind(this), n.intersectionOptions), this.hasScrollProgress = n.hasScrollProgress, this.scrollCustomProperty = n.scrollCustomProperty, this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(n), this.stickyOffset = n.stickyOffset, this.unStickyOffset = n.unStickyOffset, this.onSticky = n.onSticky, this.onUnsticky = n.onUnsticky, this.customOffsetValue = n.customOffsetValue, this.customOffsetEl = n.customOffsetEl, this.onLinkClicked = n.onLinkClicked, this.validateOptions();
   }
   /**
    * Simple validation of options
@@ -657,7 +657,7 @@ class go {
       throw 'Jumplinks: please specify a valid function for "onUnsticky"';
     if (typeof this.customOffsetValue != "number" && this.customOffsetValue !== null)
       throw 'Jumplinks: please specify a valid number for "customOffsetValue"';
-    if (this.customOffsetEl === null)
+    if (typeof this.customOffsetEl != "string" && this.customOffsetEl !== null)
       throw 'Jumplinks: No matching DOM element for "customOffsetEl"';
     if (typeof this.onLinkClicked != "function")
       throw 'Jumplinks: please specify a valid function for "onLinkClicked"';
@@ -697,7 +697,7 @@ class go {
   scrollToHash() {
     var a;
     if (!window.location.hash) return;
-    const e = document.querySelector(window.location.hash), r = this.jumplinksEl.offsetHeight, n = this.customOffsetValue === null ? r : this.customOffsetValue;
+    const e = document.querySelector(window.location.hash), r = this.jumplinksEl.offsetHeight, n = this.customOffsetValue || ((a = this.customOffsetValue) == null ? void 0 : a.offsetHeight) || r;
     nt(e, n, !1);
   }
   hasReachedJumplinksContainerTop() {
@@ -714,8 +714,8 @@ class go {
   onLinkClick(e) {
     var i;
     e.preventDefault();
-    const n = e.currentTarget.getAttribute("href"), a = document.querySelector(n), s = this.jumplinksEl.offsetHeight, o = this.customOffsetValue === null ? s : this.customOffsetValue;
-    nt(a, o, !0), po(n);
+    const n = e.currentTarget.getAttribute("href"), a = document.querySelector(n), s = this.jumplinksEl.offsetHeight, o = this.customOffsetValue || ((i = this.customOffsetValue) == null ? void 0 : i.offsetHeight) || s;
+    nt(a, o, !0), this.onLinkClicked(), po(n);
   }
   onScroll() {
     this.rafTicking || (window.requestAnimationFrame(() => {
