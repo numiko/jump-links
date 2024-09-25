@@ -24,9 +24,9 @@ function It(t) {
   var n = e.length - 1;
   return r == n ? e.pop() : xt.call(e, r, 1), --this.size, !0;
 }
-var Mt = It, Lt = k;
+var Lt = It, Mt = k;
 function Dt(t) {
-  var e = this.__data__, r = Lt(e, t);
+  var e = this.__data__, r = Mt(e, t);
   return r < 0 ? void 0 : e[r][1];
 }
 var Ft = Dt, Ht = k;
@@ -34,11 +34,11 @@ function Gt(t) {
   return Ht(this.__data__, t) > -1;
 }
 var Rt = Gt, Ut = k;
-function Nt(t, e) {
+function Bt(t, e) {
   var r = this.__data__, n = Ut(r, t);
   return n < 0 ? (++this.size, r.push([t, e])) : r[n][1] = e, this;
 }
-var Bt = Nt, Jt = jt, Vt = Mt, qt = Ft, zt = Rt, Kt = Bt;
+var Nt = Bt, Jt = jt, Vt = Lt, qt = Ft, zt = Rt, Kt = Nt;
 function g(t) {
   var e = -1, r = t == null ? 0 : t.length;
   for (this.clear(); ++e < r; ) {
@@ -99,14 +99,14 @@ function we(t) {
   var e = Se(t);
   return e == ke || e == Ee || e == je || e == Pe;
 }
-var M = we, Ae = d, xe = Ae["__core-js_shared__"], Ie = xe, I = Ie, N = function() {
+var L = we, Ae = d, xe = Ae["__core-js_shared__"], Ie = xe, I = Ie, B = function() {
   var t = /[^.]+$/.exec(I && I.keys && I.keys.IE_PROTO || "");
   return t ? "Symbol(src)_1." + t : "";
 }();
-function Me(t) {
-  return !!N && N in t;
+function Le(t) {
+  return !!B && B in t;
 }
-var Le = Me, De = Function.prototype, Fe = De.toString;
+var Me = Le, De = Function.prototype, Fe = De.toString;
 function He(t) {
   if (t != null) {
     try {
@@ -120,14 +120,14 @@ function He(t) {
   }
   return "";
 }
-var Ge = He, Re = M, Ue = Le, Ne = p, Be = Ge, Je = /[\\^$.*+?()[\]{}|]/g, Ve = /^\[object .+?Constructor\]$/, qe = Function.prototype, ze = Object.prototype, Ke = qe.toString, Xe = ze.hasOwnProperty, Ye = RegExp(
+var Ge = He, Re = L, Ue = Me, Be = p, Ne = Ge, Je = /[\\^$.*+?()[\]{}|]/g, Ve = /^\[object .+?Constructor\]$/, qe = Function.prototype, ze = Object.prototype, Ke = qe.toString, Xe = ze.hasOwnProperty, Ye = RegExp(
   "^" + Ke.call(Xe).replace(Je, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function We(t) {
-  if (!Ne(t) || Ue(t))
+  if (!Be(t) || Ue(t))
     return !1;
   var e = Re(t) ? Ye : Ve;
-  return e.test(Be(t));
+  return e.test(Ne(t));
 }
 var Ze = We;
 function Qe(t, e) {
@@ -138,9 +138,9 @@ function nr(t, e) {
   var r = rr(t, e);
   return er(r) ? r : void 0;
 }
-var L = nr, ar = L, ir = d, sr = ar(ir, "Map"), ot = sr, or = L, cr = or(Object, "create"), w = cr, B = w;
+var M = nr, ar = M, ir = d, sr = ar(ir, "Map"), ot = sr, or = M, cr = or(Object, "create"), w = cr, N = w;
 function lr() {
-  this.__data__ = B ? B(null) : {}, this.size = 0;
+  this.__data__ = N ? N(null) : {}, this.size = 0;
 }
 var ur = lr;
 function fr(t) {
@@ -179,11 +179,11 @@ y.prototype.delete = Pr;
 y.prototype.get = wr;
 y.prototype.has = Ar;
 y.prototype.set = xr;
-var Ir = y, J = Ir, Mr = E, Lr = ot;
+var Ir = y, J = Ir, Lr = E, Mr = ot;
 function Dr() {
   this.size = 0, this.__data__ = {
     hash: new J(),
-    map: new (Lr || Mr)(),
+    map: new (Mr || Lr)(),
     string: new J()
   };
 }
@@ -197,12 +197,12 @@ function Ur(t, e) {
   var r = t.__data__;
   return Rr(e) ? r[typeof e == "string" ? "string" : "hash"] : r.map;
 }
-var A = Ur, Nr = A;
-function Br(t) {
-  var e = Nr(this, t).delete(t);
+var A = Ur, Br = A;
+function Nr(t) {
+  var e = Br(this, t).delete(t);
   return this.size -= e ? 1 : 0, e;
 }
-var Jr = Br, Vr = A;
+var Jr = Nr, Vr = A;
 function qr(t) {
   return Vr(this, t).get(t);
 }
@@ -249,7 +249,7 @@ _.prototype.delete = gn;
 _.prototype.get = dn;
 _.prototype.has = yn;
 _.prototype.set = bn;
-var _n = _, $n = L, mn = function() {
+var _n = _, $n = M, mn = function() {
   try {
     var t = $n(Object, "defineProperty");
     return t({}, "", {}), t;
@@ -291,12 +291,12 @@ T.exports;
   }
   t.exports = c;
 })(T, T.exports);
-var An = T.exports, xn = d, In = xn.Uint8Array, Mn = In, q = Mn;
-function Ln(t) {
+var An = T.exports, xn = d, In = xn.Uint8Array, Ln = In, q = Ln;
+function Mn(t) {
   var e = new t.constructor(t.byteLength);
   return new q(e).set(new q(t)), e;
 }
-var Dn = Ln, Fn = Dn;
+var Dn = Mn, Fn = Dn;
 function Hn(t, e) {
   var r = e ? Fn(t.buffer) : t.buffer;
   return new t.constructor(r, t.byteOffset, t.length);
@@ -308,11 +308,11 @@ function Rn(t, e) {
     e[r] = t[r];
   return e;
 }
-var Un = Rn, Nn = p, z = Object.create, Bn = /* @__PURE__ */ function() {
+var Un = Rn, Bn = p, z = Object.create, Nn = /* @__PURE__ */ function() {
   function t() {
   }
   return function(e) {
-    if (!Nn(e))
+    if (!Bn(e))
       return {};
     if (z)
       return z(e);
@@ -320,7 +320,7 @@ var Un = Rn, Nn = p, z = Object.create, Bn = /* @__PURE__ */ function() {
     var r = new t();
     return t.prototype = void 0, r;
   };
-}(), Jn = Bn;
+}(), Jn = Nn;
 function Vn(t, e) {
   return function(r) {
     return t(e(r));
@@ -351,7 +351,7 @@ var oa = sa, K = oa, ca = m, ht = Object.prototype, la = ht.hasOwnProperty, ua =
 function va(t) {
   return typeof t == "number" && t > -1 && t % 1 == 0 && t <= pa;
 }
-var gt = va, ga = M, da = gt;
+var gt = va, ga = L, da = gt;
 function ya(t) {
   return t != null && da(t.length) && !ga(t);
 }
@@ -379,11 +379,11 @@ function xa(t) {
   var r = wa.call(e, "constructor") && e.constructor;
   return typeof r == "function" && r instanceof r && yt.call(r) == Aa;
 }
-var Ia = xa, Ma = P, La = gt, Da = m, Fa = "[object Arguments]", Ha = "[object Array]", Ga = "[object Boolean]", Ra = "[object Date]", Ua = "[object Error]", Na = "[object Function]", Ba = "[object Map]", Ja = "[object Number]", Va = "[object Object]", qa = "[object RegExp]", za = "[object Set]", Ka = "[object String]", Xa = "[object WeakMap]", Ya = "[object ArrayBuffer]", Wa = "[object DataView]", Za = "[object Float32Array]", Qa = "[object Float64Array]", ti = "[object Int8Array]", ei = "[object Int16Array]", ri = "[object Int32Array]", ni = "[object Uint8Array]", ai = "[object Uint8ClampedArray]", ii = "[object Uint16Array]", si = "[object Uint32Array]", l = {};
+var Ia = xa, La = P, Ma = gt, Da = m, Fa = "[object Arguments]", Ha = "[object Array]", Ga = "[object Boolean]", Ra = "[object Date]", Ua = "[object Error]", Ba = "[object Function]", Na = "[object Map]", Ja = "[object Number]", Va = "[object Object]", qa = "[object RegExp]", za = "[object Set]", Ka = "[object String]", Xa = "[object WeakMap]", Ya = "[object ArrayBuffer]", Wa = "[object DataView]", Za = "[object Float32Array]", Qa = "[object Float64Array]", ti = "[object Int8Array]", ei = "[object Int16Array]", ri = "[object Int32Array]", ni = "[object Uint8Array]", ai = "[object Uint8ClampedArray]", ii = "[object Uint16Array]", si = "[object Uint32Array]", l = {};
 l[Za] = l[Qa] = l[ti] = l[ei] = l[ri] = l[ni] = l[ai] = l[ii] = l[si] = !0;
-l[Fa] = l[Ha] = l[Ya] = l[Ga] = l[Wa] = l[Ra] = l[Ua] = l[Na] = l[Ba] = l[Ja] = l[Va] = l[qa] = l[za] = l[Ka] = l[Xa] = !1;
+l[Fa] = l[Ha] = l[Ya] = l[Ga] = l[Wa] = l[Ra] = l[Ua] = l[Ba] = l[Na] = l[Ja] = l[Va] = l[qa] = l[za] = l[Ka] = l[Xa] = !1;
 function oi(t) {
-  return Da(t) && La(t.length) && !!l[Ma(t)];
+  return Da(t) && Ma(t.length) && !!l[La(t)];
 }
 var ci = oi;
 function li(t) {
@@ -434,15 +434,15 @@ function wi(t, e) {
   var r = typeof t;
   return e = e ?? Ei, !!e && (r == "number" || r != "symbol" && Pi.test(t)) && t > -1 && t % 1 == 0 && t < e;
 }
-var $t = wi, Ai = ki, xi = pt, Ii = vt, Mi = dt, Li = $t, Di = bt, Fi = Object.prototype, Hi = Fi.hasOwnProperty;
+var $t = wi, Ai = ki, xi = pt, Ii = vt, Li = dt, Mi = $t, Di = bt, Fi = Object.prototype, Hi = Fi.hasOwnProperty;
 function Gi(t, e) {
-  var r = Ii(t), n = !r && xi(t), a = !r && !n && Mi(t), s = !r && !n && !a && Di(t), o = r || n || a || s, i = o ? Ai(t.length, String) : [], c = i.length;
+  var r = Ii(t), n = !r && xi(t), a = !r && !n && Li(t), s = !r && !n && !a && Di(t), o = r || n || a || s, i = o ? Ai(t.length, String) : [], c = i.length;
   for (var u in t)
     (e || Hi.call(t, u)) && !(o && // Safari 9 has enumerable `arguments.length` in strict mode.
     (u == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
     a && (u == "offset" || u == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
     s && (u == "buffer" || u == "byteLength" || u == "byteOffset") || // Skip index properties.
-    Li(u, c))) && i.push(u);
+    Mi(u, c))) && i.push(u);
   return i;
 }
 var Ri = Gi;
@@ -453,9 +453,9 @@ function Ui(t) {
       e.push(r);
   return e;
 }
-var Ni = Ui, Bi = p, Ji = ft, Vi = Ni, qi = Object.prototype, zi = qi.hasOwnProperty;
+var Bi = Ui, Ni = p, Ji = ft, Vi = Bi, qi = Object.prototype, zi = qi.hasOwnProperty;
 function Ki(t) {
-  if (!Bi(t))
+  if (!Ni(t))
     return Vi(t);
   var e = Ji(t), r = [];
   for (var n in t)
@@ -470,7 +470,7 @@ var mt = Qi, ts = Ci, es = mt;
 function rs(t) {
   return ts(t, es(t));
 }
-var ns = rs, W = lt, as = An, is = Gn, ss = Un, os = ea, Z = pt, Q = vt, cs = ma, ls = dt, us = M, fs = p, hs = Ia, ps = bt, tt = _t, vs = ns;
+var ns = rs, W = lt, as = An, is = Gn, ss = Un, os = ea, Z = pt, Q = vt, cs = ma, ls = dt, us = L, fs = p, hs = Ia, ps = bt, tt = _t, vs = ns;
 function gs(t, e, r, n, a, s, o) {
   var i = tt(t, r), c = tt(e, r), u = o.get(c);
   if (u) {
@@ -530,14 +530,14 @@ function As(t) {
     return t;
   };
 }
-var xs = As, Is = xs, rt = ct, Ms = Tt, Ls = rt ? function(t, e) {
+var xs = As, Is = xs, rt = ct, Ls = Tt, Ms = rt ? function(t, e) {
   return rt(t, "toString", {
     configurable: !0,
     enumerable: !1,
     value: Is(e),
     writable: !0
   });
-} : Ms, Ds = Ls, Fs = 800, Hs = 16, Gs = Date.now;
+} : Ls, Ds = Ms, Fs = 800, Hs = 16, Gs = Date.now;
 function Rs(t) {
   var e = 0, r = 0;
   return function() {
@@ -550,7 +550,7 @@ function Rs(t) {
     return t.apply(void 0, arguments);
   };
 }
-var Us = Rs, Ns = Ds, Bs = Us, Js = Bs(Ns), Vs = Js, qs = Tt, zs = ws, Ks = Vs;
+var Us = Rs, Bs = Ds, Ns = Us, Js = Ns(Bs), Vs = Js, qs = Tt, zs = ws, Ks = Vs;
 function Xs(t, e) {
   return Ks(zs(t, e, qs), t + "");
 }
@@ -629,7 +629,7 @@ class go {
     const n = fo(vo, r);
     this.rafTicking = !1, this.state = {
       isSticking: !1
-    }, this.jumplinksEl = typeof e == "string" ? document.querySelector(e) : e, this.linksEl = typeof n.linksEl == "string" ? this.jumplinksEl.querySelectorAll(n.linksEl) : n.linksEl, this.labelEl = typeof n.labelEl == "string" ? this.jumplinksEl.querySelector(n.labelEl) : n.labelEl, this.containerEl = typeof n.containerEl == "string" ? document.querySelector(n.containerEl) : n.containerEl, this.intersectionOptions = n.intersectionOptions, this.sectionsEl = typeof n.sectionEl == "string" ? document.querySelectorAll(n.sectionEl) : n.sectionEl, this.sectionObserver = new IntersectionObserver(this.sectionIntersecting.bind(this), n.intersectionOptions), this.hasScrollProgress = n.hasScrollProgress, this.scrollCustomProperty = n.scrollCustomProperty, this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(n), this.stickyOffset = n.stickyOffset, this.unStickyOffset = n.unStickyOffset, this.onSticky = n.onSticky, this.onUnsticky = n.onUnsticky, this.customOffsetValue = n.customOffsetValue, this.customOffsetEl = n.customOffsetEl, this.onLinkClicked = n.onLinkClicked, this.validateOptions();
+    }, this.jumplinksEl = typeof e == "string" ? document.querySelector(e) : e, this.linksEl = typeof n.linksEl == "string" ? this.jumplinksEl.querySelectorAll(n.linksEl) : n.linksEl, this.labelEl = typeof n.labelEl == "string" ? this.jumplinksEl.querySelector(n.labelEl) : n.labelEl, this.containerEl = typeof n.containerEl == "string" ? document.querySelector(n.containerEl) : n.containerEl, this.intersectionOptions = n.intersectionOptions, this.sectionsEl = typeof n.sectionEl == "string" ? document.querySelectorAll(n.sectionEl) : n.sectionEl, this.sectionObserver = new IntersectionObserver(this.sectionIntersecting.bind(this), n.intersectionOptions), this.hasScrollProgress = n.hasScrollProgress, this.scrollCustomProperty = n.scrollCustomProperty, this.elToAttachScrollPropertyTo = this.getElementToAttachScrollPropertyTo(n), this.stickyOffset = n.stickyOffset, this.unStickyOffset = n.unStickyOffset, this.onSticky = n.onSticky, this.onUnsticky = n.onUnsticky, this.customOffsetValue = n.customOffsetValue, this.customOffsetEl = typeof n.customOffsetEl == "string" ? document.querySelector(n.customOffsetEl) : n.customOffsetEl, this.onLinkClicked = n.onLinkClicked, this.validateOptions();
   }
   /**
    * Simple validation of options
@@ -657,8 +657,6 @@ class go {
       throw 'Jumplinks: please specify a valid function for "onUnsticky"';
     if (typeof this.customOffsetValue != "number" && this.customOffsetValue !== null)
       throw 'Jumplinks: please specify a valid number for "customOffsetValue"';
-    if (typeof this.customOffsetEl != "string" && this.customOffsetEl !== null)
-      throw 'Jumplinks: No matching DOM element for "customOffsetEl"';
     if (typeof this.onLinkClicked != "function")
       throw 'Jumplinks: please specify a valid function for "onLinkClicked"';
   }
