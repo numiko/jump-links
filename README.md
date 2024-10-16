@@ -119,7 +119,7 @@ pageJumplinks.init();
 | `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
 | `options.customOffsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
 | `options.customOffsetEl` | Similar to the customOffsetValue property but instead will calculate the offset value based on the HTML element it's given, if left null it will use the height of the jumplinks | `string` or `HTMLElement` | `null`
-| `options.onLinkClicked` | The callback to fire when a jumplink link has been clicked | `function` | `function`
+| `options.onLinkClicked` | The callback to fire when a jumplink link has been clicked | `function` | `() => {}`
 
 ### Methods
 
