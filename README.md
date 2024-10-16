@@ -29,7 +29,7 @@ This package is usually used along with our `dropdownToggle` package https://bit
     </span>
 
     <span>You are viewing:</span>
-    <span data-js-jumplinks-label></span>
+    <span data-js-jumplinks-section-label></span>
   </div>
 
   <ul>
@@ -100,24 +100,24 @@ pageJumplinks.init();
 | Option | Description | Type | Default
 | --- | --- | --- | --- |
 | `jumplinksEl` | The HTML element to initialise the jumplinks. | `string` or `HTMLElement` | `null`
-| `options` | Configurable options for the module. | `object` | `object`
-| `options.linksEl` | The HTML link in the jumplinks used to navigate to its section. | `string` or `HTMLElement` | `string`
-| `options.labelEl` | The text in the jumplinks which displays the title of the current section in the viewport. | `string` or `HTMLElement` | `string`
-| `options.containerEl` | The parent section that contains all of the jumplink sections. | `string` or `HTMLElement` | `string`
-| `options.sectionEl` | The individual section that will be added to the jumplinks | `string` or `HTMLElement` | `string`
-| `options.intersectionOptions` | Configurable options for the intersection of sections | `object` | `object`
+| `options` | Configurable options for the module. | `object` | `{}`
+| `options.linksEl` | The HTML link in the jumplinks used to navigate to its section. | `string` or `HTMLElement` | `'[data-js-jumplinks-link]'`
+| `options.labelEl` | The text in the jumplinks which displays the title of the current section in the viewport. | `string` or `HTMLElement` | `'[data-js-jumplinks-section-label]'`
+| `options.containerEl` | The parent section that contains all of the jumplink sections. | `string` or `HTMLElement` | `'[data-js-jumplinks-container]'`
+| `options.sectionEl` | The individual section that will be added to the jumplinks | `string` or `HTMLElement` | `'[data-js-jumplinks-section]'`
+| `options.intersectionOptions` | Configurable options for the intersection of sections | `object` | `{}`
 | `options.intersectionOptions.root` | By default it is the viewport however this can be changed to an HTML element | `Document` or `HTMLElement` | `null`
-| `options.intersectionOptions.rootMargin` | Sets the margin on the viewport so the jumplinks section will only change after passing that value | `DOMString` | `DOMString`
-| `options.intersectionOptions.threshhold` | A single number or an array of numbers that are used as a percentage to change when the module determines that the section is in the viewport | `FrozenArray<double>` or `number` | `FrozenArray<double>`
-| `options.intersectionOptions.callback` | The callback function to fire when the jumplink section is determined in the viewport | `function` | `function`
-| `options.hasScrollProgress` | Sets whether to display the scroll percentage bar or not  | `boolean` | `boolean`
-| `options.scrollCustomProperty` | Name for custom property that tracks scroll percentage | `string` | `string`
+| `options.intersectionOptions.rootMargin` | Sets the margin on the viewport so the jumplinks section will only change after passing that value | `DOMString` | `'-50% 0px'`
+| `options.intersectionOptions.threshhold` | A single number or an array of numbers that are used as a percentage to change when the module determines that the section is in the viewport | `FrozenArray<double>` or `number` | `0`
+| `options.intersectionOptions.callback` | The callback function to fire when the jumplink section is determined in the viewport | `function` | `() => {}`
+| `options.hasScrollProgress` | Sets whether to display the scroll percentage bar or not  | `boolean` | `true`
+| `options.scrollCustomProperty` | Name for custom property that tracks scroll percentage | `string` | `'scrollprogress'`
 | `options.attachCustomPropertyTo` | Where to apply the custom scroll progress property to. By default, will be set to the jumplinks element | `string` or `HTMLElement` | `null`
-| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of its specified viewport - which triggers onSticky() | `number` | `number`
-| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of its specified viewport - which triggers onUnsticky() | `number` | `number`
-| `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `function`
-| `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
-| `options.customOffsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
+| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of its specified viewport - which triggers onSticky() | `number` | `0`
+| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of its specified viewport - which triggers onUnsticky() | `number` | `0`
+| `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `() => {}`
+| `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `() => {}`
+| `options.customOffsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if left as null | `number` | `null`
 
 ### Methods
 

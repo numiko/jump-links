@@ -599,7 +599,7 @@ function po(t) {
 }
 const vo = {
   linksEl: "[data-js-jumplinks-link]",
-  labelEl: "[data-js-jumplinks-label]",
+  labelEl: "[data-js-jumplinks-section-label]",
   containerEl: "[data-js-jumplinks-container]",
   sectionEl: "[data-js-jumplinks-section]",
   intersectionOptions: {
@@ -633,7 +633,7 @@ class go {
    */
   validateOptions() {
     if (this.jumplinksEl === null)
-      throw 'Jumplinks: No matching DOM element for "jumplinkEl"';
+      throw 'Jumplinks: No matching DOM element for "jumplinksEl"';
     if (!this.linksEl.length)
       throw 'Jumplinks: No matching DOM elements for "linksEl"';
     if (this.containerEl === null)
