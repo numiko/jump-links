@@ -46,7 +46,7 @@ This package is usually used along with our `dropdownToggle` package https://bit
 </div>
 
 <!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
-<div data-js-jumplinks-container">
+<div data-js-jumplinks-container>
   <section
     id="jump-link-1"
     data-js-jumplinks-section
