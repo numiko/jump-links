@@ -23,11 +23,13 @@ This package is usually used along with our `dropdownToggle` package https://bit
 <div data-js-jumplinks>
   <div>
     <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
-    <span
-      style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
-    >
-    </span>
-
+    <div class="bg-[#FFCCC9]">
+      <span
+        style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
+        class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"
+      >
+      </span>
+    </div>
     <span>You are viewing:</span>
     <span data-js-jumplinks-section-label></span>
   </div>
