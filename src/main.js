@@ -4,7 +4,7 @@ const jumplinks = document.querySelector('[data-js-jumplinks]');
 
 const stickyJumplinks = new Jumplinks(jumplinks , {
   linksEl: '[data-js-jumplinks-link]',
-  labelEl: '[data-js-jumplinks-label]',
+  labelEl: '[data-js-jumplinks-section-label]',
   containerEl: '[data-js-jumplinks-container]',
   sectionEl: '[data-js-jumplinks-section]',
   intersectionOptions: {
@@ -15,5 +15,4 @@ const stickyJumplinks = new Jumplinks(jumplinks , {
   unStickyOffset: 0,
 });
 
-// Initialise
 stickyJumplinks.init();
