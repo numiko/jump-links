@@ -1,19 +1,9 @@
-import { Jumplinks } from '../lib/Jumplinks';
+import '../lib/jumplinks.css';
+import { Jumplinks } from '../lib/Jumplinks.js';
 
-const jumplinks = document.querySelector('[data-js-jumplinks]');
-
-const stickyJumplinks = new Jumplinks(jumplinks , {
-  linksEl: '[data-js-jumplinks-link]',
-  labelEl: '[data-js-jumplinks-label]',
-  containerEl: '[data-js-jumplinks-container]',
-  sectionEl: '[data-js-jumplinks-section]',
-  intersectionOptions: {
-    rootMargin:'-50% 0px',
-  },
-  scrollCustomProperty: 'scrollprogress',
-  stickyOffset: 0,
-  unStickyOffset: 0,
+// Initialize the sticky navigation with custom options
+new Jumplinks({
+  stickyNavElement: '#sticky-nav',
+  stickyTriggerElement: '#regular-nav',
+  offset: 0,
 });
-
-// Initialise
-stickyJumplinks.init();
