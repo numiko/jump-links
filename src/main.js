@@ -4,6 +4,8 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 // Initialize the sticky navigation with custom options
 new Jumplinks({
   jumpLinks: '[data-js-jumplinks]',
+  stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
+  stickyTriggerStartOffset: 50,
   // stickyClasses: ['translate-y-0'],
   onSticky: () => {
     console.log('sticky');
