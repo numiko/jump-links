@@ -5,7 +5,7 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 new Jumplinks({
   jumpLinks: '[data-js-jumplinks]',
   jumpLinksTrigger: '[data-js-jumplinks-trigger]',
-  jumpLinksTriggerOffset: 0,
+  // jumpLinksTriggerOffset: 0,
   // jumpLinksTriggerOffset: () => {
   //   // Example: return different offset based on screen size
   //   return window.innerWidth < 768 ? 100 : -100;
