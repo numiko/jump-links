@@ -27,6 +27,15 @@
 
     <!-- Fixed navigation (hidden by default via Tailwind classes) -->
     <nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-blue-100 shadow-md py-4 transform -translate-y-full transition-transform duration-300">
+      <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
+      <div class="bg-blue-500 absolute bottom-0 left-0 right-0">
+        <span
+          data-js-jumplinks-progress-bar
+          style="transform: translateX(calc(-100% + var(--jumplinks-progress, 50%)))"
+          class="w-full block will-change-transform transform duration-75 -translate-x-full bg-red-500 h-1"
+        >
+        </span>
+      </div>
       <div class="container mx-auto px-4">
         <ul class="flex justify-center space-x-6">
           <li><a href="#section1" class="text-blue-600 hover:text-blue-800">Section 1</a></li>
@@ -50,7 +59,7 @@
         <p>Ut enim ad minim veniam, quis nostrud exercitation <a href="#section3" class="text-blue-600 hover:text-blue-800">Section 3</a> ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </section>
 
-      <section class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
+      <section class="min-h-[50vh] xl:min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
         <h2 class="text-2xl font-bold mb-4">Section that doesnt have a jumplink</h2>
         <p>Lorem ipsum dolor sit amet, <a href="#section2" class="text-blue-600 hover:text-blue-800">Section 2</a> consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </section>
