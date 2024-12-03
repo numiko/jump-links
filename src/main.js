@@ -5,8 +5,8 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 const jumplinksOptions = {
   jumpLinks: '[data-js-jumplinks]',
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
-  stickyTriggerStartOffset: 0,
-  stickyTriggerEndOffset: 0,
+  stickyTriggerStartOffset: 300,
+  stickyTriggerEndOffset: 200,
   // stickyClasses: ['translate-y-0'],
   onSticky: function() {
     // Use 'this' to reference the Jumplinks instance
@@ -18,8 +18,4 @@ const jumplinksOptions = {
   }
 };
 
-const jumplinks = new Jumplinks(jumplinksOptions);
-
-setInterval(() => {
-  console.log(jumplinks.getState());
-}, 4000);
+new Jumplinks(jumplinksOptions);
