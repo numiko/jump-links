@@ -5,15 +5,14 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 const jumplinksOptions = {
   jumpLinks: '[data-js-jumplinks]',
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
-  stickyTriggerStartOffset: 300,
-  stickyTriggerEndOffset: 200,
-  // stickyClasses: ['translate-y-0'],
+  stickyTriggerStartOffset: 0,
+  stickyTriggerEndOffset: 0,
+  stickyClasses: ['translate-y-0'],
+  activeLinkClasses: ['text-red-500'],
   onSticky: function() {
-    // Use 'this' to reference the Jumplinks instance
     console.log(this.getState());
   },
   onUnsticky: function() {
-    // console.log('unsticky');
     console.log(this.getState());
   }
 };

@@ -8,27 +8,26 @@
   </head>
   <body class="p-10">
 
-    <section class="h-[20vh] bg-white rounded-lg shadow-md p-8 mb-8">
+    <section class="min-h-[20vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
       <h2 class="text-2xl font-bold mb-4">Section before JumpLinks</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </section>
 
     <!-- Regular navigation -->
-    <nav data-js-jumplinks-trigger-start class="bg-red-100 shadow-md py-4 mb-20">
+    <nav data-js-jumplinks-trigger-start class="bg-gray-100 py-4 mb-8">
       <div class="container mx-auto px-4">
         <ul class="flex justify-center space-x-6">
-          <li><a href="#section1" class="text-blue-600 hover:text-blue-800">Section 1</a></li>
-          <li><a href="#section2" class="text-blue-600 hover:text-blue-800">Section 2</a></li>
-          <li><a href="#section3" class="text-blue-600 hover:text-blue-800">Section 3</a></li>
-          <li><a href="#section4" class="text-blue-600 hover:text-blue-800">Section 4</a></li>
+          <li><a href="#section1" class="font-bold text-blue-600 hover:text-blue-800">Section 1</a></li>
+          <li><a href="#section2" class="font-bold text-blue-600 hover:text-blue-800">Section 2</a></li>
+          <li><a href="#section3" class="font-bold text-blue-600 hover:text-blue-800">Section 3</a></li>
+          <li><a href="#section4" class="font-bold text-blue-600 hover:text-blue-800">Section 4</a></li>
         </ul>
       </div>
     </nav>
 
     <!-- Fixed navigation (hidden by default via Tailwind classes) -->
-    <nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-blue-100 shadow-md py-4 transform -translate-y-full transition-transform duration-300">
+    <nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-gray-900 py-4 transform -translate-y-full transition-transform duration-300">
       <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
-      <div class="bg-blue-500 absolute bottom-0 left-0 right-0">
+      <div class="bg-red-200 absolute bottom-0 left-0 right-0">
         <span
           data-js-jumplinks-progress-bar
           style="transform: translateX(calc(-100% + var(--jumplinks-progress, 50%)))"
@@ -38,51 +37,38 @@
       </div>
       <div class="container mx-auto px-4">
         <ul class="flex justify-center space-x-6">
-          <li><a href="#section1" class="text-blue-600 hover:text-blue-800">Section 1</a></li>
-          <li><a href="#section2" class="text-blue-600 hover:text-blue-800">Section 2</a></li>
-          <li><a href="#section3" class="text-blue-600 hover:text-blue-800">Section 3</a></li>
-          <li><a href="#section4" class="text-blue-600 hover:text-blue-800">Section 4</a></li>
+          <li><a href="#section1" class="font-bold text-white hover:text-blue-200">Section 1</a></li>
+          <li><a href="#section2" class="font-bold text-white hover:text-blue-200">Section 2</a></li>
+          <li><a href="#section3" class="font-bold text-white hover:text-blue-200">Section 3</a></li>
+          <li><a href="#section4" class="font-bold text-white hover:text-blue-200">Section 4</a></li>
         </ul>
       </div>
     </nav>
 
     <!-- Content sections -->
-    <div data-js-jumplinks-trigger-end id="content" class="container mx-auto px-4 py-8">
-      <section id="section1" class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
+    <div data-js-jumplinks-trigger-end id="content" class="mb-8">
+      <section id="section1" class="min-h-screen flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
         <h2 class="text-2xl font-bold mb-4">Section 1</h2>
-        <p>Lorem ipsum dolor sit amet, <a href="#section4" class="text-blue-600 hover:text-blue-800">Section 4</a>. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </section>
 
-      <section id="section2" class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
+      <section id="section2" class="min-h-screen flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
         <h2 class="text-2xl font-bold mb-4">Section 2</h2>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation <a href="#section3" class="text-blue-600 hover:text-blue-800">Section 3</a> ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </section>
 
-      <section id="section3" class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
+      <section id="section3" class="min-h-screen flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
         <h2 class="text-2xl font-bold mb-4">Section 3</h2>
-        <p>Duis aute irure dolor in reprehenderit <a href="#section1" class="text-blue-600 hover:text-blue-800">Section 1</a> in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
       </section>
 
-      <section id="section4" class="min-h-screen bg-white rounded-lg shadow-md p-8">
+      <section id="section4" class="min-h-screen flex items-center justify-center bg-green-100 rounded-lg p-8">
         <h2 class="text-2xl font-bold mb-4">Section 4</h2>
-        <p>Excepteur sint occaecat <a href="#section2" class="text-blue-600 hover:text-blue-800">Section 2</a>cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       </section>
     </div>
 
-    <section class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
+    <section class="min-h-screen flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
       <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
-      <p>Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </section>
 
-    <section class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8">
-      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
-      <p>Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </section>
-    <section class="min-h-screen bg-white rounded-lg shadow-md p-8 mb-8"></section>
-      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
-      <p>Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </section>
+
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
