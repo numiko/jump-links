@@ -7,7 +7,7 @@ const jumplinksOptions = {
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
   stickyTriggerStartOffset: 0,
   stickyTriggerEndOffset: 0,
-  activeLinkClasses: ['text-red-500'],
+  activeLinkClasses: ['underline'],
   // stickyFunction: (element, isSticky) => {
   //   // Use your own logic to handle the sticky state - either classes or animation function (GSAP)
   // }
