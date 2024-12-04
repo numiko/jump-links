@@ -7,7 +7,14 @@ const jumplinksOptions = {
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
   stickyTriggerStartOffset: 0,
   stickyTriggerEndOffset: 0,
-  activeLinkClasses: ['text-red-500']
+  activeLinkClasses: ['text-red-500'],
+  // stickyFunction: (element, isSticky) => {
+  //   // Use your own logic to handle the sticky state - either classes or animation function (GSAP)
+  // }
+  // intersectionOptions: {
+  //   threshold: 0,
+  //   rootMargin: '-20% 0px -80% 0px'
+  // }
 };
 
 new Jumplinks(jumplinksOptions);
