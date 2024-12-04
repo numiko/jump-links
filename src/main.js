@@ -7,14 +7,7 @@ const jumplinksOptions = {
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
   stickyTriggerStartOffset: 0,
   stickyTriggerEndOffset: 0,
-  stickyClasses: ['translate-y-0'],
-  activeLinkClasses: ['text-red-500'],
-  onSticky: function() {
-    console.log(this.getState());
-  },
-  onUnsticky: function() {
-    console.log(this.getState());
-  }
+  activeLinkClasses: ['text-red-500']
 };
 
 new Jumplinks(jumplinksOptions);
