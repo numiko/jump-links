@@ -1,128 +1,148 @@
 # Jump Links
 
-Used to create a fixed jumplink bar on the page that can be used to show scroll progress and allow users to jump link to various sections.
+A lightweight JavaScript package that creates a fixed navigation bar showing scroll progress and allowing users to jump between sections. The navigation can be revealed/hidden based on scroll position and supports both class-based and GSAP animations.
+
+## Features
+- Smooth scrolling to sections
+- Progress bar indication
+- Configurable sticky behavior
+- Support for both CSS classes and GSAP animations
+- Intersection Observer for accurate section tracking
+- Responsive to window resizing
+- Accessible navigation
 
 ## Installation
 
-The package can be installed from BitBucket. If the package has reached version 1,
-prefer the semver method; if the package is not yet stable, we recommend installing via the tag.
-
-`npm install ssh://git@bitbucket.org:numiko/jump-links.git#<TAG_NAME>`
-
-`npm install ssh://git@bitbucket.org:numiko/jump-links.git##semver:<VERSION>`
-
-### Including the dropdownToggle package
-
-This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/ which is responsible for handling the hide/show dropdowns. Please see that repo for its associated options and methods.
-
-## Usage
-
-### HTML
-
-```HTML
-<div data-js-jumplinks>
-  <div>
-    <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
-    <span
-      style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
-    >
-    </span>
-
-    <span>You are viewing:</span>
-    <span data-js-jumplinks-label></span>
-  </div>
-
-  <ul>
-    <li>
-      <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
-    </li>
-    <li>
-      <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
-    </li>
-    <li>
-      <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
-    </li>
-  </ul>
-</div>
-
-<!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
-<div data-js-jumplinks-container">
-  <section
-    id="jump-link-1"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section One"
-  >
-    <h2 id="section-id-1">Section One</h2>
-  </section>
-  <section
-    id="jump-link-2"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section Two"
-  >
-    <h2 id="section-id-2">Section Two</h2>
-  </section>
-  <section
-    id="jump-link-3"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section Three"
-  >
-    <h2 id="section-id-3">
-      Section Three
-    </h2>
-  </section>
-</div>
+```bash
+npm install @numiko/jump-links
 ```
 
-### JS
+## Basic Usage
+
+### HTML Structure
+```html
+<!-- Navigation Bar -->
+<nav data-js-jumplinks>
+  <!-- Optional Progress Bar -->
+  <div data-js-jumplinks-progress-bar></div>
+
+  <!-- Navigation Links -->
+  <ul>
+    <li><a href="#section1">Section 1</a></li>
+    <li><a href="#section2">Section 2</a></li>
+    <li><a href="#section3">Section 3</a></li>
+  </ul>
+</nav>
+
+<!-- Optional Trigger Element -->
+<div data-js-jumplinks-trigger-start></div>
+
+<!-- Content Sections -->
+<section id="section1">
+  <h2>Section 1</h2>
+  <!-- Content -->
+</section>
+
+<section id="section2">
+  <h2>Section 2</h2>
+  <!-- Content -->
+</section>
+
+<section id="section3">
+  <h2>Section 3</h2>
+  <!-- Content -->
+</section>
+```
+
+### JavaScript Initialization
 
 ```javascript
-const jumplinks = document.querySelector('[data-js-jumplinks]');
+import { Jumplinks } from '@numiko/jump-links';
 
-const pageJumplinks = new Jumplinks(jumplinks, {
-  linksEl: '[data-js-jumplinks-link]',
-  labelEl: '[data-js-jumplinks-section-label]',
-  containerEl: '[data-js-jumplinks-container]',
-  sectionEl: '[data-js-jumplinks-section]',
-  intersectionOptions: {
-    root: null,
-    rootMargin:'-50% 0px',
-    threshhold: 0,
+// Basic initialization
+new Jumplinks();
+
+// With custom options
+const jumplinks = new Jumplinks({
+  jumpLinks: '[data-js-jumplinks]',
+  stickyFunction: (element, isSticky) => {
+    const classes = ['translate-y-0', 'opacity-100'];
+    if (isSticky) {
+      element.classList.add(...classes);
+    } else {
+      element.classList.remove(...classes);
+    }
   },
+  activeLinkClasses: ['text-red-500'],
+  onSticky: () => console.log('Navigation is sticky'),
 });
-
-pageJumplinks.init();
 ```
 
-## API
+## Configuration Options
 
-### Options
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `jumpLinks` | `string\|HTMLElement` | `'[data-js-jumplinks]'` | Selector or element for the navigation container |
+| `progressBar` | `string\|HTMLElement` | `'[data-js-jumplinks-progress-bar]'` | Selector or element for the progress bar |
+| `stickyTriggerStart` | `string\|HTMLElement\|null` | `null` | Element that triggers sticky behavior on scroll |
+| `stickyTriggerEnd` | `string\|HTMLElement\|null` | `null` | Element that triggers unsticky behavior |
+| `stickyTriggerStartOffset` | `number\|function` | `0` | Offset for sticky trigger start position. Can be a number or a function that returns a number |
+| `stickyTriggerEndOffset` | `number\|function` | `0` | Offset for sticky trigger end position. Can be a number or a function that returns a number |
+| `stickyFunction` | `function` | Default class toggle | Function called when sticky state changes |
+| `activeLinkClasses` | `string[]` | `['underline']` | Classes added to active navigation links |
+| `intersectionOptions` | `object` | `{ threshold: 0, rootMargin: '-50% 0px -50% 0px' }` | IntersectionObserver options |
+| `onSticky` | `function` | `() => {}` | Callback when navigation becomes sticky |
+| `onUnsticky` | `function` | `() => {}` | Callback when navigation becomes unsticky |
 
-| Option | Description | Type | Default
-| --- | --- | --- | --- |
-| `jumplinksEl` | The HTML element to initialise the jumplinks. | `string` or `HTMLElement` | `null`
-| `options` | Configurable options for the module. | `object` | `object`
-| `options.linksEl` | The HTML link in the jumplinks used to navigate to its section. | `string` or `HTMLElement` | `string`
-| `options.labelEl` | The text in the jumplinks which displays the title of the current section in the viewport. | `string` or `HTMLElement` | `string`
-| `options.containerEl` | The parent section that contains all of the jumplink sections. | `string` or `HTMLElement` | `string`
-| `options.sectionEl` | The individual section that will be added to the jumplinks | `string` or `HTMLElement` | `string`
-| `options.intersectionOptions` | Configurable options for the intersection of sections | `object` | `object`
-| `options.intersectionOptions.root` | By default it is the viewport however this can be changed to an HTML element | `Document` or `HTMLElement` | `null`
-| `options.intersectionOptions.rootMargin` | Sets the margin on the viewport so the jumplinks section will only change after passing that value | `DOMString` | `DOMString`
-| `options.intersectionOptions.threshhold` | A single number or an array of numbers that are used as a percentage to change when the module determines that the section is in the viewport | `FrozenArray<double>` or `number` | `FrozenArray<double>`
-| `options.intersectionOptions.callback` | The callback function to fire when the jumplink section is determined in the viewport | `function` | `function`
-| `options.hasScrollProgress` | Sets whether to display the scroll percentage bar or not  | `boolean` | `boolean`
-| `options.scrollCustomProperty` | Name for custom property that tracks scroll percentage | `string` | `string`
-| `options.attachCustomPropertyTo` | Where to apply the custom scroll progress property to. By default, will be set to the jumplinks element | `string` or `HTMLElement` | `null`
-| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of its specified viewport - which triggers onSticky() | `number` | `number`
-| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of its specified viewport - which triggers onUnsticky() | `number` | `number`
-| `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `function`
-| `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `function`
-| `options.offsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
-| `options.offsetEl` | Similar to the offsetValue property but instead will calculate the offset value based on the HTML element it's given, if left null it will use the height of the jumplinks | `string` or `HTMLElement` | `null`
-| `options.onLinkClicked` | The callback to fire when a jumplink link has been clicked | `function` | `() => {}`
+### Example with Function Offsets
 
-### Methods
+```javascript
+new Jumplinks({
+  // Static offset
+  stickyTriggerStartOffset: 100,
 
-| Method | Description | Return value
-| --- | --- | --- |
-| `init` | Initialises the module, setting up event listeners | `void`
+  // Dynamic offset based on element height
+  stickyTriggerEndOffset: () => {
+    const header = document.querySelector('header');
+    return header ? header.offsetHeight : 0;
+  }
+});
+```
+
+## GSAP Animation Example
+
+```javascript
+import { Jumplinks } from '@numiko/jump-links';
+
+new Jumplinks({
+  stickyFunction: (element, isSticky) => {
+    gsap.to(element, {
+      y: isSticky ? 0 : -100,
+      opacity: isSticky ? 1 : 0,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  }
+});
+```
+
+## Methods
+
+| Method | Description |
+|--------|-------------|
+| `init()` | Initializes the jumplinks functionality |
+| `destroy()` | Removes all event listeners and observers |
+| `getState()` | Returns the current state object |
+
+## Browser Support
+
+This package uses modern JavaScript features including:
+- IntersectionObserver
+- ResizeObserver
+- Smooth Scroll behavior
+
+Make sure to include appropriate polyfills for older browser support.
+
+## License
+
+MIT License
