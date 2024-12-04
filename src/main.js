@@ -8,6 +8,10 @@ const jumplinksOptions = {
   stickyTriggerStartOffset: 0,
   stickyTriggerEndOffset: 0,
   activeLinkClasses: ['underline'],
+  onLinkClick: (link, targetElement) => {
+    console.log('link', link);
+    console.log('targetElement', targetElement);
+  },
   // stickyFunction: (element, isSticky) => {
   //   // Use your own logic to handle the sticky state - either classes or animation function (GSAP)
   // }

@@ -93,6 +93,7 @@ const jumplinks = new Jumplinks({
 | `intersectionOptions` | `object` | `{ threshold: 0, rootMargin: '-50% 0px -50% 0px' }` | IntersectionObserver options |
 | `onSticky` | `function` | `() => {}` | Callback when navigation becomes sticky |
 | `onUnsticky` | `function` | `() => {}` | Callback when navigation becomes unsticky |
+| `onLinkClick` | `function` | `() => {}` | Callback when a jump link is clicked |
 
 ### Example with Function Offsets
 
