@@ -1,6 +1,8 @@
 import '../lib/jumplinks.css';
 import { Jumplinks } from '../lib/Jumplinks.js';
 
+const jumpLinkLabel = document.querySelector('[data-js-jumplinks-current-section]');
+
 // Initialize the sticky navigation with custom options
 const jumplinksOptions = {
   jumpLinks: '[data-js-jumplinks]',
@@ -12,6 +14,11 @@ const jumplinksOptions = {
     console.log('link', link);
     console.log('targetElement', targetElement);
   },
+  onIntersection: (section) => {
+    if (jumpLinkLabel) {
+      jumpLinkLabel.textContent = section.querySelector('h2')?.textContent || section.id;
+    }
+  }
   // stickyFunction: (element, isSticky) => {
   //   // Use your own logic to handle the sticky state - either classes or animation function (GSAP)
   // }
