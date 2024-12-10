@@ -8,23 +8,17 @@ async function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const IntersectionObserverMock = vi.fn((callback) => {
-
-  const unobserve = vi.fn();
-
-  // Simulate observing and immediately call the callback with the target element
+// Set up basic intersection observer to stop tests falling over.
+const MockIntersectionObserver = vi.fn(() => {
   return {
-    observe: (element) => {
-      // Immediately call the callback simulating intersection
-      callback([{ isIntersecting: true, target: element }], { unobserve });
-    },
+    observe: vi.fn(),
     disconnect: vi.fn(),
     takeRecords: vi.fn(),
-    unobserve,
+    unobserve: vi.fn(),
   };
 });
 
-vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
+vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
 
 describe('Jumplinks', () => {
@@ -41,10 +35,14 @@ describe('Jumplinks', () => {
       <nav data-js-jumplinks>
         <ul>
           <li><a href="#section1">Section 1</a></li>
+          <li><a href="#section2">Section 2</a></li>
         </ul>
       </nav>
       <section id="section1">
         <h2>Section 1</h2>
+      </section>
+      <section id="section2">
+        <h2>Section 2</h2>
       </section>
     `;
 
@@ -66,5 +64,53 @@ describe('Jumplinks', () => {
     expect(() => new Jumplinks()).toThrow();
   });
 
+  it('should correctly identify navigation links', () => {
+    const jumplinks = new Jumplinks();
+    expect(jumplinks.jumpLinksAnchors.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should correctly identify corresponding sections', () => {
+    const jumplinks = new Jumplinks();
+    expect(jumplinks.sections.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should set initial ARIA hidden state', () => {
+    const jumplinks = new Jumplinks();
+    expect(jumplinksElement.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('should make the first link active when the first section triggers intersection', async () => {
+    // Simulate section coming into view
+    const firstJumplinkSection = document.getElementById('section1');
+    const MockIntersectionObserver = vi.fn((callback) => {
+      const unobserve = vi.fn();
+      return {
+        observe: (element) => {
+          // Simulate intersection with section1
+          if (element.id === 'section1') {
+            callback([{
+              isIntersecting: true,
+              target: firstJumplinkSection
+            }], { unobserve });
+          }
+        },
+        disconnect: vi.fn(),
+        takeRecords: vi.fn(),
+        unobserve,
+      };
+    });
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+
+    const jumplinks = new Jumplinks();
+
+    // Wait for any async operations
+    await delay(0);
+
+    // Get the first link
+    const link = jumplinksElement.querySelector('a');
+
+    // Verify link is highlighted
+    expect(link.classList.contains('underline')).toBe(true);
+  });
 
 });
