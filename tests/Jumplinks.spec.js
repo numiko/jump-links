@@ -33,6 +33,7 @@ describe('Jumplinks', () => {
     // Set up the DOM structure
     document.body.innerHTML = `
       <nav data-js-jumplinks>
+        <span data-js-jumplinks-label>xxx</span>
         <ul>
           <li><a href="#section1">Section 1</a></li>
           <li><a href="#section2">Section 2</a></li>
@@ -81,13 +82,15 @@ describe('Jumplinks', () => {
 
   it('should make the first link active when the first section triggers intersection', async () => {
     // Simulate section coming into view
+    const firstJumplinkLink = jumplinksElement.querySelector('a[href="#section1"]');
     const firstJumplinkSection = document.getElementById('section1');
+
     const MockIntersectionObserver = vi.fn((callback) => {
       const unobserve = vi.fn();
       return {
         observe: (element) => {
           // Simulate intersection with section1
-          if (element.id === 'section1') {
+          if (element === firstJumplinkSection) {
             callback([{
               isIntersecting: true,
               target: firstJumplinkSection
@@ -106,11 +109,47 @@ describe('Jumplinks', () => {
     // Wait for any async operations
     await delay(0);
 
-    // Get the first link
-    const link = jumplinksElement.querySelector('a');
+    // Verify link is highlighted
+    expect(firstJumplinkLink.classList.contains('underline')).toBe(true);
+  });
+
+  it('should correctly update the label to show the active section', async () => {
+    // Simulate section coming into view
+    const secondJumplinkSection = document.getElementById('section2');
+    const jumpLinkLabel = jumplinksElement.querySelector('[data-js-jumplinks-label]');
+
+    const MockIntersectionObserver = vi.fn((callback) => {
+      const unobserve = vi.fn();
+      return {
+        observe: (element) => {
+          // Simulate intersection with section1
+          if (element === secondJumplinkSection) {
+            callback([{
+              isIntersecting: true,
+              target: secondJumplinkSection
+            }], { unobserve });
+          }
+        },
+        disconnect: vi.fn(),
+        takeRecords: vi.fn(),
+        unobserve,
+      };
+    });
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+
+    const jumplinks = new Jumplinks({
+      onIntersection: (section) => {
+        if (jumpLinkLabel) {
+          jumpLinkLabel.textContent = section.querySelector('h2')?.textContent || section.id;
+        }
+      }
+    });
+
+    // Wait for any async operations
+    await delay(0);
 
     // Verify link is highlighted
-    expect(link.classList.contains('underline')).toBe(true);
+    expect(jumpLinkLabel.textContent).toBe('Section 2');
   });
 
 });

@@ -1,7 +1,7 @@
 import '../lib/jumplinks.css';
 import { Jumplinks } from '../lib/Jumplinks.js';
 
-const jumpLinkLabel = document.querySelector('[data-js-jumplinks-current-section]');
+const jumpLinkLabel = document.querySelector('[data-js-jumplinks-label]');
 
 // Initialize the sticky navigation with custom options
 const jumplinksOptions = {
