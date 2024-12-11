@@ -12,17 +12,21 @@
       <h2 class="text-2xl font-bold mb-4">Section before JumpLinks</h2>
     </section>
 
-    <!-- Regular navigation -->
-    <nav data-js-jumplinks-trigger-start class="bg-gray-100 py-4 mb-8 rounded-lg ">
-      <div class="container mx-auto px-4">
-        <ul class="flex justify-center space-x-6">
-          <li><a href="#section1" class="font-bold text-blue-600 hover:text-black">Section 1</a></li>
-          <li><a href="#section2" class="font-bold text-blue-600 hover:text-black">Section 2</a></li>
-          <li><a href="#section3" class="font-bold text-blue-600 hover:text-black">Section 3</a></li>
-          <li><a href="#section4" class="font-bold text-blue-600 hover:text-black">Section 4</a></li>
-        </ul>
-      </div>
-    </nav>
+    <div class="relative">
+          <!-- Regular navigation -->
+      <nav data-js-jumplinks-trigger-start class="bg-gray-100 py-4 mb-8 rounded-lg ">
+        <div class="container mx-auto px-4">
+          <ul class="flex justify-center space-x-6">
+            <li><a href="#section1" class="font-bold text-blue-600 hover:text-black">Section 1</a></li>
+            <li><a href="#section2" class="font-bold text-blue-600 hover:text-black">Section 2</a></li>
+            <li><a href="#section3" class="font-bold text-blue-600 hover:text-black">Section 3</a></li>
+            <li><a href="#section4" class="font-bold text-blue-600 hover:text-black">Section 4</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+
 
     <!-- Fixed navigation (hidden by default via Tailwind classes) -->
     <nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-indigo-300 py-4 transform -translate-y-full transition-transform duration-300">
