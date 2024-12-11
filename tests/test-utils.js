@@ -14,6 +14,7 @@ export function setupTestDOM() {
         <li><a href="#section1">Section 1</a></li>
         <li><a href="#section2">Section 2</a></li>
       </ul>
+      <div data-js-jumplinks-progress-bar></div>
     </nav>
     <section id="section1">
       <h2>Section 1</h2>
