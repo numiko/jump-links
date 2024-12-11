@@ -10,21 +10,6 @@ const jumplinksOptions = {
   // stickyTriggerEnd: '[data-js-jumplinks-trigger-end]',
   stickyTriggerStartOffset: 0,
   stickyTriggerEndOffset: 0,
-  onStickyTrigger: ({jumplinks, isSticky, hasStartTriggered, hasEndTriggered}) => {
-    console.log('onStickyTrigger', {
-      jumplinks,
-      isSticky,
-      hasStartTriggered,
-      hasEndTriggered
-    });
-
-    const classes = ['translate-y-0'];
-    if (isSticky) {
-      jumplinks.classList.add(...classes);
-    } else {
-      jumplinks.classList.remove(...classes);
-    }
-  },
   onLinkClick: ({link, target}) => {
     console.log('onLinkClick', {
       link,
