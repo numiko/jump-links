@@ -19,8 +19,14 @@ describe('Jumplinks Progress Bar', () => {
 
     // Mock necessary properties and scroll position
     Object.defineProperty(window, 'scrollY', { value: 500 });
-    Object.defineProperty(jumplinks.startTrigger, 'offsetTop', { value: 0 });
-    Object.defineProperty(jumplinks.endTrigger, 'offsetTop', { value: 900 });
+    // Mock getBoundingClientRect for startTrigger
+    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: -500 }) // -500 + scrollY(500) = 0
+    });
+    // Mock getBoundingClientRect for endTrigger
+    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: 400 }) // 400 + scrollY(500) = 900
+    });
     Object.defineProperty(jumplinks.endTrigger, 'offsetHeight', { value: 100 });
 
     jumplinks.state.isSticky = true;
@@ -42,15 +48,20 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should handle progress bar updates with custom offsets', () => {
-
     const jumplinks = new Jumplinks({
       stickyTriggerStartOffset: -100,
       stickyTriggerEndOffset: 100
     });
 
     Object.defineProperty(window, 'scrollY', { value: 600 });
-    Object.defineProperty(jumplinks.startTrigger, 'offsetTop', { value: 100 });
-    Object.defineProperty(jumplinks.endTrigger, 'offsetTop', { value: 1000 });
+    // Mock getBoundingClientRect for startTrigger
+    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: -500 }) // -500 + scrollY(600) = 100
+    });
+    // Mock getBoundingClientRect for endTrigger
+    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: 400 }) // 400 + scrollY(600) = 1000
+    });
     Object.defineProperty(jumplinks.endTrigger, 'offsetHeight', { value: 100 });
 
     jumplinks.state.isSticky = true;
