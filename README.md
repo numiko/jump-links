@@ -21,41 +21,93 @@ npm install @numiko/jump-links
 
 ### HTML Structure
 ```html
-<!-- Jumplinks Bar -->
-<nav data-js-jumplinks>
-  <!-- Progress Bar (Optional) -->
-  <div data-js-jumplinks-progress-bar></div>
+<!--
+  Regular Navigation
+  -----------------
+  You might have a regular jumplinks navigation that is not fixed outputted in the DOM here.
+  We've learned that the best solution is to have a duplicate of the regular navigation that is fixed and hidden by default.
+  For brevity, ive not included it here. See index.html for an example
+-->
 
-  <!-- Navigation Links -->
-  <ul>
+<!--
+  Fixed Jumplinks Bar
+  -----------------
+  These are the actual jumplinks .  It is fixed and hidden by default via Tailwind classes.
+  -->
+<nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
+  <!-- Progress Bar (Optional) -->
+  <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
+    <span
+      data-js-jumplinks-progress-bar
+      style="transform: translateX(calc(-100% + var(--jumplinks-progress, 50%)))"
+      class="w-full block will-change-transform transform duration-75 -translate-x-full bg-purple-800 h-1"
+    >
+    </span>
+  </div>
+
+  <!--
+    Navigation Links
+    -----------------
+    These will be the links that are used to jump to the sections.
+    They are the same as the regular navigation links.
+    In Drupal we will output the jumplinks block twice - once for the regular navigation (if using) and once for the jumplinks.
+  -->
+  <ul class="flex justify-center space-x-6">
     <li><a href="#section1">Section 1</a></li>
     <li><a href="#section2">Section 2</a></li>
     <li><a href="#section3">Section 3</a></li>
   </ul>
 </nav>
 
-<!-- Trigger StartElement (Optional. Defaults to first section)-->
-<div data-js-jumplinks-trigger-start></div>
+<!--
+  Content Sections
+  -----------------
+  These are the sections that the jumplinks will jump to.
+  By default the jumplinks will show when the first section intersects with the top of the viewport.
+  By default the jumplinks will hide when the last section intersects with the bottom of the viewport.
+  This can be customized via the stickyTriggerStart and stickyTriggerEnd options.
+  -->
+<div class="container mx-auto">
 
-<!-- Content Sections -->
-<section id="section1">
-  <h2>Section 1</h2>
-  <!-- Content -->
-</section>
+  <section id="section1" class="min-h-screen">
+    <h2>Section 1</h2>
+  </section>
 
-<section id="section2">
-  <h2>Section 2</h2>
-  <!-- Content -->
-</section>
+  <section id="section2" class="min-h-screen">
+    <h2>Section 2</h2>
+  </section>
 
-<section id="section3">
-  <h2>Section 3</h2>
-  <!-- Content -->
-</section>
+  <section id="section3" class="min-h-screen">
+    <h2>Section 3</h2>
+  </section>
 
-<!-- Trigger End Element (Optional. Defaults to last section)-->
-<div data-js-jumplinks-trigger-end></div>
+</div>
 ```
+### Required CSS
+
+The package needs some recommended CSS that needs to be included for proper functionality:
+
+```css
+/* Define the offset for jumplink targets
+   Adjust the value to match your fixed header height */
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* Enable smooth scrolling behavior
+   This will be disabled for users with reduced motion preferences */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+```
+
+The `scroll-margin-top` property determines how far from the top of the viewport the section should stop when scrolled to. This should typically match or exceed the height of your fixed header to ensure sections aren't hidden behind it.
 
 ### JavaScript Initialization
 
