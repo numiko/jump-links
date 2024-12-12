@@ -46,10 +46,10 @@ describe('Jumplinks Sticky Behavior', () => {
     expect(jumplinks.endTrigger).toBe(document.querySelector('#customEnd'));
   });
 
-  it('should handle custom sticky function', async () => {
+  it('should handle custom onStickyTrigger function', async () => {
     const customStickyFn = vi.fn();
     const jumplinks = new Jumplinks({
-      stickyFunction: customStickyFn
+      onStickyTrigger: customStickyFn
     });
 
     // Simulate scroll that triggers sticky state
@@ -62,50 +62,11 @@ describe('Jumplinks Sticky Behavior', () => {
 
     jumplinks.updateNavVisibility();
 
-    expect(customStickyFn).toHaveBeenCalledWith(jumplinks.jumpLinks, true);
-  });
-
-  it('should call onSticky callback when sticky', () => {
-    const onStickyMock = vi.fn();
-    const jumplinks = new Jumplinks();
-    jumplinks.onSticky = onStickyMock;
-
-    // Simulate scroll position that would trigger sticky state
-    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
-      value: () => ({ top: -10 })
+    expect(customStickyFn).toHaveBeenCalledWith({
+      jumplinks: jumplinks.jumpLinks,
+      isSticky: jumplinks.state.isSticky,
+      hasStartTriggered:true,
+      hasEndTriggered:false
     });
-    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
-      value: () => ({ bottom: 1000 })
-    });
-
-    jumplinks.updateNavVisibility();
-    expect(onStickyMock).toHaveBeenCalled();
-  });
-
-  it('should call onUnsticky callback when not sticky', () => {
-    const onUnStickyMock = vi.fn();
-    const jumplinks = new Jumplinks({
-      onUnsticky: onUnStickyMock
-    });
-
-    // Create position tracking variables
-    let startTop = -10;
-    let endBottom = 1000;
-
-    // Set initial positions
-    updateStartTrigger(jumplinks, startTop);
-    updateEndTrigger(jumplinks, endBottom);
-
-    // First make it sticky
-    jumplinks.updateNavVisibility();
-    expect(jumplinks.state.isSticky).toBe(true);
-
-    // Now simulate scrolling back up
-    startTop = 100;  // Change to non-sticky position
-    updateStartTrigger(jumplinks, startTop);  // Update the mock with new position
-    jumplinks.updateNavVisibility();
-
-    expect(jumplinks.state.isSticky).toBe(false);
-    expect(onUnStickyMock).toHaveBeenCalled();
   });
 });

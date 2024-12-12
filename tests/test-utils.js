@@ -9,7 +9,7 @@ export function setupTestDOM() {
 
   document.body.innerHTML = `
     <nav data-js-jumplinks>
-      <span data-js-jumplinks-label>xxx</span>
+      <span data-js-jumplinks-label></span>
       <ul>
         <li><a href="#section1">Section 1</a></li>
         <li><a href="#section2">Section 2</a></li>
