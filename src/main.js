@@ -3,9 +3,7 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 
 const jumpLinkLabel = document.querySelector('[data-js-jumplinks-label]');
 
-// Initialize the sticky navigation with custom options
-const jumplinksOptions = {
-  jumpLinks: '[data-js-jumplinks]',
+new Jumplinks('[data-js-jumplinks]', {
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
   stickyTriggerEnd: '[data-js-jumplinks-trigger-end]',
   onIntersection: ({ intersectingSection, links, intersectingLink }) => {
@@ -23,7 +21,4 @@ const jumplinksOptions = {
       jumpLinkLabel.textContent = intersectingSection.querySelector('h2')?.textContent || intersectingSection.id;
     }
   },
-
-};
-
-new Jumplinks(jumplinksOptions);
+});
