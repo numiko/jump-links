@@ -15,7 +15,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should update progress bar correctly', () => {
-    const jumplinks = new Jumplinks();
+    const jumplinks = new Jumplinks('[data-js-jumplinks]');
 
     // Mock necessary properties and scroll position
     Object.defineProperty(window, 'scrollY', { value: 500 });
@@ -37,7 +37,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should not update progress bar when not sticky', () => {
-    const jumplinks = new Jumplinks();
+    const jumplinks = new Jumplinks('[data-js-jumplinks]');
     jumplinks.state.isSticky = false;
 
     const originalValue = document.documentElement.style.getPropertyValue('--jumplinks-progress');
@@ -48,7 +48,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should handle progress bar updates with custom offsets', () => {
-    const jumplinks = new Jumplinks({
+    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
       stickyTriggerStartOffset: -100,
       stickyTriggerEndOffset: 100
     });

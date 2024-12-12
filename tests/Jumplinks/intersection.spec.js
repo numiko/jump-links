@@ -34,7 +34,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks({
+    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
       onIntersection: ({ links, intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
@@ -71,7 +71,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks({
+    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
       onIntersection: ({intersectingSection}) => {
 
         if (jumpLinkLabel) {

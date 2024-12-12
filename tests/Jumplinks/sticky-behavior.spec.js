@@ -37,7 +37,7 @@ describe('Jumplinks Sticky Behavior', () => {
       <div id="customEnd"></div>
     `;
 
-    const jumplinks = new Jumplinks({
+    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
       stickyTriggerStart: '#customStart',
       stickyTriggerEnd: '#customEnd'
     });
@@ -48,7 +48,7 @@ describe('Jumplinks Sticky Behavior', () => {
 
   it('should handle custom onStickyTrigger function', async () => {
     const customStickyFn = vi.fn();
-    const jumplinks = new Jumplinks({
+    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
       onStickyTrigger: customStickyFn
     });
 
