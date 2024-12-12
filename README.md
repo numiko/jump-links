@@ -118,8 +118,7 @@ import { Jumplinks } from '@numiko/jump-links';
 new Jumplinks();
 
 // With custom options
-const jumplinks = new Jumplinks({
-  jumpLinks: '[data-js-jumplinks]',
+const jumplinks = new Jumplinks('[data-js-jumplinks]', {
   onStickyTrigger: ['translate-y-0', 'opacity-100'],
   onIntersection: ({ activeLink, links }) => {
     links.forEach(link => link.classList.remove('active'));
@@ -132,7 +131,7 @@ const jumplinks = new Jumplinks({
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `jumpLinks` | `String\|Element` | `'[data-js-jumplinks]'` | Selector or element for the jumplinks navigation |
+| `linkSelector` | `String` | `'a'` | Selector for navigation links within the jumplinks element |
 | `progressBar` | `String\|Element` | `'[data-js-jumplinks-progress-bar]'` | Selector or element for the progress bar |
 | `stickyTriggerStart` | `String\|Element\|null` | `null` | Element that triggers sticky behavior start (defaults to first section) |
 | `stickyTriggerEnd` | `String\|Element\|null` | `null` | Element that triggers sticky behavior end (defaults to last section) |
@@ -207,7 +206,7 @@ onLinkClick: ({
 ## Dynamic Offsets Example
 
 ```javascript
-new Jumplinks({
+new Jumplinks('[data-js-jumplinks]', {
   // Static offset
   stickyTriggerStartOffset: 100,
 
