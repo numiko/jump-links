@@ -37,34 +37,34 @@ describe('JumpLinks Sticky Behavior', () => {
       <div id="customEnd"></div>
     `;
 
-    const jumplinks = new JumpLinks('[data-js-jump-links]', {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
       stickyTriggerStart: '#customStart',
       stickyTriggerEnd: '#customEnd'
     });
 
-    expect(jumplinks.startTrigger).toBe(document.querySelector('#customStart'));
-    expect(jumplinks.endTrigger).toBe(document.querySelector('#customEnd'));
+    expect(jumpLinks.startTrigger).toBe(document.querySelector('#customStart'));
+    expect(jumpLinks.endTrigger).toBe(document.querySelector('#customEnd'));
   });
 
   it('should handle custom onStickyTrigger function', async () => {
     const customStickyFn = vi.fn();
-    const jumplinks = new JumpLinks('[data-js-jump-links]', {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
       onStickyTrigger: customStickyFn
     });
 
     // Simulate scroll that triggers sticky state
-    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
       value: () => ({ top: -10 })
     });
-    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
       value: () => ({ bottom: 1000 })
     });
 
-    jumplinks.updateNavVisibility();
+    jumpLinks.updateNavVisibility();
 
     expect(customStickyFn).toHaveBeenCalledWith({
-      jumpLinks: jumplinks.jumpLinks,
-      isSticky: jumplinks.state.isSticky,
+      jumpLinks: jumpLinks.jumpLinks,
+      isSticky: jumpLinks.state.isSticky,
       hasStartTriggered:true,
       hasEndTriggered:false
     });

@@ -2,7 +2,7 @@ import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
 import { JumpLinks } from '../../lib/JumpLinks.js';
 import { setupTestDOM, mockIntersectionObserver } from '../test-utils';
 
-describe('Jumplinks Progress Bar', () => {
+describe('Jump-links Progress Bar', () => {
   let window, document;
 
   beforeEach(() => {
@@ -15,57 +15,57 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should update progress bar correctly', () => {
-    const jumplinks = new JumpLinks();
+    const jumpLinks = new JumpLinks();
 
     // Mock necessary properties and scroll position
     Object.defineProperty(window, 'scrollY', { value: 500 });
     // Mock getBoundingClientRect for startTrigger
-    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
       value: () => ({ top: -500 }) // -500 + scrollY(500) = 0
     });
     // Mock getBoundingClientRect for endTrigger
-    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
       value: () => ({ top: 400 }) // 400 + scrollY(500) = 900
     });
-    Object.defineProperty(jumplinks.endTrigger, 'offsetHeight', { value: 100 });
+    Object.defineProperty(jumpLinks.endTrigger, 'offsetHeight', { value: 100 });
 
-    jumplinks.state.isSticky = true;
-    jumplinks.updateProgressBar();
+    jumpLinks.state.isSticky = true;
+    jumpLinks.updateProgressBar();
 
     const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     expect(progressValue).toBe('50.00%');
   });
 
   it('should not update progress bar when not sticky', () => {
-    const jumplinks = new JumpLinks();
-    jumplinks.state.isSticky = false;
+    const jumpLinks = new JumpLinks();
+    jumpLinks.state.isSticky = false;
 
     const originalValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
-    jumplinks.updateProgressBar();
+    jumpLinks.updateProgressBar();
 
     expect(document.documentElement.style.getPropertyValue('--jump-links-progress'))
       .toBe(originalValue);
   });
 
   it('should handle progress bar updates with custom offsets', () => {
-    const jumplinks = new JumpLinks('[data-js-jump-links]', {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
       stickyTriggerStartOffset: -100,
       stickyTriggerEndOffset: 100
     });
 
     Object.defineProperty(window, 'scrollY', { value: 600 });
     // Mock getBoundingClientRect for startTrigger
-    Object.defineProperty(jumplinks.startTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
       value: () => ({ top: -500 }) // -500 + scrollY(600) = 100
     });
     // Mock getBoundingClientRect for endTrigger
-    Object.defineProperty(jumplinks.endTrigger, 'getBoundingClientRect', {
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
       value: () => ({ top: 400 }) // 400 + scrollY(600) = 1000
     });
-    Object.defineProperty(jumplinks.endTrigger, 'offsetHeight', { value: 100 });
+    Object.defineProperty(jumpLinks.endTrigger, 'offsetHeight', { value: 100 });
 
-    jumplinks.state.isSticky = true;
-    jumplinks.updateProgressBar();
+    jumpLinks.state.isSticky = true;
+    jumpLinks.updateProgressBar();
 
     const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     expect(progressValue).toBe('50.00%');
