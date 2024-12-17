@@ -8,13 +8,13 @@ export function setupTestDOM() {
   global.document = document;
 
   document.body.innerHTML = `
-    <nav data-js-jumplinks>
-      <span data-js-jumplinks-label></span>
+    <nav data-js-jump-links>
+      <span data-js-jump-links-label></span>
       <ul>
         <li><a href="#section1">Section 1</a></li>
         <li><a href="#section2">Section 2</a></li>
       </ul>
-      <div data-js-jumplinks-progress-bar></div>
+      <div data-js-jump-links-progress-bar></div>
     </nav>
     <section id="section1">
       <h2>Section 1</h2>

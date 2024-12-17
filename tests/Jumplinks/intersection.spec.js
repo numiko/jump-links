@@ -16,7 +16,7 @@ describe('Jumplinks Intersection Behavior', () => {
   });
 
   it('should make the first link active when the first section triggers intersection', async () => {
-    const jumplinksElement = document.querySelector('[data-js-jumplinks]');
+    const jumplinksElement = document.querySelector('[data-js-jump-links]');
     const firstJumplinkLink = jumplinksElement.querySelector('a[href="#section1"]');
     const firstSection = document.getElementById('section1');
 
@@ -34,7 +34,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
+    const jumplinks = new Jumplinks('[data-js-jump-links]', {
       onIntersection: ({ links, intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
@@ -53,7 +53,7 @@ describe('Jumplinks Intersection Behavior', () => {
 
 
   it('should correctly update the label to show the active section', async () => {
-    const jumpLinkLabel = document.querySelector('[data-js-jumplinks-label]');
+    const jumpLinkLabel = document.querySelector('[data-js-jump-links-label]');
     const secondSection = document.getElementById('section2');
     const secondSectionTextContent = secondSection.querySelector('h2')?.textContent;
 
@@ -71,7 +71,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
+    const jumplinks = new Jumplinks('[data-js-jump-links]', {
       onIntersection: ({intersectingSection}) => {
 
         if (jumpLinkLabel) {

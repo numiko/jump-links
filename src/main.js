@@ -4,6 +4,7 @@ import { Jumplinks } from '../lib/Jumplinks.js';
 const jumpLinkLabel = document.querySelector('[data-js-jumplinks-label]');
 
 new Jumplinks('[data-js-jumplinks]', {
+  linkSelector: 'a',
   stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
   stickyTriggerEnd: '[data-js-jumplinks-trigger-end]',
   onIntersection: ({ intersectingSection, links, intersectingLink }) => {

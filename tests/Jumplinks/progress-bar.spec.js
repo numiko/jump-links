@@ -15,7 +15,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should update progress bar correctly', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
+    const jumplinks = new Jumplinks();
 
     // Mock necessary properties and scroll position
     Object.defineProperty(window, 'scrollY', { value: 500 });
@@ -32,23 +32,23 @@ describe('Jumplinks Progress Bar', () => {
     jumplinks.state.isSticky = true;
     jumplinks.updateProgressBar();
 
-    const progressValue = document.documentElement.style.getPropertyValue('--jumplinks-progress');
+    const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     expect(progressValue).toBe('50.00%');
   });
 
   it('should not update progress bar when not sticky', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
+    const jumplinks = new Jumplinks();
     jumplinks.state.isSticky = false;
 
-    const originalValue = document.documentElement.style.getPropertyValue('--jumplinks-progress');
+    const originalValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     jumplinks.updateProgressBar();
 
-    expect(document.documentElement.style.getPropertyValue('--jumplinks-progress'))
+    expect(document.documentElement.style.getPropertyValue('--jump-links-progress'))
       .toBe(originalValue);
   });
 
   it('should handle progress bar updates with custom offsets', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]', {
+    const jumplinks = new Jumplinks('[data-js-jump-links]', {
       stickyTriggerStartOffset: -100,
       stickyTriggerEndOffset: 100
     });
@@ -67,7 +67,7 @@ describe('Jumplinks Progress Bar', () => {
     jumplinks.state.isSticky = true;
     jumplinks.updateProgressBar();
 
-    const progressValue = document.documentElement.style.getPropertyValue('--jumplinks-progress');
+    const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     expect(progressValue).toBe('50.00%');
   });
 });

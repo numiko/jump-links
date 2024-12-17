@@ -16,28 +16,28 @@ describe('Jumplinks Initialization', () => {
   });
 
   it('should initialize without errors', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
+    const jumplinks = new Jumplinks();
     expect(jumplinks).toBeInstanceOf(Jumplinks);
   });
 
-  it('should throw an error if required DOM elements are missing', () => {
+  it('should throw an error if jumplinks DOM elements are missing', () => {
     document.body.innerHTML = ''; // Clear the DOM
-    expect(() => new Jumplinks('[data-js-jumplinks]')).toThrow();
+    expect(() => new Jumplinks()).toThrow();
   });
 
-  it('should correctly identify navigation links', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
+  it('should correctly identify jumplinks element', () => {
+    const jumplinks = new Jumplinks('[data-js-jump-links]');
     expect(jumplinks.jumpLinksAnchors.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should correctly identify corresponding sections', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
+    const jumplinks = new Jumplinks();
     expect(jumplinks.sections.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should set initial ARIA hidden state', () => {
-    const jumplinks = new Jumplinks('[data-js-jumplinks]');
-    const jumplinksElement = document.querySelector('[data-js-jumplinks]');
+    const jumplinks = new Jumplinks();
+    const jumplinksElement = document.querySelector('[data-js-jump-links]');
     expect(jumplinksElement.getAttribute('aria-hidden')).toBe('true');
   });
 });
