@@ -1,4 +1,4 @@
-# Jumplinks
+# Jump Links
 
 A lightweight JavaScript package that creates a fixed navigation bar showing scroll progress and allowing users to jump between sections. The navigation can be revealed/hidden based on scroll position and supports both class-based and custom animations.
 
@@ -24,7 +24,7 @@ npm install @numiko/jump-links
 <!--
   Regular Navigation
   -----------------
-  You might have a regular jumplinks navigation that is not fixed outputted in the DOM here.
+  You might have a regular jump-links navigation that is not fixed outputted in the DOM here.
   We've learned that the best solution is to have a duplicate of the regular navigation that is fixed and hidden by default.
   For brevity, ive not included it here. See index.html for an example
 -->
@@ -32,14 +32,14 @@ npm install @numiko/jump-links
 <!--
   Fixed Jumplinks Bar
   -----------------
-  These are the actual jumplinks .  It is fixed and hidden by default via Tailwind classes.
+  These are the actual jump-links. It is fixed and hidden by default via Tailwind classes.
   -->
-<nav data-js-jumplinks class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
+<nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
   <!-- Progress Bar (Optional) -->
   <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
     <span
-      data-js-jumplinks-progress-bar
-      style="transform: translateX(calc(-100% + var(--jumplinks-progress, 50%)))"
+      data-js-jump-links-progress-bar
+      style="transform: translateX(calc(-100% + var(--jump-links-progress, 50%)))"
       class="w-full block will-change-transform transform duration-75 -translate-x-full bg-purple-800 h-1"
     >
     </span>
@@ -50,7 +50,7 @@ npm install @numiko/jump-links
     -----------------
     These will be the links that are used to jump to the sections.
     They are the same as the regular navigation links.
-    In Drupal we will output the jumplinks block twice - once for the regular navigation (if using) and once for the jumplinks.
+    In Drupal we will output the jump-links block twice - once for the regular navigation (if using) and once for the jump-links.
   -->
   <ul class="flex justify-center space-x-6">
     <li><a href="#section1">Section 1</a></li>
@@ -62,9 +62,9 @@ npm install @numiko/jump-links
 <!--
   Content Sections
   -----------------
-  These are the sections that the jumplinks will jump to.
-  By default the jumplinks will show when the first section intersects with the top of the viewport.
-  By default the jumplinks will hide when the last section intersects with the bottom of the viewport.
+  These are the sections that the jump-links will jump to.
+  By default the jump-links will show when the first section intersects with the top of the viewport.
+  By default the jump-links will hide when the last section intersects with the bottom of the viewport.
   This can be customized via the stickyTriggerStart and stickyTriggerEnd options.
   -->
 <div class="container mx-auto">
@@ -112,17 +112,21 @@ The `scroll-margin-top` property determines how far from the top of the viewport
 ### JavaScript Initialization
 
 ```javascript
-import { Jumplinks } from '@numiko/jump-links';
+import { JumpLinks } from '@numiko/JumpLinks';
 
 // Basic initialization
-new Jumplinks();
+new JumpLinks();
 
 // With custom options
-const jumplinks = new Jumplinks('[data-js-jumplinks]', {
+const jumpLinks = new JumpLinks('[data-js-jump-links]', {
   onStickyTrigger: ['translate-y-0', 'opacity-100'],
-  onIntersection: ({ activeLink, links }) => {
-    links.forEach(link => link.classList.remove('active'));
-    activeLink?.classList.add('active');
+  onIntersection: ({ intersectingLink, links }) => {
+    const activeLinkClasses = ['underline', 'text-black'];
+    links.forEach(link => {
+      activeLinkClasses.forEach(className => {
+        link.classList.toggle(className, link === intersectingLink);
+      });
+    });
   }
 });
 ```
@@ -131,8 +135,8 @@ const jumplinks = new Jumplinks('[data-js-jumplinks]', {
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `linkSelector` | `String` | `'a'` | Selector for navigation links within the jumplinks element |
-| `progressBar` | `String\|Element` | `'[data-js-jumplinks-progress-bar]'` | Selector or element for the progress bar |
+| `linkSelector` | `String` | `'a'` | Selector for navigation links within the jump-links element |
+| `progressBar` | `String\|Element` | `'[data-js-jump-links-progress-bar]'` | Selector or element for the progress bar |
 | `stickyTriggerStart` | `String\|Element\|null` | `null` | Element that triggers sticky behavior start (defaults to first section) |
 | `stickyTriggerEnd` | `String\|Element\|null` | `null` | Element that triggers sticky behavior end (defaults to last section) |
 | `stickyTriggerStartOffset` | `Number\|Function` | `0` | Offset for the start trigger |
@@ -153,13 +157,13 @@ onStickyTrigger: ['translate-y-0', 'opacity-100', 'bg-white']
 
 // Using callback
 onStickyTrigger: ({
-  jumplinks,         // The jumplinks element
+  jumpLinks,         // The jump-links element
   isSticky,          // Boolean indicating sticky state
   hasStartTriggered, // Boolean indicating if start trigger passed
   hasEndTriggered    // Boolean indicating if end trigger passed
 }) => {
   // Custom logic using GSAP
-  gsap.to(jumplinks, {
+  gsap.to(jumpLinks, {
     duration: 0.3,
     y: isSticky ? 0 : -100,
     opacity: isSticky ? 1 : 0,
@@ -190,7 +194,7 @@ onIntersection: ({
 ```
 
 ### onLinkClick
-Triggered when a jumplink is clicked:
+Triggered when a jump-link anchor is clicked:
 
 ```javascript
 onLinkClick: ({
@@ -206,7 +210,7 @@ onLinkClick: ({
 ## Dynamic Offsets Example
 
 ```javascript
-new Jumplinks('[data-js-jumplinks]', {
+new JumpLinks('[data-js-jump-links]', {
   // Static offset
   stickyTriggerStartOffset: 100,
 
