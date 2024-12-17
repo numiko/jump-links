@@ -11,10 +11,9 @@ export function setupTestDOM() {
     <nav data-js-jump-links>
       <span data-js-jump-links-label></span>
       <ul>
-        <li><a href="#section1">Section 1</a></li>
-        <li><a href="#section2">Section 2</a></li>
+        <li><a data-js-jump-links-anchor href="#section1">Section 1</a></li>
+        <li><a data-js-jump-links-anchor href="#section2">Section 2</a></li>
       </ul>
-      <div data-js-jump-links-progress-bar></div>
     </nav>
     <section id="section1">
       <h2>Section 1</h2>

@@ -29,7 +29,6 @@
       <!-- Progress Bar (hook into --jump-links-progress to track progress between sticky triggers)  -->
       <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
         <span
-          data-js-jump-links-progress-bar
           style="transform: translateX(calc(-100% + var(--jump-links-progress, 0%)))"
           class="w-full block will-change-transform transform duration-75 -translate-x-full bg-purple-800 h-1"
         >
@@ -41,10 +40,10 @@
         <details>
           <summary class="cursor-pointer font-bold">Currently viewing: <span data-js-jump-links-label class="text-black"></span></summary>
           <ul class="flex justify-center space-x-6">
-            <li><a href="#section1" class="font-bold hover:text-black">Section 1</a></li>
-            <li><a href="#section2" class="font-bold hover:text-black">Section 2</a></li>
-            <li><a href="#section3" class="font-bold hover:text-black">Section 3</a></li>
-            <li><a href="#section4" class="font-bold hover:text-black">Section 4</a></li>
+            <li><a data-js-jump-links-anchor href="#section1" class="font-bold hover:text-black">Section 1</a></li>
+            <li><a data-js-jump-links-anchor href="#section2" class="font-bold hover:text-black">Section 2</a></li>
+            <li><a data-js-jump-links-anchor href="#section3" class="font-bold hover:text-black">Section 3</a></li>
+            <li><a data-js-jump-links-anchor href="#section4" class="font-bold hover:text-black">Section 4</a></li>
           </ul>
         </details>
 
