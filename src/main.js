@@ -1,5 +1,5 @@
 import '../lib/jump-links.css';
-import { JumpLinks } from '../lib/jump-links.js';
+import { JumpLinks } from '../lib/JumpLinks.js';
 
 const jumpLinkLabel = document.querySelector('[data-js-jump-links-label]');
 
