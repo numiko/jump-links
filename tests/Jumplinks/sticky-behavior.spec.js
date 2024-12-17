@@ -1,8 +1,8 @@
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { Jumplinks } from '../../lib/Jumplinks.js';
+import { JumpLinks } from '../../lib/jump-links.js';
 import { setupTestDOM, mockIntersectionObserver } from '../test-utils';
 
-describe('Jumplinks Sticky Behavior', () => {
+describe('JumpLinks Sticky Behavior', () => {
   let window, document;
 
   // Add helper functions to update the start and end trigger positions
@@ -37,7 +37,7 @@ describe('Jumplinks Sticky Behavior', () => {
       <div id="customEnd"></div>
     `;
 
-    const jumplinks = new Jumplinks('[data-js-jump-links]', {
+    const jumplinks = new JumpLinks('[data-js-jump-links]', {
       stickyTriggerStart: '#customStart',
       stickyTriggerEnd: '#customEnd'
     });
@@ -48,7 +48,7 @@ describe('Jumplinks Sticky Behavior', () => {
 
   it('should handle custom onStickyTrigger function', async () => {
     const customStickyFn = vi.fn();
-    const jumplinks = new Jumplinks('[data-js-jump-links]', {
+    const jumplinks = new JumpLinks('[data-js-jump-links]', {
       onStickyTrigger: customStickyFn
     });
 

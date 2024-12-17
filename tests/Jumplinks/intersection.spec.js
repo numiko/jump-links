@@ -1,6 +1,6 @@
 import { Window } from 'happy-dom';
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { Jumplinks } from '../../lib/Jumplinks.js';
+import { JumpLinks } from '../../lib/jump-links.js';
 import { setupTestDOM, delay, mockIntersectionObserver } from '../test-utils';
 
 describe('Jumplinks Intersection Behavior', () => {
@@ -34,7 +34,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks('[data-js-jump-links]', {
+    const jumplinks = new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({ links, intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
@@ -71,7 +71,7 @@ describe('Jumplinks Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumplinks = new Jumplinks('[data-js-jump-links]', {
+    const jumplinks = new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({intersectingSection}) => {
 
         if (jumpLinkLabel) {

@@ -1,5 +1,5 @@
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { Jumplinks } from '../../lib/Jumplinks.js';
+import { JumpLinks } from '../../lib/jump-links.js';
 import { setupTestDOM, mockIntersectionObserver } from '../test-utils';
 
 describe('Jumplinks Progress Bar', () => {
@@ -15,7 +15,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should update progress bar correctly', () => {
-    const jumplinks = new Jumplinks();
+    const jumplinks = new JumpLinks();
 
     // Mock necessary properties and scroll position
     Object.defineProperty(window, 'scrollY', { value: 500 });
@@ -37,7 +37,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should not update progress bar when not sticky', () => {
-    const jumplinks = new Jumplinks();
+    const jumplinks = new JumpLinks();
     jumplinks.state.isSticky = false;
 
     const originalValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
@@ -48,7 +48,7 @@ describe('Jumplinks Progress Bar', () => {
   });
 
   it('should handle progress bar updates with custom offsets', () => {
-    const jumplinks = new Jumplinks('[data-js-jump-links]', {
+    const jumplinks = new JumpLinks('[data-js-jump-links]', {
       stickyTriggerStartOffset: -100,
       stickyTriggerEndOffset: 100
     });

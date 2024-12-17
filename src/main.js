@@ -1,12 +1,12 @@
-import '../lib/jumplinks.css';
-import { Jumplinks } from '../lib/Jumplinks.js';
+import '../lib/jump-links.css';
+import { JumpLinks } from '../lib/jump-links.js';
 
-const jumpLinkLabel = document.querySelector('[data-js-jumplinks-label]');
+const jumpLinkLabel = document.querySelector('[data-js-jump-links-label]');
 
-new Jumplinks('[data-js-jumplinks]', {
+new JumpLinks('[data-js-jump-links]', {
   linkSelector: 'a',
-  stickyTriggerStart: '[data-js-jumplinks-trigger-start]',
-  stickyTriggerEnd: '[data-js-jumplinks-trigger-end]',
+  stickyTriggerStart: '[data-js-jump-links-trigger-start]',
+  stickyTriggerEnd: '[data-js-jump-links-trigger-end]',
   onIntersection: ({ intersectingSection, links, intersectingLink }) => {
 
     // Remove underline from all links and add it to the intersecting link if it exists
