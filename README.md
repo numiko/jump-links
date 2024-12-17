@@ -136,7 +136,7 @@ const jumpLinks = new JumpLinks('[data-js-jump-links]', {
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `linkSelector` | `String` | `'a'` | Selector for navigation links within the jump-links element |
-| `progressBar` | `String\|Element` | `'[data-js-jump-links-progress-bar]'` | Selector or element for the progress bar |
+| `progress` | `Boolean` | `true` | Enable/disable the progress bar functionality. Will add CSS variable to the root element to track progress between sticky triggers |
 | `stickyTriggerStart` | `String\|Element\|null` | `null` | Element that triggers sticky behavior start (defaults to first section) |
 | `stickyTriggerEnd` | `String\|Element\|null` | `null` | Element that triggers sticky behavior end (defaults to last section) |
 | `stickyTriggerStartOffset` | `Number\|Function` | `0` | Offset for the start trigger |
