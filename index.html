@@ -26,11 +26,11 @@
 
     <!-- Fixed navigation (hidden by default via Tailwind classes) -->
     <nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
-      <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
+      <!-- Progress Bar (hook into --jump-links-progress to track progress between sticky triggers)  -->
       <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
         <span
           data-js-jump-links-progress-bar
-          style="transform: translateX(calc(-100% + var(--jump-links-progress, 50%)))"
+          style="transform: translateX(calc(-100% + var(--jump-links-progress, 0%)))"
           class="w-full block will-change-transform transform duration-75 -translate-x-full bg-purple-800 h-1"
         >
         </span>
