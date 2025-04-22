@@ -12,9 +12,9 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'lib/jump-links.js'),
-      name: 'Jumplinks',
-      fileName: (format) => `Jumplinks.${format}.js`
+      entry: path.resolve(__dirname, 'lib/JumpLinks.js'),
+      name: 'JumpLinks',
+      fileName: (format) => `JumpLinks.${format}.js`
     },
   }
 });
