@@ -53,9 +53,9 @@ npm install @numiko/jump-links
     In Drupal we will output the jump-links block twice - once for the regular navigation (if using) and once for the jump-links.
   -->
   <ul class="flex justify-center space-x-6">
-    <li><a href="#section1">Section 1</a></li>
-    <li><a href="#section2">Section 2</a></li>
-    <li><a href="#section3">Section 3</a></li>
+    <li><a data-js-jump-links-anchor href="#section1">Section 1</a></li>
+    <li><a data-js-jump-links-anchor href="#section2">Section 2</a></li>
+    <li><a data-js-jump-links-anchor href="#section3">Section 3</a></li>
   </ul>
 </nav>
 
@@ -114,16 +114,19 @@ The `scroll-margin-top` property determines how far from the top of the viewport
 ```javascript
 import { JumpLinks } from '@numiko/JumpLinks';
 
+const jumpLinks = document.querySelectorAll('[data-js-jump-links]');
+const jumpLinksAnchors = jumpLinks.querySelectorAll('[data-js-jump-links-anchor]');
+const jumpLinksActiveClasses = ['underline', 'text-black'];
+
 // Basic initialization
 new JumpLinks();
 
 // With custom options
-const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+new JumpLinks(jumpLinks, {
   onStickyTrigger: ['translate-y-0', 'opacity-100'],
-  onIntersection: ({ intersectingLink, links }) => {
-    const activeLinkClasses = ['underline', 'text-black'];
-    links.forEach(link => {
-      activeLinkClasses.forEach(className => {
+  onIntersection: ({ intersectingLink }) => {
+    jumpLinksAnchors.forEach(link => {
+      jumpLinksActiveClasses.forEach(className => {
         link.classList.toggle(className, link === intersectingLink);
       });
     });
@@ -178,15 +181,12 @@ Provides information about the currently intersecting section:
 
 ```javascript
 onIntersection: ({
-  sections,             // Array of all section elements
   intersectingSection,  // The section element currently in view
-  links,                // Array of all jumplink anchors
   intersectingLink      // The link corresponding to the intersecting section
 }) => {
   // Example of adding classes to the active link
-  const activeLinkClasses = ['underline', 'text-black'];
-  links.forEach(link => {
-    activeLinkClasses.forEach(className => {
+  jumpLinksAnchors.forEach(link => {
+    jumpLinksActiveClasses.forEach(className => {
       link.classList.toggle(className, link === intersectingLink);
     });
   });
@@ -210,7 +210,7 @@ onLinkClick: ({
 ## Dynamic Offsets Example
 
 ```javascript
-new JumpLinks('[data-js-jump-links]', {
+new JumpLinks(jumpLinks, {
   // Static offset
   stickyTriggerStartOffset: 100,
 
