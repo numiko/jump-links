@@ -16,7 +16,9 @@ class o {
       onIntersection: () => {
       }
     };
-    this.options = { ...i, ...s }, this.jumpLinks = typeof t == "string" ? document.querySelector(t) : t, this.jumpLinksAnchorSelector = "[data-js-jump-links-anchor]", this.jumpLinksAnchors = Array.from(document.querySelectorAll(this.jumpLinksAnchorSelector));
+    if (this.options = { ...i, ...s }, this.jumpLinks = typeof t == "string" ? document.querySelector(t) : t, !this.jumpLinks)
+      throw new Error(`JumpLinks element not found: ${t}`);
+    this.jumpLinksAnchorSelector = "[data-js-jump-links-anchor]", this.jumpLinksAnchors = Array.from(this.jumpLinks.querySelectorAll(this.jumpLinksAnchorSelector));
     const e = this.jumpLinksAnchors.map((r) => r.getAttribute("href").substring(1));
     this.sections = e.map((r) => document.getElementById(r)), this.firstSection = this.sections[0], this.lastSection = this.sections[this.sections.length - 1], this.startTrigger = this.options.stickyTriggerStart ? typeof this.options.stickyTriggerStart == "string" ? document.querySelector(this.options.stickyTriggerStart) : this.options.stickyTriggerStart : this.firstSection, this.endTrigger = this.options.stickyTriggerEnd ? typeof this.options.stickyTriggerEnd == "string" ? document.querySelector(this.options.stickyTriggerEnd) : this.options.stickyTriggerEnd : this.lastSection, this.hasScrollEndSupport = "onscrollend" in window, this.ticking = !1, this.state = {
       lastActiveSection: null,
@@ -35,11 +37,6 @@ class o {
     this.validateElements(), this.jumpLinks.setAttribute("aria-hidden", "true"), this.addEventListeners(), this.updateOffsets(), await this.initializeObservers(), this.updateNavVisibility(), this.updateProgressBar();
   }
   validateElements() {
-    if (!this.jumpLinks) {
-      const t = `
-        JumpLinks element not found`;
-      throw new Error(t);
-    }
     if (!this.jumpLinksAnchors.length) {
       const t = `
         Jump-link anchors not found. Add a 'data-js-jump-links-anchor' attribute to your links.`;
@@ -82,7 +79,9 @@ class o {
         (s) => {
           s.forEach((i) => {
             i.isIntersecting && (this.state.lastActiveSection = i.target.id, this.options.onIntersection({
+              sections: this.sections,
               intersectingSection: i.target,
+              links: this.jumpLinksAnchors,
               intersectingLink: this.jumpLinksAnchors.find(
                 (e) => e.getAttribute("href") === `#${i.target.id}`
               )
