@@ -17,7 +17,8 @@ describe('Jump-links Intersection Behavior', () => {
 
   it('should make the first link active when the first section triggers intersection', async () => {
     const jumplinksElement = document.querySelector('[data-js-jump-links]');
-    const firstJumplinkLink = jumplinksElement.querySelector('a[href="#section1"]');
+    const jumpLinksAnchors = jumplinksElement.querySelectorAll('[data-js-jump-links-anchor]');
+    const firstJumplinkLink = jumpLinksAnchors[0];
     const firstSection = document.getElementById('section1');
 
     const MockIntersectionObserver = vi.fn((callback) => ({
@@ -33,13 +34,12 @@ describe('Jump-links Intersection Behavior', () => {
       unobserve: vi.fn(),
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
-
     const jumpLinks = new JumpLinks('[data-js-jump-links]', {
-      onIntersection: ({ links, intersectingLink }) => {
+      onIntersection: ({ intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
         const activeLinkClasses = ['underline'];
-        links.forEach(link => {
+        jumpLinksAnchors.forEach(link => {
           activeLinkClasses.forEach(className => {
             link.classList.toggle(className, link === intersectingLink);
           });
