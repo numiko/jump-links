@@ -1,17 +1,19 @@
 import '../lib/JumpLinks.css';
 import { JumpLinks } from '../lib/JumpLinks.js';
 
+const jumpLinksAnchors = document.querySelectorAll('[data-js-jump-links-anchor]');
 const jumpLinkLabel = document.querySelector('[data-js-jump-links-label]');
+const activeLinkClasses = ['underline', 'text-black'];
 
 new JumpLinks('[data-js-jump-links]', {
   progress: true,
   stickyTriggerStart: '[data-js-jump-links-trigger-start]',
   stickyTriggerEnd: '[data-js-jump-links-trigger-end]',
-  onIntersection: ({ intersectingSection, links, intersectingLink }) => {
+  onIntersection: ({ intersectingSection, intersectingLink }) => {
 
     // Remove underline from all links and add it to the intersecting link if it exists
-    const activeLinkClasses = ['underline', 'text-black'];
-    links.forEach(link => {
+
+    jumpLinksAnchors.forEach(link => {
       activeLinkClasses.forEach(className => {
         link.classList.toggle(className, link === intersectingLink);
       });
