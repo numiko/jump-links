@@ -8,74 +8,77 @@
   </head>
   <body class="p-10">
 
-    <section class="min-h-[20vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
-      <h2 class="text-2xl font-bold mb-4">Section before JumpLinks</h2>
-    </section>
 
-    <!-- Regular navigation -->
-    <nav data-js-jump-links-trigger-start class="bg-gray-100 py-4 mb-8 rounded-lg ">
-      <div class="container mx-auto px-4">
-        <ul class="flex justify-center space-x-6">
-          <li><a href="#section1" class="font-bold text-blue-600 hover:text-black">Section 1</a></li>
-          <li><a href="#section2" class="font-bold text-blue-600 hover:text-black">Section 2</a></li>
-          <li><a href="#section3" class="font-bold text-blue-600 hover:text-black">Section 3</a></li>
-          <li><a href="#section4" class="font-bold text-blue-600 hover:text-black">Section 4</a></li>
-        </ul>
-      </div>
-    </nav>
 
-    <!-- Fixed navigation (hidden by default via Tailwind classes) -->
-    <nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
-      <!-- Progress Bar (hook into --jump-links-progress to track progress between sticky triggers)  -->
-      <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
-        <span
-          style="transform: scaleX(var(--jump-links-progress, 0%))"
-          class="w-full block will-change-transform transform origin-left duration-75 bg-purple-800 h-1"
-        >
-        </span>
-      </div>
+      <section class="min-h-[20vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section before JumpLinks</h2>
+      </section>
 
-      <div class="container mx-auto px-4">
-
-        <details>
-          <summary class="cursor-pointer font-bold">Currently viewing: <span data-js-jump-links-label class="text-black"></span></summary>
+      <!-- Regular navigation -->
+      <nav data-js-jump-links-trigger-start class="bg-gray-100 py-4 mb-8 rounded-lg ">
+        <div class="container mx-auto px-4">
           <ul class="flex justify-center space-x-6">
-            <li><a data-js-jump-links-anchor href="#section1" class="font-bold hover:text-black">Section 1</a></li>
-            <li><a data-js-jump-links-anchor href="#section2" class="font-bold hover:text-black">Section 2</a></li>
-            <li><a data-js-jump-links-anchor href="#section3" class="font-bold hover:text-black">Section 3</a></li>
-            <li><a data-js-jump-links-anchor href="#section4" class="font-bold hover:text-black">Section 4</a></li>
+            <li><a href="#section1" class="font-bold text-blue-600 hover:text-black">Section 1</a></li>
+            <li><a href="#section2" class="font-bold text-blue-600 hover:text-black">Section 2</a></li>
+            <li><a href="#section3" class="font-bold text-blue-600 hover:text-black">Section 3</a></li>
+            <li><a href="#section4" class="font-bold text-blue-600 hover:text-black">Section 4</a></li>
           </ul>
-        </details>
+        </div>
+      </nav>
 
+      <!-- Fixed navigation (hidden by default via Tailwind classes) -->
+      <nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
+        <!-- Progress Bar (hook into --jump-links-progress to track progress between sticky triggers)  -->
+        <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
+          <span
+            style="transform: scaleX(var(--jump-links-progress, 0%))"
+            class="w-full block will-change-transform transform origin-left duration-75 bg-purple-800 h-1"
+          >
+          </span>
+        </div>
+
+        <div class="container mx-auto px-4">
+
+          <details>
+            <summary class="cursor-pointer font-bold">Currently viewing: <span data-js-jump-links-label class="text-black"></span></summary>
+            <ul class="flex justify-center space-x-6">
+              <li><a data-js-jump-links-anchor href="#section1" class="font-bold hover:text-black">Section 1</a></li>
+              <li><a data-js-jump-links-anchor href="#section2" class="font-bold hover:text-black">Section 2</a></li>
+              <li><a data-js-jump-links-anchor href="#section3" class="font-bold hover:text-black">Section 3</a></li>
+              <li><a data-js-jump-links-anchor href="#section4" class="font-bold hover:text-black">Section 4</a></li>
+            </ul>
+          </details>
+
+        </div>
+      </nav>
+
+      <!-- Content sections -->
+      <div data-js-jump-links-trigger-end id="content" class="mb-8">
+        <section id="section1" class="min-h-[50vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+          <h2 class="text-2xl font-bold mb-4">Section 1</h2>
+        </section>
+
+        <section id="section2" class="min-h-[50vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+          <h2 class="text-2xl font-bold mb-4">Section 2</h2>
+        </section>
+
+        <section id="section3" class="min-h-[50vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+          <h2 class="text-2xl font-bold mb-4">Section 3</h2>
+        </section>
+
+        <section id="section4" class="min-h-[50vh] flex items-center justify-center bg-green-100 rounded-lg p-8">
+          <h2 class="text-2xl font-bold mb-4">Section 4</h2>
+        </section>
       </div>
-    </nav>
 
-    <!-- Content sections -->
-    <div data-js-jump-links-trigger-end id="content" class="mb-8">
-      <section id="section1" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
-        <h2 class="text-2xl font-bold mb-4">Section 1</h2>
+      <section class="min-h-[50vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
       </section>
 
-      <section id="section2" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
-        <h2 class="text-2xl font-bold mb-4">Section 2</h2>
+      <section class="min-h-[50vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
       </section>
 
-      <section id="section3" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
-        <h2 class="text-2xl font-bold mb-4">Section 3</h2>
-      </section>
-
-      <section id="section4" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8">
-        <h2 class="text-2xl font-bold mb-4">Section 4</h2>
-      </section>
-    </div>
-
-    <section class="min-h-[75vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
-      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
-    </section>
-
-    <section class="min-h-[75vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
-      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
-    </section>
 
 
     <script type="module" src="./src/main.js"></script>
