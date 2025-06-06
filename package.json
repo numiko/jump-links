@@ -1,6 +1,6 @@
 {
   "name": "@numiko/jump-links",
-  "version": "0.8.0-alpha-1",
+  "version": "1.0.0-beta-2",
   "description": "",
   "private": true,
   "type": "module",
@@ -12,7 +12,7 @@
     "test:coverage": "vitest --coverage",
     "test:ci": "vitest --run --reporter junit --outputFile ./reports/results.xml --coverage.enabled --coverage.include lib --coverage.reporter=html --coverage.reportsDirectory ./reports/"
   },
-  "main": "./dist/Jumplinks.umd.js",
+  "main": "./dist/JumpLinks.umd.js",
   "files": [
     "dist",
     "package.json",
@@ -20,8 +20,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/Jumplinks.es.js",
-      "require": "./dist/Jumplinks.umd.js"
+      "import": "./dist/JumpLinks.es.js",
+      "require": "./dist/JumpLinks.umd.js"
     }
   },
   "repository": {
