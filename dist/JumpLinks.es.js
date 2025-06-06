@@ -79,9 +79,7 @@ class o {
         (s) => {
           s.forEach((i) => {
             i.isIntersecting && (this.state.lastActiveSection = i.target.id, this.options.onIntersection({
-              sections: this.sections,
               intersectingSection: i.target,
-              links: this.jumpLinksAnchors,
               intersectingLink: this.jumpLinksAnchors.find(
                 (e) => e.getAttribute("href") === `#${i.target.id}`
               )

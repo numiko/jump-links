@@ -12,7 +12,7 @@
     "test:coverage": "vitest --coverage",
     "test:ci": "vitest --run --reporter junit --outputFile ./reports/results.xml --coverage.enabled --coverage.include lib --coverage.reporter=html --coverage.reportsDirectory ./reports/"
   },
-  "main": "./dist/JumpLinks.umd.js",
+  "main": "./dist/jumplinks.umd.js",
   "files": [
     "dist",
     "package.json",
@@ -20,8 +20,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/JumpLinks.es.js",
-      "require": "./dist/JumpLinks.umd.js"
+      "import": "./dist/jumplinks.es.js",
+      "require": "./dist/jumplinks.umd.js"
     }
   },
   "repository": {
