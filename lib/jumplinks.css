@@ -1,0 +1,20 @@
+
+/**
+* Define the offset for the items that are jumplinked to.
+*/
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/*
+* Smooth scrolling for all users (unless they have reduced motion enabled)
+*/
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
