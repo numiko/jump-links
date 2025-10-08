@@ -1,130 +1,230 @@
 # Jump Links
 
-Used to create a fixed jumplink bar on the page that can be used to show scroll progress and allow users to jump link to various sections.
+A lightweight JavaScript package that creates a fixed navigation bar showing scroll progress and allowing users to jump between sections. The navigation can be revealed/hidden based on scroll position and supports both class-based and custom animations.
+
+## Features
+- Smooth scrolling to sections
+- Progress bar indication
+- Configurable sticky behavior
+- Support for both CSS classes and custom animations
+- Intersection Observer for accurate section tracking
+- Responsive to window resizing
+- Accessible navigation
 
 ## Installation
 
-The package can be installed from BitBucket. If the package has reached version 1,
-prefer the semver method; if the package is not yet stable, we recommend installing via the tag.
+```bash
+npm install @numiko/jump-links
+```
 
-`npm install ssh://git@bitbucket.org:numiko/jump-links.git#<TAG_NAME>`
+## Basic Usage
 
-`npm install ssh://git@bitbucket.org:numiko/jump-links.git##semver:<VERSION>`
+### HTML Structure
+```html
+<!--
+  Regular Navigation
+  -----------------
+  You might have a regular jump-links navigation that is not fixed outputted in the DOM here.
+  We've learned that the best solution is to have a duplicate of the regular navigation that is fixed and hidden by default.
+  For brevity, ive not included it here. See index.html for an example
+-->
 
-### Including the dropdownToggle package
-
-This package is usually used along with our `dropdownToggle` package https://bitbucket.org/numiko/dropdown-toggle/src/master/ which is responsible for handling the hide/show dropdowns. Please see that repo for its associated options and methods.
-
-## Usage
-
-### HTML
-
-```HTML
-<div data-js-jumplinks>
-  <div>
-    <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
-    <div class="bg-[#FFCCC9]">
-      <span
-        style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
-        class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"
-      >
-      </span>
-    </div>
-    <span>You are viewing:</span>
-    <span data-js-jumplinks-section-label></span>
+<!--
+  Fixed Jumplinks Bar
+  -----------------
+  These are the actual jump-links. It is fixed and hidden by default via Tailwind classes.
+  -->
+<nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
+  <!-- Progress Bar (Optional) -->
+  <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
+    <span
+      data-js-jump-links-progress-bar
+      style="transform: translateX(calc(-100% + var(--jump-links-progress, 50%)))"
+      class="w-full block will-change-transform transform duration-75 -translate-x-full bg-purple-800 h-1"
+    >
+    </span>
   </div>
 
-  <ul>
-    <li>
-      <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
-    </li>
-    <li>
-      <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
-    </li>
-    <li>
-      <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
-    </li>
+  <!--
+    Navigation Links
+    -----------------
+    These will be the links that are used to jump to the sections.
+    They are the same as the regular navigation links.
+    In Drupal we will output the jump-links block twice - once for the regular navigation (if using) and once for the jump-links.
+  -->
+  <ul class="flex justify-center space-x-6">
+    <li><a data-js-jump-links-anchor href="#section1">Section 1</a></li>
+    <li><a data-js-jump-links-anchor href="#section2">Section 2</a></li>
+    <li><a data-js-jump-links-anchor href="#section3">Section 3</a></li>
   </ul>
-</div>
+</nav>
 
-<!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
-<div data-js-jumplinks-container>
-  <section
-    id="jump-link-1"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section One"
-  >
-    <h2 id="section-id-1">Section One</h2>
+<!--
+  Content Sections
+  -----------------
+  These are the sections that the jump-links will jump to.
+  By default the jump-links will show when the first section intersects with the top of the viewport.
+  By default the jump-links will hide when the last section intersects with the bottom of the viewport.
+  This can be customized via the stickyTriggerStart and stickyTriggerEnd options.
+  -->
+<div class="container mx-auto">
+
+  <section id="section1" class="min-h-screen">
+    <h2>Section 1</h2>
   </section>
-  <section
-    id="jump-link-2"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section Two"
-  >
-    <h2 id="section-id-2">Section Two</h2>
+
+  <section id="section2" class="min-h-screen">
+    <h2>Section 2</h2>
   </section>
-  <section
-    id="jump-link-3"
-    data-js-jumplinks-section
-    data-js-jumplinks-section-label="Section Three"
-  >
-    <h2 id="section-id-3">
-      Section Three
-    </h2>
+
+  <section id="section3" class="min-h-screen">
+    <h2>Section 3</h2>
   </section>
+
 </div>
 ```
+### Required CSS
 
-### JS
+The package needs some recommended CSS that needs to be included for proper functionality:
+
+```css
+/* Define the offset for jumplink targets
+   Adjust the value to match your fixed header height */
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* Enable smooth scrolling behavior
+   This will be disabled for users with reduced motion preferences */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+```
+
+The `scroll-margin-top` property determines how far from the top of the viewport the section should stop when scrolled to. This should typically match or exceed the height of your fixed header to ensure sections aren't hidden behind it.
+
+### JavaScript Initialization
 
 ```javascript
-const jumplinks = document.querySelector('[data-js-jumplinks]');
+import { JumpLinks } from '@numiko/JumpLinks';
 
-const pageJumplinks = new Jumplinks(jumplinks, {
-  linksEl: '[data-js-jumplinks-link]',
-  labelEl: '[data-js-jumplinks-section-label]',
-  containerEl: '[data-js-jumplinks-container]',
-  sectionEl: '[data-js-jumplinks-section]',
-  intersectionOptions: {
-    root: null,
-    rootMargin:'-50% 0px',
-    threshhold: 0,
-  },
+const jumpLinks = document.querySelectorAll('[data-js-jump-links]');
+const jumpLinksAnchors = jumpLinks.querySelectorAll('[data-js-jump-links-anchor]');
+const jumpLinksActiveClasses = ['underline', 'text-black'];
+
+// Basic initialization
+new JumpLinks();
+
+// With custom options
+new JumpLinks(jumpLinks, {
+  onStickyTrigger: ['translate-y-0', 'opacity-100'],
+  onIntersection: ({ intersectingLink }) => {
+    jumpLinksAnchors.forEach(link => {
+      jumpLinksActiveClasses.forEach(className => {
+        link.classList.toggle(className, link === intersectingLink);
+      });
+    });
+  }
 });
-
-pageJumplinks.init();
 ```
 
-## API
+## Configuration Options
 
-### Options
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `linkSelector` | `String` | `'a'` | Selector for navigation links within the jump-links element |
+| `progress` | `Boolean` | `false` | Enable/disable the progress bar functionality. Will add CSS variable to the root element to track progress between sticky triggers |
+| `stickyTriggerStart` | `String\|Element\|null` | `null` | Element that triggers sticky behavior start (defaults to first section) |
+| `stickyTriggerEnd` | `String\|Element\|null` | `null` | Element that triggers sticky behavior end (defaults to last section) |
+| `stickyTriggerStartOffset` | `Number\|Function` | `0` | Offset for the start trigger |
+| `stickyTriggerEndOffset` | `Number\|Function` | `0` | Offset for the end trigger |
+| `intersectionOptions` | `Object` | `{ threshold: 0, rootMargin: '-50% 0px -50% 0px' }` | IntersectionObserver options |
+| `onStickyTrigger` | `String[]\|Function` | `['translate-y-0']` | Classes to toggle or callback for sticky state changes |
+| `onLinkClick` | `Function` | `() => {}` | Callback when a jumplink is clicked |
+| `onIntersection` | `Function` | `() => {}` | Callback when a section intersects |
 
-| Option | Description | Type | Default
-| --- | --- | --- | --- |
-| `jumplinksEl` | The HTML element to initialise the jumplinks. | `string` or `HTMLElement` | `null`
-| `options` | Configurable options for the module. | `object` | `{}`
-| `options.linksEl` | The HTML link in the jumplinks used to navigate to its section. | `string` or `HTMLElement` | `'[data-js-jumplinks-link]'`
-| `options.labelEl` | The text in the jumplinks which displays the title of the current section in the viewport. | `string` or `HTMLElement` | `'[data-js-jumplinks-section-label]'`
-| `options.containerEl` | The parent section that contains all of the jumplink sections. | `string` or `HTMLElement` | `'[data-js-jumplinks-container]'`
-| `options.sectionEl` | The individual section that will be added to the jumplinks | `string` or `HTMLElement` | `'[data-js-jumplinks-section]'`
-| `options.intersectionOptions` | Configurable options for the intersection of sections | `object` | `{}`
-| `options.intersectionOptions.root` | By default it is the viewport however this can be changed to an HTML element | `Document` or `HTMLElement` | `null`
-| `options.intersectionOptions.rootMargin` | Sets the margin on the viewport so the jumplinks section will only change after passing that value | `DOMString` | `'-50% 0px'`
-| `options.intersectionOptions.threshhold` | A single number or an array of numbers that are used as a percentage to change when the module determines that the section is in the viewport | `FrozenArray<double>` or `number` | `0`
-| `options.intersectionOptions.callback` | The callback function to fire when the jumplink section is determined in the viewport | `function` | `() => {}`
-| `options.hasScrollProgress` | Sets whether to display the scroll percentage bar or not  | `boolean` | `true`
-| `options.scrollCustomProperty` | Name for custom property that tracks scroll percentage | `string` | `'scrollprogress'`
-| `options.attachCustomPropertyTo` | Where to apply the custom scroll progress property to. By default, will be set to the jumplinks element | `string` or `HTMLElement` | `null`
-| `options.stickyOffset` | Offset scroll amount before containerEl top hits top of its specified viewport - which triggers onSticky() | `number` | `0`
-| `options.unStickyOffset` | Offset scroll amount before containerEl bottom hits top of its specified viewport - which triggers onUnsticky() | `number` | `0`
-| `options.onSticky` | The callback to fire when the containerEl top hits the top of the viewport | `function` | `() => {}`
-| `options.onUnsticky` | The callback to fire when the containerEl bottom hits the top of the viewport | `function` | `() => {}`
-| `options.offsetValue` | Offset value for jumplinks container sets where the top of the section should be scrolled to on the viewport, will be set to the height of the jumplinks if not defined | `number` | `null`
-| `options.offsetEl` | Similar to the offsetValue property but instead will calculate the offset value based on the HTML element it's given, if left null it will use the height of the jumplinks | `string` or `HTMLElement` | `null`
-| `options.onLinkClicked` | The callback to fire when a jumplink link has been clicked | `function` | `() => {}`
+## Callbacks
 
-### Methods
+### onStickyTrigger
+Can be either an array of classes or a callback function:
 
-| Method | Description | Return value
-| --- | --- | --- |
-| `init` | Initialises the module, setting up event listeners | `void`
+```javascript
+// Using classes
+onStickyTrigger: ['translate-y-0', 'opacity-100', 'bg-white']
+
+// Using callback
+onStickyTrigger: ({
+  jumpLinks,         // The jump-links element
+  isSticky,          // Boolean indicating sticky state
+  hasStartTriggered, // Boolean indicating if start trigger passed
+  hasEndTriggered    // Boolean indicating if end trigger passed
+}) => {
+  // Custom logic using GSAP
+  gsap.to(jumpLinks, {
+    duration: 0.3,
+    y: isSticky ? 0 : -100,
+    opacity: isSticky ? 1 : 0,
+    ease: 'power2.out'
+  });
+
+}
+```
+
+### onIntersection
+Provides information about the currently intersecting section:
+
+```javascript
+onIntersection: ({
+  intersectingSection,  // The section element currently in view
+  intersectingLink      // The link corresponding to the intersecting section
+}) => {
+  // Example of adding classes to the active link
+  jumpLinksAnchors.forEach(link => {
+    jumpLinksActiveClasses.forEach(className => {
+      link.classList.toggle(className, link === intersectingLink);
+    });
+  });
+}
+```
+
+### onLinkClick
+Triggered when a jump-link anchor is clicked:
+
+```javascript
+onLinkClick: ({
+  link,    // The clicked link element
+  target   // The target section element
+}) => {
+  // Custom click handling
+  console.log('Link clicked:', link);
+  console.log('Target section:', target);
+}
+```
+
+## Dynamic Offsets Example
+
+```javascript
+new JumpLinks(jumpLinks, {
+  // Static offset
+  stickyTriggerStartOffset: 100,
+
+  // Dynamic offset based on element height
+  stickyTriggerEndOffset: () => {
+    const header = document.querySelector('header');
+    return header ? header.offsetHeight : 0;
+  }
+});
+```
+
+## Browser Support
+
+This package uses modern JavaScript features including:
+- IntersectionObserver
+- ResizeObserver
+- Smooth Scroll behavior

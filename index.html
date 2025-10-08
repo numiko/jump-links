@@ -8,76 +8,76 @@
   </head>
   <body class="p-10">
 
-    <!-- Jumplinks - Tweak CSS on here depending on your GSAP animations -->
-    <div data-js-jumplinks class="fixed top-0 left-0 w-full">
-      <!-- Progress Bar - make sure to use the same CSS custom property name as your config -->
-      <div class="bg-[#FFCCC9]">
+    <section class="min-h-[20vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Section before JumpLinks</h2>
+    </section>
+
+    <!-- Regular navigation -->
+    <nav data-js-jump-links-trigger-start class="bg-gray-100 py-4 mb-8 rounded-lg ">
+      <div class="container mx-auto px-4">
+        <ul class="flex justify-center space-x-6">
+          <li><a href="#section1" class="font-bold text-blue-600 hover:text-black">Section 1</a></li>
+          <li><a href="#section2" class="font-bold text-blue-600 hover:text-black">Section 2</a></li>
+          <li><a href="#section3" class="font-bold text-blue-600 hover:text-black">Section 3</a></li>
+          <li><a href="#section4" class="font-bold text-blue-600 hover:text-black">Section 4</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Fixed navigation (hidden by default via Tailwind classes) -->
+    <nav data-js-jump-links class="fixed top-0 left-0 right-0 bg-purple-100 text-purple-900 py-4 transform -translate-y-full transition-transform duration-300">
+      <!-- Progress Bar (hook into --jump-links-progress to track progress between sticky triggers)  -->
+      <div class="bg-purple-300 absolute bottom-0 left-0 right-0">
         <span
-          style="transform: translateX(calc(-100% + var(--scrollprogress, 0%)))"
-          class="w-full block will-change-transform transform duration-75 -translate-x-full bg-[#FF5666] h-1"
+          style="transform: scaleX(var(--jump-links-progress, 0%))"
+          class="w-full block will-change-transform transform origin-left duration-75 bg-purple-800 h-1"
         >
         </span>
       </div>
 
-      <div class="py-5 bg-black text-white">
-        <div class="container mx-auto flex items-center justify-between">
-          <p class="flex-grow relative overflow-hidden">
-            <span class="">You are viewing:</span>
-            <span class="whitespace-nowrap" data-js-jumplinks-section-label></span>
-          </p>
-        </div>
-      </div>
+      <div class="container mx-auto px-4">
 
-      <div
-        class="overflow-hidden w-full bg-black text-white"
-      >
-        <div class="container mx-auto">
-          <div class="py-7 md:py-10">
-            <ul class="[ md:grid md:grid-cols-3 md:gap-6 ]">
-              <li class="mb-4 last:mb-0">
-                <a href="#jump-link-1" data-js-jumplinks-link>Section one</a>
-              </li>
-              <li class="mb-4 last:mb-0">
-                <a href="#jump-link-2" data-js-jumplinks-link>Section two</a>
-              </li>
-              <li class="mb-4 last:mb-0">
-                <a href="#jump-link-3" data-js-jumplinks-link>Section three</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <details>
+          <summary class="cursor-pointer font-bold">Currently viewing: <span data-js-jump-links-label class="text-black"></span></summary>
+          <ul class="flex justify-center space-x-6">
+            <li><a data-js-jump-links-anchor href="#section1" class="font-bold hover:text-black">Section 1</a></li>
+            <li><a data-js-jump-links-anchor href="#section2" class="font-bold hover:text-black">Section 2</a></li>
+            <li><a data-js-jump-links-anchor href="#section3" class="font-bold hover:text-black">Section 3</a></li>
+            <li><a data-js-jump-links-anchor href="#section4" class="font-bold hover:text-black">Section 4</a></li>
+          </ul>
+        </details>
+
       </div>
+    </nav>
+
+    <!-- Content sections -->
+    <div data-js-jump-links-trigger-end id="content" class="mb-8">
+      <section id="section1" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section 1</h2>
+      </section>
+
+      <section id="section2" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section 2</h2>
+      </section>
+
+      <section id="section3" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Section 3</h2>
+      </section>
+
+      <section id="section4" class="min-h-[75vh] flex items-center justify-center bg-green-100 rounded-lg p-8">
+        <h2 class="text-2xl font-bold mb-4">Section 4</h2>
+      </section>
     </div>
 
-    <!-- Jumplinkable sections - These will most likely be "slices" outputted from Drupal -->
-    <div data-js-jumplinks-container class="flex flex-col">
-      <section
-        id="jump-link-1"
-        class="h-screen flex flex-col items-center justify-center bg-[#ffEE99]"
-        data-js-jumplinks-section
-        data-js-jumplinks-section-label="Section One"
-      >
-        <h2 id="section-id-1" class="text-3xl font-bold mb-10">Section One</h2>
-      </section>
-      <section
-        id="jump-link-2"
-        class="h-screen flex flex-col items-center justify-center bg-[#EEFF99]"
-        data-js-jumplinks-section
-        data-js-jumplinks-section-label="Section Two"
-      >
-        <h2 id="section-id-2" class="text-3xl font-bold mb-10">Section Two</h2>
-      </section>
-      <section
-        id="jump-link-3"
-        class="h-screen flex flex-col items-center justify-center bg-[#88FFEE]"
-        data-js-jumplinks-section
-        data-js-jumplinks-section-label="Section Three"
-      >
-        <h2 id="section-id-3" class="text-3xl font-bold mb-10">
-          Section Three
-        </h2>
-      </section>
-    </div>
+    <section class="min-h-[75vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
+    </section>
+
+    <section class="min-h-[75vh] flex items-center justify-center bg-purple-100 rounded-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Section after jumplinks</h2>
+    </section>
+
+
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
