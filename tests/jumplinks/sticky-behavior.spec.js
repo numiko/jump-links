@@ -24,6 +24,11 @@ describe('JumpLinks Sticky Behavior', () => {
   beforeEach(() => {
     ({ window, document } = setupTestDOM());
     mockIntersectionObserver();
+    class MockResizeObserver {
+      observe() {}
+      disconnect() {}
+    }
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
   });
 
   afterEach(() => {
@@ -68,5 +73,63 @@ describe('JumpLinks Sticky Behavior', () => {
       hasStartTriggered:true,
       hasEndTriggered:false
     });
+  });
+
+  it('should toggle aria-hidden based on sticky state', () => {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]');
+
+    // Initially hidden
+    expect(jumpLinks.jumpLinks.getAttribute('aria-hidden')).toBe('true');
+
+    // Make sticky
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: -1 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ bottom: 1000 })
+    });
+    jumpLinks.updateNavVisibility();
+    expect(jumpLinks.jumpLinks.getAttribute('aria-hidden')).toBe('false');
+
+    // Not sticky
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: 10 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ bottom: -100 })
+    });
+    jumpLinks.updateNavVisibility();
+    expect(jumpLinks.jumpLinks.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('should respect start and end trigger offsets when determining sticky state', () => {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+      stickyTriggerStartOffset: 100,
+      stickyTriggerEndOffset: 50
+    });
+
+    // startTop + startOffset <= 0 to be sticky
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: -120 }) // -120 + 100 = -20 <= 0
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ bottom: 100 }) // 100 < -50? false
+    });
+    jumpLinks.updateNavVisibility();
+    expect(jumpLinks.state.isSticky).toBe(true);
+
+    // end triggers when bottom < -endOffset
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ bottom: -60 }) // -60 < -50 => true
+    });
+    jumpLinks.updateNavVisibility();
+    expect(jumpLinks.state.isSticky).toBe(false);
   });
 });

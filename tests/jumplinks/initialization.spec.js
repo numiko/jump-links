@@ -9,6 +9,11 @@ describe('Jump-links Initialization', () => {
   beforeEach(() => {
     ({ window, document } = setupTestDOM());
     mockIntersectionObserver();
+    class MockResizeObserver {
+      observe() {}
+      disconnect() {}
+    }
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
   });
 
   afterEach(() => {
@@ -39,5 +44,15 @@ describe('Jump-links Initialization', () => {
     const jumpLinks = new JumpLinks();
     const jumpLinksElement = document.querySelector('[data-js-jump-links]');
     expect(jumpLinksElement.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('should default start and end triggers to first and last sections', () => {
+    const jumpLinks = new JumpLinks();
+    const sections = Array.from(document.querySelectorAll('section'));
+    const firstSection = sections[0];
+    const lastSection = sections[sections.length - 1];
+
+    expect(jumpLinks.startTrigger).toBe(firstSection);
+    expect(jumpLinks.endTrigger).toBe(lastSection);
   });
 });

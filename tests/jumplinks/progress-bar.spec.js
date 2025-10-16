@@ -8,6 +8,11 @@ describe('Jump-links Progress Bar', () => {
   beforeEach(() => {
     ({ window, document } = setupTestDOM());
     mockIntersectionObserver();
+    class MockResizeObserver {
+      observe() {}
+      disconnect() {}
+    }
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
   });
 
   afterEach(() => {
@@ -64,6 +69,58 @@ describe('Jump-links Progress Bar', () => {
 
     const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
     expect(progressValue).toBe('50.00%');
+  });
+
+  it('should not update CSS variable when progress is disabled', () => {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+      progress: false
+    });
+
+    Object.defineProperty(window, 'scrollY', { value: 500 });
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: -500 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      value: () => ({ top: 400 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'offsetHeight', { value: 100 });
+
+    jumpLinks.updateProgressBar();
+
+    const progressValue = document.documentElement.style.getPropertyValue('--jump-links-progress');
+    expect(progressValue).toBe('');
+  });
+
+  it('clamps progress between 0 and 100 percent', () => {
+    const jumpLinks = new JumpLinks('[data-js-jump-links]', { progress: true });
+
+    // Case: below start -> 0%
+    Object.defineProperty(window, 'scrollY', { value: 0 });
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: 100 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: 1000 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'offsetHeight', { value: 100 });
+    jumpLinks.updateProgressBar();
+    expect(document.documentElement.style.getPropertyValue('--jump-links-progress')).toBe('0.00%');
+
+    // Case: beyond end -> 100%
+    Object.defineProperty(window, 'scrollY', { value: 5000 });
+    Object.defineProperty(jumpLinks.startTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: -1000 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ top: -900 })
+    });
+    Object.defineProperty(jumpLinks.endTrigger, 'offsetHeight', { value: 100 });
+    jumpLinks.updateProgressBar();
+    expect(document.documentElement.style.getPropertyValue('--jump-links-progress')).toBe('100.00%');
   });
 
 
