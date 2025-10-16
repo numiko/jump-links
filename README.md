@@ -19,6 +19,8 @@ npm install @numiko/jump-links
 
 ## Basic Usage
 
+> The functionality of this package relies on the tailwind class translate-y-0. If the sticky nav functionality is not working, make sure to add this class to the tailwind safelist js file.
+
 ### HTML Structure
 ```html
 <!--
