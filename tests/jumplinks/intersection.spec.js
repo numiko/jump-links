@@ -1,5 +1,5 @@
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { JumpLinks } from '../../lib/jumplinks.js';
+import { JumpLinks } from '../../lib/jumplinks.ts';
 import { setupTestDOM, delay, mockIntersectionObserver } from '../test-utils';
 
 describe('Jump-links Intersection Behavior', () => {
