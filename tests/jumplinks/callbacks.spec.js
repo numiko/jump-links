@@ -1,5 +1,5 @@
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { JumpLinks } from '../../lib/jumplinks.js';
+import { JumpLinks } from '../../lib/jumplinks.ts';
 import { setupTestDOM } from '../test-utils.js';
 
 describe('Jump-links Options', () => {

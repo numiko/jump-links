@@ -59,8 +59,6 @@ class JumpLinks {
   private jumpLinksAnchorSelector: string;
   private jumpLinksAnchors: HTMLAnchorElement[];
   private sections: HTMLElement[];
-  private firstSection: HTMLElement;
-  private lastSection: HTMLElement;
   private startTrigger: HTMLElement;
   private endTrigger: HTMLElement;
   private hasScrollEndSupport: boolean;
@@ -74,10 +72,6 @@ class JumpLinks {
     this.jumpLinksAnchorSelector = '[data-js-jump-links-anchor]';
     this.jumpLinksAnchors = [];
     this.sections = [];
-    this.firstSection = this.sections[0] as HTMLElement;
-    this.lastSection = this.sections[this.sections.length - 1] as HTMLElement;
-    this.startTrigger = this.getStartTrigger();
-    this.endTrigger = this.getEndTrigger();
     this.hasScrollEndSupport = false;
     this.ticking = false;
     this.state = {
@@ -90,6 +84,8 @@ class JumpLinks {
     this.setOptions(options);
     this.resolveJumpLinksElement(jumpLinks);
     this.collectAnchorsAndSections();
+    this.startTrigger = this.getStartTrigger();
+    this.endTrigger = this.getEndTrigger();
     this.initializeFlags();
     this.initializeState();
     this.init();
@@ -130,21 +126,34 @@ class JumpLinks {
     this.sections = anchorIds
       .map(id => document.getElementById(id))
       .filter((el): el is HTMLElement => el instanceof HTMLElement);
-
-    this.firstSection = this.sections[0] as HTMLElement;
-    this.lastSection = this.sections[this.sections.length - 1] as HTMLElement;
   }
 
   private getStartTrigger(): HTMLElement {
     const resolvedStart = this.resolveElement(this.options.stickyTriggerStart);
-    const startTrigger = resolvedStart ?? this.firstSection;
+    const startTrigger = resolvedStart ?? this.getFirstSection();
     return startTrigger;
   }
 
   private getEndTrigger(): HTMLElement {
     const resolvedEnd = this.resolveElement(this.options.stickyTriggerEnd);
-    const endTrigger = resolvedEnd ?? this.lastSection;
+    const endTrigger = resolvedEnd ?? this.getLastSection();
     return endTrigger;
+  }
+
+  private getFirstSection(): HTMLElement {
+    const firstSection = this.sections[0];
+    if (firstSection) return firstSection;
+    const errorMessage = `
+        Jump-link sections not found. Please ensure your links point to existing elements.`;
+    throw new Error(errorMessage);
+  }
+
+  private getLastSection(): HTMLElement {
+    const lastSection = this.sections[this.sections.length - 1];
+    if (lastSection) return lastSection;
+    const errorMessage = `
+        Jump-link sections not found. Please ensure your links point to existing elements.`;
+    throw new Error(errorMessage);
   }
 
 
@@ -381,7 +390,6 @@ class JumpLinks {
     this.state.lastActiveSection = null;
   }
 
-  // Optional: Add a method to get current state (useful for debugging)
   public getState(): JumpLinksState {
     return { ...this.state };
   }
