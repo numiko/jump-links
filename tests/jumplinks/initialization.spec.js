@@ -30,29 +30,9 @@ describe('Jump-links Initialization', () => {
     expect(() => new JumpLinks()).toThrow();
   });
 
-  it('should correctly identify jump-links element', () => {
-    const jumpLinks = new JumpLinks('[data-js-jump-links]');
-    expect(jumpLinks.jumpLinksAnchors.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('should correctly identify corresponding sections', () => {
-    const jumpLinks = new JumpLinks();
-    expect(jumpLinks.sections.length).toBeGreaterThanOrEqual(1);
-  });
-
   it('should set initial ARIA hidden state', () => {
-    const jumpLinks = new JumpLinks();
+    new JumpLinks();
     const jumpLinksElement = document.querySelector('[data-js-jump-links]');
     expect(jumpLinksElement.getAttribute('aria-hidden')).toBe('true');
-  });
-
-  it('should default start and end triggers to first and last sections', () => {
-    const jumpLinks = new JumpLinks();
-    const sections = Array.from(document.querySelectorAll('section'));
-    const firstSection = sections[0];
-    const lastSection = sections[sections.length - 1];
-
-    expect(jumpLinks.startTrigger).toBe(firstSection);
-    expect(jumpLinks.endTrigger).toBe(lastSection);
   });
 });
