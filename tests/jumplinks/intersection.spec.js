@@ -3,10 +3,10 @@ import { JumpLinks } from '../../lib/jumplinks.js';
 import { setupTestDOM, delay, mockIntersectionObserver } from '../test-utils';
 
 describe('Jump-links Intersection Behavior', () => {
-  let window, document;
+  let document;
 
   beforeEach(() => {
-    ({ window, document } = setupTestDOM());
+    ({ document } = setupTestDOM());
     mockIntersectionObserver();
     class MockResizeObserver {
       observe() {}
@@ -38,7 +38,7 @@ describe('Jump-links Intersection Behavior', () => {
       unobserve: vi.fn(),
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
-    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+    new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({ intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
@@ -75,7 +75,7 @@ describe('Jump-links Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+    new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({intersectingSection}) => {
 
         if (jumpLinkLabel) {
@@ -88,8 +88,9 @@ describe('Jump-links Intersection Behavior', () => {
     expect(jumpLinkLabel.textContent).toBe(secondSectionTextContent);
   });
 
-  it('should update lastActiveSection when a section intersects', async () => {
+  it('should reflect the last active section in the DOM when a section intersects', async () => {
     const firstSection = document.getElementById('section1');
+    const jumpLinksElement = document.querySelector('[data-js-jump-links]');
 
     const MockIntersectionObserver = vi.fn((callback) => ({
       observe: (element) => {
@@ -102,9 +103,13 @@ describe('Jump-links Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumpLinks = new JumpLinks('[data-js-jump-links]');
+    new JumpLinks('[data-js-jump-links]', {
+      onIntersection: ({ intersectingSection }) => {
+        jumpLinksElement?.setAttribute('data-active-section', intersectingSection.id);
+      }
+    });
     await delay(0);
-    expect(jumpLinks.getState().lastActiveSection).toBe('section1');
+    expect(jumpLinksElement?.getAttribute('data-active-section')).toBe('section1');
   });
 
   it('maps intersecting section to the correct link', async () => {
