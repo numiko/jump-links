@@ -22,7 +22,6 @@ type JumpLinksState = {
   progress: number;
 };
 
-// Callback types for better type inference
 type StickyTriggerCallback = (params: {
   jumpLinks: HTMLElement;
   isSticky: boolean;
@@ -40,23 +39,33 @@ type IntersectionCallback = (params: {
   intersectingLink: HTMLAnchorElement | undefined;
 }) => void;
 
+const DEFAULT_OPTIONS: JumpLinksOptions = {
+  progress: false,
+  stickyTriggerStart: null,
+  stickyTriggerEnd: null,
+  stickyTriggerStartOffset: 0,
+  stickyTriggerEndOffset: 0,
+  intersectionOptions: {
+    threshold: 0,
+    rootMargin: '-50% 0px -50% 0px'
+  },
+  onStickyTrigger: ['translate-y-0'],
+  onLinkClick: () => {},
+  onIntersection: () => {}
+};
+
+const DEFAULT_STATE: JumpLinksState = {
+  lastActiveSection: null,
+  isSticky: false,
+  startOffset: 0,
+  endOffset: 0,
+  progress: 0
+};
+
 class JumpLinks {
-  private options: JumpLinksOptions = {
-    progress: false,
-    stickyTriggerStart: null,
-    stickyTriggerEnd: null,
-    stickyTriggerStartOffset: 0,
-    stickyTriggerEndOffset: 0,
-    intersectionOptions: {
-      threshold: 0,
-      rootMargin: '-50% 0px -50% 0px'
-    },
-    onStickyTrigger: ['translate-y-0'],
-    onLinkClick: () => {},
-    onIntersection: () => {}
-  };
+  private readonly jumpLinksAnchorSelector = '[data-js-jump-links-anchor]';
+  private options: JumpLinksOptions;
   private jumpLinks: HTMLElement;
-  private jumpLinksAnchorSelector: string;
   private jumpLinksAnchors: HTMLAnchorElement[];
   private sections: HTMLElement[];
   private startTrigger: HTMLElement;
@@ -64,112 +73,62 @@ class JumpLinks {
   private hasScrollEndSupport: boolean;
   private ticking: boolean;
   private state: JumpLinksState;
-  private resizeObserver: ResizeObserver = new ResizeObserver(() => {});
-  private sectionObserver: IntersectionObserver = new IntersectionObserver(() => {});
+  private resizeObserver: ResizeObserver | null;
+  private sectionObserver: IntersectionObserver | null;
 
   constructor(jumpLinks: JumpLinksElement = '[data-js-jump-links]', options: Partial<JumpLinksOptions> = {}) {
-    this.jumpLinks = this.setJumpLinksElement(jumpLinks);
-    this.jumpLinksAnchorSelector = '[data-js-jump-links-anchor]';
-    this.jumpLinksAnchors = [];
-    this.sections = [];
-    this.hasScrollEndSupport = false;
+    this.options = { ...DEFAULT_OPTIONS, ...options };
+    this.jumpLinks = this.resolveJumpLinksElement(jumpLinks);
+    this.jumpLinksAnchors = this.collectAnchors();
+    this.sections = this.collectSections();
+    this.startTrigger = this.resolveElement(this.options.stickyTriggerStart) ?? this.getFirstSection();
+    this.endTrigger = this.resolveElement(this.options.stickyTriggerEnd) ?? this.getLastSection();
+    this.hasScrollEndSupport = 'onscrollend' in window;
     this.ticking = false;
-    this.state = {
-      lastActiveSection: null,
-      isSticky: false,
-      startOffset: 0,
-      endOffset: 0,
-      progress: 0
-    };
-    this.setOptions(options);
-    this.resolveJumpLinksElement(jumpLinks);
-    this.collectAnchorsAndSections();
-    this.startTrigger = this.getStartTrigger();
-    this.endTrigger = this.getEndTrigger();
-    this.initializeFlags();
-    this.initializeState();
+    this.state = { ...DEFAULT_STATE };
+    this.resizeObserver = null;
+    this.sectionObserver = null;
     this.init();
   }
 
-  private setOptions(options: Partial<JumpLinksOptions>): void {
-    this.options = { ...this.options, ...options };
-  }
-
-  private setJumpLinksElement(jumpLinks: JumpLinksElement): HTMLElement {
-    const jumpLinksElement = typeof jumpLinks === 'string'
+  private resolveJumpLinksElement(jumpLinks: JumpLinksElement): HTMLElement {
+    const element = typeof jumpLinks === 'string'
       ? document.querySelector(jumpLinks)
       : jumpLinks;
 
-    if (!this.isHTMLElement(jumpLinksElement)) {
+    if (!(element instanceof HTMLElement)) {
       throw new Error(`JumpLinks element not found: ${jumpLinks}`);
     }
-    return jumpLinksElement;
+    return element;
   }
 
-  private resolveJumpLinksElement(jumpLinks: JumpLinksElement): void {
-    const jumpLinksElement = typeof jumpLinks === 'string'
-      ? document.querySelector(jumpLinks)
-      : jumpLinks;
-
-    if (!this.isHTMLElement(jumpLinksElement)) {
-      throw new Error(`JumpLinks element not found: ${jumpLinks}`);
-    }
-    this.jumpLinks = jumpLinksElement;
+  private collectAnchors(): HTMLAnchorElement[] {
+    return Array.from(this.jumpLinks.querySelectorAll<HTMLAnchorElement>(this.jumpLinksAnchorSelector))
+      .filter((anchor): anchor is HTMLAnchorElement => {
+        const href = anchor.getAttribute('href');
+        return href !== null && href.startsWith('#');
+      });
   }
 
-  private collectAnchorsAndSections(): void {
-    this.jumpLinksAnchorSelector = '[data-js-jump-links-anchor]';
-    this.jumpLinksAnchors = Array.from(this.jumpLinks.querySelectorAll<HTMLAnchorElement>(this.jumpLinksAnchorSelector))
-      .filter(a => a.getAttribute('href') && a.getAttribute('href')!.startsWith('#'));
-
-    const anchorIds = this.jumpLinksAnchors.map(link => link.getAttribute('href')!.slice(1));
-    this.sections = anchorIds
-      .map(id => document.getElementById(id))
+  private collectSections(): HTMLElement[] {
+    return this.jumpLinksAnchors
+      .map(link => {
+        const href = link.getAttribute('href');
+        return href ? document.getElementById(href.slice(1)) : null;
+      })
       .filter((el): el is HTMLElement => el instanceof HTMLElement);
-  }
-
-  private getStartTrigger(): HTMLElement {
-    const resolvedStart = this.resolveElement(this.options.stickyTriggerStart);
-    const startTrigger = resolvedStart ?? this.getFirstSection();
-    return startTrigger;
-  }
-
-  private getEndTrigger(): HTMLElement {
-    const resolvedEnd = this.resolveElement(this.options.stickyTriggerEnd);
-    const endTrigger = resolvedEnd ?? this.getLastSection();
-    return endTrigger;
   }
 
   private getFirstSection(): HTMLElement {
     const firstSection = this.sections[0];
     if (firstSection) return firstSection;
-    const errorMessage = `
-        Jump-link sections not found. Please ensure your links point to existing elements.`;
-    throw new Error(errorMessage);
+    throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
   }
 
   private getLastSection(): HTMLElement {
     const lastSection = this.sections[this.sections.length - 1];
     if (lastSection) return lastSection;
-    const errorMessage = `
-        Jump-link sections not found. Please ensure your links point to existing elements.`;
-    throw new Error(errorMessage);
-  }
-
-
-  private initializeFlags(): void {
-    this.hasScrollEndSupport = 'onscrollend' in window;
-    this.ticking = false;
-  }
-
-  private initializeState(): void {
-    this.state = {
-      lastActiveSection: null,
-      isSticky: false,
-      startOffset: 0,
-      endOffset: 0,
-      progress: 0
-    };
+    throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
   }
 
   private async init(): Promise<void> {
@@ -177,21 +136,15 @@ class JumpLinks {
     this.jumpLinks.setAttribute('aria-hidden', 'true');
     this.addEventListeners();
     this.updateOffsets();
-    // Wait for first intersection before continuing
     await this.initializeObservers();
-
     this.updateNavVisibility();
     this.updateProgressBar();
   }
 
-  private isHTMLElement(el: unknown): el is HTMLElement {
-    return el instanceof HTMLElement;
-  }
-
-  private resolveElement(input: StickyTrigger | undefined | null): HTMLElement | null {
+  private resolveElement(input: StickyTrigger): HTMLElement | null {
     if (!input) return null;
     if (typeof input === 'string') return document.querySelector(input);
-    return this.isHTMLElement(input) ? input : null;
+    return input instanceof HTMLElement ? input : null;
   }
 
   private resolveOffset(value: number | (() => number)): number {
@@ -242,30 +195,30 @@ class JumpLinks {
   private initializeObservers(): Promise<void> {
     return new Promise<void>(resolve => {
       this.resizeObserver = new ResizeObserver(this.handleResize);
-
       this.resizeObserver.observe(document.documentElement);
 
       this.sectionObserver = new IntersectionObserver(
         (entries: IntersectionObserverEntry[]) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              this.state.lastActiveSection = (entry.target as HTMLElement).id;
+          for (const entry of entries) {
+            if (entry.isIntersecting && entry.target instanceof HTMLElement) {
+              const sectionId = entry.target.id;
+              this.state.lastActiveSection = sectionId;
               this.options.onIntersection({
-                intersectingSection: entry.target as HTMLElement,
+                intersectingSection: entry.target,
                 intersectingLink: this.jumpLinksAnchors.find(
-                  link => link.getAttribute('href') === `#${(entry.target as HTMLElement).id}`
+                  link => link.getAttribute('href') === `#${sectionId}`
                 )
               });
             }
-          });
+          }
           resolve();
         },
         this.options.intersectionOptions
       );
 
-      this.sections.forEach(section => {
+      for (const section of this.sections) {
         this.sectionObserver.observe(section);
-      });
+      }
     });
   }
 
@@ -315,49 +268,50 @@ class JumpLinks {
   }
 
   private handleJumpLinksClick = (event: Event): void => {
-    // Find clicked anchor from jumpLinksAnchors array
-    const link = (event.target as HTMLElement).closest(this.jumpLinksAnchorSelector) as HTMLAnchorElement;
+    const eventTarget = event.target;
+    if (!(eventTarget instanceof HTMLElement)) return;
 
+    const link = eventTarget.closest<HTMLAnchorElement>(this.jumpLinksAnchorSelector);
     if (!link) return;
 
     event.preventDefault();
     const targetId = link.getAttribute('href');
-    const target = targetId ? document.querySelector(targetId) as HTMLElement : null;
+    if (!targetId) return;
 
-    if (target) {
-      // Temporarily stop observing all sections to prevent double triggering of active links
-      if (this.hasScrollEndSupport) {
-        this.sections.forEach(section => {
-          this.sectionObserver.unobserve(section);
-        });
+    const target = document.querySelector<HTMLElement>(targetId);
+    if (!target) return;
 
-        // Re-observe sections after smooth scroll animation
-        document.addEventListener('scrollend', () => {
-          this.sections.forEach(section => {
-            this.sectionObserver.observe(section);
-          });
-        }, { once: true });
+    // Temporarily stop observing all sections to prevent double triggering of active links
+    if (this.hasScrollEndSupport && this.sectionObserver) {
+      const observer = this.sectionObserver;
+      for (const section of this.sections) {
+        observer.unobserve(section);
       }
 
-      // Scroll to target
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-      // Hack to make sure the target element is focusable
-      if (!target.getAttribute('tabindex')) {
-        target.setAttribute('tabindex', '-1');
-      }
-      target.focus({ preventScroll: true });
-      target.removeAttribute('tabindex');
-
-      // Trigger the onLinkClick callback
-      this.options.onLinkClick({
-        link: link,
-        target: target
-      });
+      // Re-observe sections after smooth scroll animation
+      document.addEventListener('scrollend', () => {
+        for (const section of this.sections) {
+          observer.observe(section);
+        }
+      }, { once: true });
     }
+
+    target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+    // Temporarily make the target focusable if it isn't already
+    const hadTabIndex = target.hasAttribute('tabindex');
+    if (!hadTabIndex) {
+      target.setAttribute('tabindex', '-1');
+    }
+    target.focus({ preventScroll: true });
+    if (!hadTabIndex) {
+      target.removeAttribute('tabindex');
+    }
+
+    this.options.onLinkClick({ link, target });
   }
 
   private handleScroll = (): void => {
@@ -377,12 +331,10 @@ class JumpLinks {
   }
 
   public destroy(): void {
-    if (this.sectionObserver) {
-      this.sectionObserver.disconnect();
-    }
-
-    // Disconnect the ResizeObserver
-    this.resizeObserver.disconnect();
+    this.sectionObserver?.disconnect();
+    this.resizeObserver?.disconnect();
+    this.sectionObserver = null;
+    this.resizeObserver = null;
 
     document.removeEventListener('scroll', this.handleScroll);
     this.jumpLinks.removeEventListener('click', this.handleJumpLinksClick);
