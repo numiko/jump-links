@@ -1,8 +1,11 @@
-// Type definitions
 type JumpLinksElement = string | HTMLElement;
 type StickyTrigger = string | HTMLElement | null;
 
 type JumpLinksOptions = {
+  /**
+   * Whether to enable the progress UI. This will add a
+   * progress bar that tracks a user's progress through the jump-links.
+   */
   progress: boolean;
   stickyTriggerStart: StickyTrigger;
   stickyTriggerEnd: StickyTrigger;
