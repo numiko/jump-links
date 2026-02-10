@@ -1,40 +1,98 @@
-class o {
-  constructor(t = "[data-js-jump-links]", s = {}) {
-    const i = {
-      progress: !1,
-      stickyTriggerStart: null,
-      stickyTriggerEnd: null,
-      stickyTriggerStartOffset: 0,
-      stickyTriggerEndOffset: 0,
-      intersectionOptions: {
-        threshold: 0,
-        rootMargin: "-50% 0px -50% 0px"
-      },
-      onStickyTrigger: ["translate-y-0"],
-      onLinkClick: () => {
-      },
-      onIntersection: () => {
-      }
-    };
-    if (this.options = { ...i, ...s }, this.jumpLinks = typeof t == "string" ? document.querySelector(t) : t, !this.jumpLinks)
-      throw new Error(`JumpLinks element not found: ${t}`);
-    this.jumpLinksAnchorSelector = "[data-js-jump-links-anchor]", this.jumpLinksAnchors = Array.from(this.jumpLinks.querySelectorAll(this.jumpLinksAnchorSelector));
-    const e = this.jumpLinksAnchors.map((r) => r.getAttribute("href").substring(1));
-    this.sections = e.map((r) => document.getElementById(r)), this.firstSection = this.sections[0], this.lastSection = this.sections[this.sections.length - 1], this.startTrigger = this.options.stickyTriggerStart ? typeof this.options.stickyTriggerStart == "string" ? document.querySelector(this.options.stickyTriggerStart) : this.options.stickyTriggerStart : this.firstSection, this.endTrigger = this.options.stickyTriggerEnd ? typeof this.options.stickyTriggerEnd == "string" ? document.querySelector(this.options.stickyTriggerEnd) : this.options.stickyTriggerEnd : this.lastSection, this.hasScrollEndSupport = "onscrollend" in window, this.ticking = !1, this.state = {
-      lastActiveSection: null,
-      isSticky: !1,
-      startOffset: 0,
-      endOffset: 0,
-      progress: 0
-    }, this.bindThisToMemberFunctions(), this.init();
+const h = {
+  progress: !1,
+  stickyTriggerStart: null,
+  stickyTriggerEnd: null,
+  stickyTriggerStartOffset: 0,
+  stickyTriggerEndOffset: 0,
+  intersectionOptions: {
+    threshold: 0,
+    rootMargin: "-50% 0px -50% 0px"
+  },
+  onStickyTrigger: ["translate-y-0"],
+  onLinkClick: () => {
+  },
+  onIntersection: () => {
   }
-  bindThisToMemberFunctions() {
-    Object.getOwnPropertyNames(Object.getPrototypeOf(this)).forEach((s) => {
-      typeof this[s] == "function" && (this[s] = this[s].bind(this));
+}, u = {
+  lastActiveSection: null,
+  isSticky: !1,
+  startOffset: 0,
+  endOffset: 0,
+  progress: 0
+};
+class d {
+  constructor(t = "[data-js-jump-links]", e = {}) {
+    this.jumpLinksAnchorSelector = "[data-js-jump-links-anchor]", this.handleJumpLinksClick = (s) => {
+      const i = s.target;
+      if (!(i instanceof HTMLElement)) return;
+      const n = i.closest(this.jumpLinksAnchorSelector);
+      if (!n) return;
+      s.preventDefault();
+      const c = n.getAttribute("href");
+      if (!c) return;
+      const r = document.querySelector(c);
+      if (!r) return;
+      if (this.hasScrollEndSupport && this.sectionObserver) {
+        const a = this.sectionObserver;
+        for (const o of this.sections)
+          a.unobserve(o);
+        document.addEventListener("scrollend", () => {
+          for (const o of this.sections)
+            a.observe(o);
+        }, { once: !0 });
+      }
+      r.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+      const l = r.hasAttribute("tabindex");
+      l || r.setAttribute("tabindex", "-1"), r.focus({ preventScroll: !0 }), l || r.removeAttribute("tabindex"), this.options.onLinkClick({ link: n, target: r });
+    }, this.handleScroll = () => {
+      this.ticking || (window.requestAnimationFrame(() => {
+        this.updateNavVisibility(), this.updateProgressBar(), this.ticking = !1;
+      }), this.ticking = !0);
+    }, this.handleResize = () => {
+      this.updateOffsets(), this.updateProgressBar();
+    }, this.options = { ...h, ...e }, this.jumpLinks = this.resolveJumpLinksElement(t), this.jumpLinksAnchors = this.collectAnchors(), this.sections = this.collectSections(), this.startTrigger = this.resolveElement(this.options.stickyTriggerStart) ?? this.getFirstSection(), this.endTrigger = this.resolveElement(this.options.stickyTriggerEnd) ?? this.getLastSection(), this.hasScrollEndSupport = "onscrollend" in window, this.ticking = !1, this.state = { ...u }, this.resizeObserver = null, this.sectionObserver = null, this.init();
+  }
+  resolveJumpLinksElement(t) {
+    const e = typeof t == "string" ? document.querySelector(t) : t;
+    if (!(e instanceof HTMLElement))
+      throw new Error(`JumpLinks element not found: ${t}`);
+    return e;
+  }
+  collectAnchors() {
+    return Array.from(this.jumpLinks.querySelectorAll(this.jumpLinksAnchorSelector)).filter((t) => {
+      const e = t.getAttribute("href");
+      return e !== null && e.startsWith("#");
     });
+  }
+  collectSections() {
+    return this.jumpLinksAnchors.map((t) => {
+      const e = t.getAttribute("href");
+      return e ? document.getElementById(e.slice(1)) : null;
+    }).filter((t) => t instanceof HTMLElement);
+  }
+  getFirstSection() {
+    const t = this.sections[0];
+    if (!t)
+      throw new Error("Jump-link sections not found. Please ensure your links point to existing elements.");
+    return t;
+  }
+  getLastSection() {
+    const t = this.sections[this.sections.length - 1];
+    if (!t)
+      throw new Error("Jump-link sections not found. Please ensure your links point to existing elements.");
+    return t;
   }
   async init() {
     this.validateElements(), this.jumpLinks.setAttribute("aria-hidden", "true"), this.addEventListeners(), this.updateOffsets(), await this.initializeObservers(), this.updateNavVisibility(), this.updateProgressBar();
+  }
+  resolveElement(t) {
+    return t ? typeof t == "string" ? document.querySelector(t) : t instanceof HTMLElement ? t : null : null;
+  }
+  resolveOffset(t) {
+    return typeof t == "function" ? t() : t;
   }
   validateElements() {
     if (!this.jumpLinksAnchors.length) {
@@ -69,88 +127,62 @@ class o {
     }
   }
   addEventListeners() {
-    document.addEventListener("scroll", this.handleScroll), this.jumpLinks.addEventListener("click", this.handleJumpLinksClick);
+    document.addEventListener("scroll", this.handleScroll, { passive: !0 }), this.jumpLinks.addEventListener("click", this.handleJumpLinksClick);
   }
   initializeObservers() {
     return new Promise((t) => {
-      this.resizeObserver = new ResizeObserver(
-        this.handleResize.bind(this)
-      ), this.resizeObserver.observe(document.documentElement), this.sectionObserver = new IntersectionObserver(
-        (s) => {
-          s.forEach((i) => {
-            i.isIntersecting && (this.state.lastActiveSection = i.target.id, this.options.onIntersection({
-              intersectingSection: i.target,
-              intersectingLink: this.jumpLinksAnchors.find(
-                (e) => e.getAttribute("href") === `#${i.target.id}`
-              )
-            }));
-          }), t();
+      this.resizeObserver = new ResizeObserver(this.handleResize), this.resizeObserver.observe(document.documentElement), this.sectionObserver = new IntersectionObserver(
+        (e) => {
+          for (const s of e)
+            if (s.isIntersecting && s.target instanceof HTMLElement) {
+              const i = s.target.id;
+              this.state.lastActiveSection = i, this.options.onIntersection({
+                intersectingSection: s.target,
+                intersectingLink: this.jumpLinksAnchors.find(
+                  (n) => n.getAttribute("href") === `#${i}`
+                )
+              });
+            }
+          t();
         },
         this.options.intersectionOptions
-      ), this.sections.forEach((s) => {
-        this.sectionObserver.observe(s);
-      });
+      );
+      for (const e of this.sections)
+        this.sectionObserver.observe(e);
     });
   }
   updateNavVisibility() {
-    const t = this.startTrigger.getBoundingClientRect().top + this.state.startOffset <= 0, s = this.endTrigger.getBoundingClientRect().bottom < -this.state.endOffset, i = t && !s;
-    if (i !== this.state.isSticky) {
-      if (this.state.isSticky = i, Array.isArray(this.options.onStickyTrigger)) {
-        const e = this.options.onStickyTrigger;
-        this.state.isSticky ? this.jumpLinks.classList.add(...e) : this.jumpLinks.classList.remove(...e);
+    const t = this.startTrigger.getBoundingClientRect().top + this.state.startOffset <= 0, e = this.endTrigger.getBoundingClientRect().bottom < -this.state.endOffset, s = t && !e;
+    if (s !== this.state.isSticky) {
+      if (this.state.isSticky = s, Array.isArray(this.options.onStickyTrigger)) {
+        const i = this.options.onStickyTrigger;
+        this.state.isSticky ? this.jumpLinks.classList.add(...i) : this.jumpLinks.classList.remove(...i);
       } else
         this.options.onStickyTrigger({
           jumpLinks: this.jumpLinks,
           isSticky: this.state.isSticky,
           hasStartTriggered: t,
-          hasEndTriggered: s
+          hasEndTriggered: e
         });
-      this.jumpLinks.setAttribute("aria-hidden", i ? "false" : "true");
+      this.jumpLinks.setAttribute("aria-hidden", s ? "false" : "true");
     }
   }
   updateProgressBar() {
     if (!this.options.progress) return;
-    const t = this.startTrigger.getBoundingClientRect().top + window.scrollY + this.state.startOffset, i = this.endTrigger.getBoundingClientRect().top + window.scrollY + this.endTrigger.offsetHeight - t + this.state.endOffset, e = window.scrollY - t;
-    this.state.progress = Math.max(0, Math.min(100, e / i * 100)).toFixed(2), document.documentElement.style.setProperty("--jump-links-progress", `${this.state.progress}%`);
+    const t = this.startTrigger.getBoundingClientRect().top + window.scrollY + this.state.startOffset, s = this.endTrigger.getBoundingClientRect().top + window.scrollY + this.endTrigger.offsetHeight - t + this.state.endOffset, i = window.scrollY - t;
+    this.state.progress = parseFloat(Math.max(0, Math.min(100, i / s * 100)).toFixed(2)), document.documentElement.style.setProperty("--jump-links-progress", `${this.state.progress.toFixed(2)}%`);
   }
   updateOffsets() {
-    this.state.startOffset = typeof this.options.stickyTriggerStartOffset == "function" ? this.options.stickyTriggerStartOffset() : this.options.stickyTriggerStartOffset, this.state.endOffset = typeof this.options.stickyTriggerEndOffset == "function" ? this.options.stickyTriggerEndOffset() : this.options.stickyTriggerEndOffset;
-  }
-  handleJumpLinksClick(t) {
-    const s = t.target.closest(this.jumpLinksAnchorSelector);
-    if (!s) return;
-    t.preventDefault();
-    const i = s.getAttribute("href"), e = document.querySelector(i);
-    e && (this.hasScrollEndSupport && (this.sections.forEach((r) => {
-      this.sectionObserver.unobserve(r);
-    }), document.addEventListener("scrollend", () => {
-      this.sections.forEach((r) => {
-        this.sectionObserver.observe(r);
-      });
-    })), e.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    }), e.getAttribute("tabindex") || e.setAttribute("tabindex", "-1"), e.focus({ preventScroll: !0 }), e.removeAttribute("tabindex"), this.options.onLinkClick({
-      link: s,
-      target: e
-    }));
-  }
-  handleScroll() {
-    this.ticking || (window.requestAnimationFrame(() => {
-      this.updateNavVisibility(), this.updateProgressBar(), this.ticking = !1;
-    }), this.ticking = !0);
-  }
-  handleResize() {
-    this.updateOffsets(), this.updateProgressBar();
+    this.state.startOffset = this.resolveOffset(this.options.stickyTriggerStartOffset), this.state.endOffset = this.resolveOffset(this.options.stickyTriggerEndOffset);
   }
   destroy() {
-    this.sectionObserver && this.sectionObserver.disconnect(), this.resizeObserver.disconnect(), document.removeEventListener("scroll", this.handleScroll), this.jumpLinks.removeEventListener("click", this.handleJumpLinksClick), this.state.lastActiveSection = null;
+    var t, e;
+    (t = this.sectionObserver) == null || t.disconnect(), (e = this.resizeObserver) == null || e.disconnect(), this.sectionObserver = null, this.resizeObserver = null, document.removeEventListener("scroll", this.handleScroll), this.jumpLinks.removeEventListener("click", this.handleJumpLinksClick), this.state.lastActiveSection = null;
   }
-  // Optional: Add a method to get current state (useful for debugging)
   getState() {
     return { ...this.state };
   }
 }
 export {
-  o as JumpLinks
+  d as JumpLinks
 };
