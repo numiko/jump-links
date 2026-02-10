@@ -91,7 +91,7 @@ class JumpLinks {
     this.init();
   }
 
-  private resolveJumpLinksElement(jumpLinks: JumpLinksElement): HTMLElement {
+  private resolveJumpLinksElement(jumpLinks: JumpLinksElement) {
     const element = typeof jumpLinks === 'string'
       ? document.querySelector(jumpLinks)
       : jumpLinks;
@@ -102,7 +102,7 @@ class JumpLinks {
     return element;
   }
 
-  private collectAnchors(): HTMLAnchorElement[] {
+  private collectAnchors() {
     return Array.from(this.jumpLinks.querySelectorAll<HTMLAnchorElement>(this.jumpLinksAnchorSelector))
       .filter((anchor): anchor is HTMLAnchorElement => {
         const href = anchor.getAttribute('href');
@@ -110,7 +110,7 @@ class JumpLinks {
       });
   }
 
-  private collectSections(): HTMLElement[] {
+  private collectSections() {
     return this.jumpLinksAnchors
       .map(link => {
         const href = link.getAttribute('href');
@@ -119,7 +119,7 @@ class JumpLinks {
       .filter((el): el is HTMLElement => el instanceof HTMLElement);
   }
 
-  private getFirstSection(): HTMLElement {
+  private getFirstSection() {
     const firstSection = this.sections[0];
     if (!firstSection) {
       throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
@@ -128,7 +128,7 @@ class JumpLinks {
     return firstSection;
   }
 
-  private getLastSection(): HTMLElement {
+  private getLastSection() {
     const lastSection = this.sections[this.sections.length - 1];
     if (!lastSection) {
       throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
@@ -137,7 +137,7 @@ class JumpLinks {
     return lastSection;
   }
 
-  private async init(): Promise<void> {
+  private async init() {
     this.validateElements();
     this.jumpLinks.setAttribute('aria-hidden', 'true');
     this.addEventListeners();
@@ -147,17 +147,17 @@ class JumpLinks {
     this.updateProgressBar();
   }
 
-  private resolveElement(input: StickyTrigger): HTMLElement | null {
+  private resolveElement(input: StickyTrigger) {
     if (!input) return null;
-    if (typeof input === 'string') return document.querySelector(input);
+    if (typeof input === 'string') return document.querySelector<HTMLElement>(input);
     return input instanceof HTMLElement ? input : null;
   }
 
-  private resolveOffset(value: number | (() => number)): number {
+  private resolveOffset(value: number | (() => number)) {
     return typeof value === 'function' ? value() : value;
   }
 
-  private validateElements(): void {
+  private validateElements() {
     if (!this.jumpLinksAnchors.length) {
       const errorMessage = `
         Jump-link anchors not found. Add a 'data-js-jump-links-anchor' attribute to your links.`;
@@ -193,12 +193,12 @@ class JumpLinks {
     }
   }
 
-  private addEventListeners(): void {
+  private addEventListeners() {
     document.addEventListener('scroll', this.handleScroll, { passive: true });
     this.jumpLinks.addEventListener('click', this.handleJumpLinksClick);
   }
 
-  private initializeObservers(): Promise<void> {
+  private initializeObservers() {
     return new Promise<void>(resolve => {
       this.resizeObserver = new ResizeObserver(this.handleResize);
       this.resizeObserver.observe(document.documentElement);
@@ -228,7 +228,7 @@ class JumpLinks {
     });
   }
 
-  private updateNavVisibility(): void {
+  private updateNavVisibility() {
     const hasStartTriggered = this.startTrigger.getBoundingClientRect().top + this.state.startOffset <= 0;
     const hasEndTriggered = this.endTrigger.getBoundingClientRect().bottom < -this.state.endOffset;
     const shouldBeSticky = hasStartTriggered && !hasEndTriggered;
@@ -258,7 +258,7 @@ class JumpLinks {
     this.jumpLinks.setAttribute('aria-hidden', shouldBeSticky ? 'false' : 'true');
   }
 
-  private updateProgressBar(): void {
+  private updateProgressBar() {
     if (!this.options.progress) return;
     const startTop = this.startTrigger.getBoundingClientRect().top + window.scrollY + this.state.startOffset;
     const endTop = this.endTrigger.getBoundingClientRect().top + window.scrollY;
@@ -268,12 +268,12 @@ class JumpLinks {
     document.documentElement.style.setProperty('--jump-links-progress', `${this.state.progress.toFixed(2)}%`);
   }
 
-  private updateOffsets(): void {
+  private updateOffsets() {
     this.state.startOffset = this.resolveOffset(this.options.stickyTriggerStartOffset);
     this.state.endOffset = this.resolveOffset(this.options.stickyTriggerEndOffset);
   }
 
-  private handleJumpLinksClick = (event: Event): void => {
+  private handleJumpLinksClick = (event: Event) => {
     const eventTarget = event.target;
     if (!(eventTarget instanceof HTMLElement)) return;
 
@@ -320,7 +320,7 @@ class JumpLinks {
     this.options.onLinkClick({ link, target });
   }
 
-  private handleScroll = (): void => {
+  private handleScroll = () => {
     if (!this.ticking) {
       window.requestAnimationFrame(() => {
         this.updateNavVisibility();
@@ -331,12 +331,12 @@ class JumpLinks {
     }
   }
 
-  private handleResize = (): void => {
+  private handleResize = () => {
     this.updateOffsets();
     this.updateProgressBar();
   }
 
-  public destroy(): void {
+  public destroy() {
     this.sectionObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.sectionObserver = null;
