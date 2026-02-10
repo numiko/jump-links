@@ -7,9 +7,8 @@ export default defineConfig({
   plugins: [
     eslint(),
     dts({
-      exclude: ['**/*.d.ts', 'node_modules', 'dist', 'lib/utils'],
-      skipDiagnostics: true,
-      tsconfigPath: './tsconfig.dts.json',
+      outDir: 'dist',
+      rollupTypes: true
     })
   ],
   test: {
