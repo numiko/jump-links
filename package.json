@@ -2,7 +2,7 @@
   "name": "@numiko/jump-links",
   "version": "1.0.0",
   "description": "",
-  "private": true,
+  "private": false,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "test:ci": "vitest --run --reporter junit --outputFile ./reports/results.xml --coverage.enabled --coverage.include lib --coverage.reporter=html --coverage.reportsDirectory ./reports/"
+    "test:ci": "vitest --run --reporter junit --outputFile ./reports/results.xml --coverage.enabled --coverage.include lib --coverage.reporter=html --coverage.reportsDirectory ./reports/",
+    "generate-docs": "typedoc lib/jumplinks.ts",
+    "deploy-docs": "netlify deploy --dir=docs --alias=v$(node -p \"require('./package.json').version\")",
+    "release": "release-it"
   },
   "main": "./dist/jumplinks.umd.js",
   "files": [
@@ -20,6 +23,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/jumplinks.d.ts",
       "import": "./dist/jumplinks.es.js",
       "require": "./dist/jumplinks.umd.js"
     }
@@ -34,13 +38,51 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^2.0.4",
+    "@types/node": "^24.7.2",
     "@stylistic/eslint-plugin": "^2.6.2",
+    "@vitest/coverage-v8": "^2.0.4",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
     "happy-dom": "^14.12.3",
+    "netlify-cli": "^23.15.1",
+    "release-it": "^17.10.0",
+    "typedoc": "^0.28.16",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
     "vite": "^5.3.5",
+    "vite-plugin-dts": "^4.5.4",
     "vite-plugin-eslint": "^1.8.1",
     "vitest": "^2.0.4"
+  },
+  "release-it": {
+    "$schema": "https://unpkg.com/release-it/schema/release-it.json",
+    "plugins": {
+      "@j-ulrich/release-it-regex-bumper": {
+        "out": [
+          {
+            "file": "README.md",
+            "search": "\\d+-\\d+-\\d+",
+            "replace": "{{major}}-{{minor}}-{{patch}}"
+          }
+        ]
+      }
+    },
+    "npm": {
+      "publish": true,
+      "publishArgs": [
+        "--access",
+        "public"
+      ]
+    },
+    "hooks": {
+      "before:init": [
+        "vitest run"
+      ],
+      "after:bump": [
+        "npm run generate-docs",
+        "npm run build",
+        "npm run deploy-docs"
+      ]
+    }
   }
 }

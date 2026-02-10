@@ -1,14 +1,18 @@
-import { Window } from 'happy-dom';
 import { expect, describe, it, vi, beforeEach, afterEach } from 'vitest';
-import { JumpLinks } from '../../lib/jumplinks.js';
+import { JumpLinks } from '../../lib/jumplinks.ts';
 import { setupTestDOM, delay, mockIntersectionObserver } from '../test-utils';
 
 describe('Jump-links Intersection Behavior', () => {
-  let window, document;
+  let document;
 
   beforeEach(() => {
-    ({ window, document } = setupTestDOM());
+    ({ document } = setupTestDOM());
     mockIntersectionObserver();
+    class MockResizeObserver {
+      observe() {}
+      disconnect() {}
+    }
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
   });
 
   afterEach(() => {
@@ -34,7 +38,7 @@ describe('Jump-links Intersection Behavior', () => {
       unobserve: vi.fn(),
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
-    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+    new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({ intersectingLink }) => {
 
         // Remove underline from all links and add it to the intersecting link if it exists
@@ -71,11 +75,11 @@ describe('Jump-links Intersection Behavior', () => {
     }));
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
-    const jumpLinks = new JumpLinks('[data-js-jump-links]', {
+    new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({intersectingSection}) => {
 
         if (jumpLinkLabel) {
-          jumpLinkLabel.textContent = intersectingSection.querySelector('h2')?.textContent || section.id;
+          jumpLinkLabel.textContent = intersectingSection.querySelector('h2')?.textContent || intersectingSection.id;
         }
       }
     });
@@ -84,5 +88,54 @@ describe('Jump-links Intersection Behavior', () => {
     expect(jumpLinkLabel.textContent).toBe(secondSectionTextContent);
   });
 
+  it('should reflect the last active section in the DOM when a section intersects', async () => {
+    const firstSection = document.getElementById('section1');
+    const jumpLinksElement = document.querySelector('[data-js-jump-links]');
+
+    const MockIntersectionObserver = vi.fn((callback) => ({
+      observe: (element) => {
+        if (element === firstSection) {
+          callback([{ isIntersecting: true, target: firstSection }]);
+        }
+      },
+      disconnect: vi.fn(),
+      unobserve: vi.fn(),
+    }));
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+
+    new JumpLinks('[data-js-jump-links]', {
+      onIntersection: ({ intersectingSection }) => {
+        jumpLinksElement?.setAttribute('data-active-section', intersectingSection.id);
+      }
+    });
+    await delay(0);
+    expect(jumpLinksElement?.getAttribute('data-active-section')).toBe('section1');
+  });
+
+  it('maps intersecting section to the correct link', async () => {
+    const secondSection = document.getElementById('section2');
+    const secondLink = document.querySelector('[data-js-jump-links-anchor][href="#section2"]');
+    let receivedLink;
+
+    const MockIntersectionObserver = vi.fn((callback) => ({
+      observe: (element) => {
+        if (element === secondSection) {
+          callback([{ isIntersecting: true, target: secondSection }]);
+        }
+      },
+      disconnect: vi.fn(),
+      unobserve: vi.fn(),
+    }));
+    vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
+
+    new JumpLinks('[data-js-jump-links]', {
+      onIntersection: ({ intersectingLink }) => {
+        receivedLink = intersectingLink;
+      }
+    });
+
+    await delay(0);
+    expect(receivedLink).toBe(secondLink);
+  });
 
 });
