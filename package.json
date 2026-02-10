@@ -38,8 +38,9 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/node": "^24.7.2",
+    "@j-ulrich/release-it-regex-bumper": "^5.3.1",
     "@stylistic/eslint-plugin": "^2.6.2",
+    "@types/node": "^24.7.2",
     "@vitest/coverage-v8": "^2.0.4",
     "eslint": "^9.9.0",
     "globals": "^15.9.0",
