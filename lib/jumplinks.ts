@@ -121,14 +121,20 @@ class JumpLinks {
 
   private getFirstSection(): HTMLElement {
     const firstSection = this.sections[0];
-    if (firstSection) return firstSection;
-    throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
+    if (!firstSection) {
+      throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
+    }
+
+    return firstSection;
   }
 
   private getLastSection(): HTMLElement {
     const lastSection = this.sections[this.sections.length - 1];
-    if (lastSection) return lastSection;
-    throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
+    if (!lastSection) {
+      throw new Error('Jump-link sections not found. Please ensure your links point to existing elements.');
+    }
+
+    return lastSection;
   }
 
   private async init(): Promise<void> {
