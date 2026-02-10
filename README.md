@@ -19,6 +19,6 @@ A lightweight JavaScript package that creates a fixed navigation bar showing scr
 npm install @numiko/jump-links
 ```
 
-## API
+## API
 
 See [documentation](https://v2-1-1--numiko-jumplinks.netlify.app) for more detail on how to use the package.
