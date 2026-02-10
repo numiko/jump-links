@@ -6,7 +6,6 @@
     "strict": true,
     "composite": true,
     "noEmit": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": ".",
     "allowJs": true,

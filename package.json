@@ -38,6 +38,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/node": "^24.7.2",
     "@stylistic/eslint-plugin": "^2.6.2",
     "@vitest/coverage-v8": "^2.0.4",
     "eslint": "^9.9.0",
