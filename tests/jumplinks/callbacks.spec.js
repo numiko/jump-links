@@ -22,11 +22,13 @@ describe('Jump-links Options', () => {
   it('calls onLinkClick with link and target', () => {
     const onLinkClick = vi.fn();
 
-    const MockIntersectionObserver = vi.fn((callback) => ({
-      observe: (el) => callback([{ isIntersecting: true, target: el }]),
-      disconnect: vi.fn(),
-      unobserve: vi.fn(),
-    }));
+    const MockIntersectionObserver = vi.fn(function(callback) {
+      return {
+        observe: (el) => callback([{ isIntersecting: true, target: el }]),
+        disconnect: vi.fn(),
+        unobserve: vi.fn(),
+      };
+    });
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
     const jl = new JumpLinks('[data-js-jump-links]', { onLinkClick });

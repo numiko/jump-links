@@ -27,12 +27,14 @@ export function setupTestDOM() {
 }
 
 export function mockIntersectionObserver() {
-  const MockIntersectionObserver = vi.fn(() => ({
-    observe: vi.fn(),
-    disconnect: vi.fn(),
-    takeRecords: vi.fn(),
-    unobserve: vi.fn(),
-  }));
+  const MockIntersectionObserver = vi.fn(function() {
+    return {
+      observe: vi.fn(),
+      disconnect: vi.fn(),
+      takeRecords: vi.fn(),
+      unobserve: vi.fn(),
+    };
+  });
   vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
   return MockIntersectionObserver;
 }
