@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [
     eslint(),
     dts({
+      tsconfigPath: './tsconfig.dts.json',
+      entryRoot: 'lib',
       outDir: 'dist',
       rollupTypes: true
     })
@@ -19,7 +21,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'lib/jumplinks.ts'),
+      entry: path.resolve(import.meta.dirname, 'lib/jumplinks.ts'),
       name: 'jumplinks',
       fileName: (format) => `jumplinks.${format}.js`
     },

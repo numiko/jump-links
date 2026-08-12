@@ -25,18 +25,20 @@ describe('Jump-links Intersection Behavior', () => {
     const firstJumplinkLink = jumpLinksAnchors[0];
     const firstSection = document.getElementById('section1');
 
-    const MockIntersectionObserver = vi.fn((callback) => ({
-      observe: (element) => {
-        if (element === firstSection) {
-          callback([{
-            isIntersecting: true,
-            target: firstSection
-          }]);
-        }
-      },
-      disconnect: vi.fn(),
-      unobserve: vi.fn(),
-    }));
+    const MockIntersectionObserver = vi.fn(function(callback) {
+      return {
+        observe: (element) => {
+          if (element === firstSection) {
+            callback([{
+              isIntersecting: true,
+              target: firstSection
+            }]);
+          }
+        },
+        disconnect: vi.fn(),
+        unobserve: vi.fn(),
+      };
+    });
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
     new JumpLinks('[data-js-jump-links]', {
       onIntersection: ({ intersectingLink }) => {
@@ -61,18 +63,20 @@ describe('Jump-links Intersection Behavior', () => {
     const secondSection = document.getElementById('section2');
     const secondSectionTextContent = secondSection.querySelector('h2')?.textContent;
 
-    const MockIntersectionObserver = vi.fn((callback) => ({
-      observe: (element) => {
-        if (element === secondSection) {
-          callback([{
-            isIntersecting: true,
-            target: secondSection
-          }]);
-        }
-      },
-      disconnect: vi.fn(),
-      unobserve: vi.fn(),
-    }));
+    const MockIntersectionObserver = vi.fn(function(callback) {
+      return {
+        observe: (element) => {
+          if (element === secondSection) {
+            callback([{
+              isIntersecting: true,
+              target: secondSection
+            }]);
+          }
+        },
+        disconnect: vi.fn(),
+        unobserve: vi.fn(),
+      };
+    });
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
     new JumpLinks('[data-js-jump-links]', {
@@ -92,15 +96,17 @@ describe('Jump-links Intersection Behavior', () => {
     const firstSection = document.getElementById('section1');
     const jumpLinksElement = document.querySelector('[data-js-jump-links]');
 
-    const MockIntersectionObserver = vi.fn((callback) => ({
-      observe: (element) => {
-        if (element === firstSection) {
-          callback([{ isIntersecting: true, target: firstSection }]);
-        }
-      },
-      disconnect: vi.fn(),
-      unobserve: vi.fn(),
-    }));
+    const MockIntersectionObserver = vi.fn(function(callback) {
+      return {
+        observe: (element) => {
+          if (element === firstSection) {
+            callback([{ isIntersecting: true, target: firstSection }]);
+          }
+        },
+        disconnect: vi.fn(),
+        unobserve: vi.fn(),
+      };
+    });
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
     new JumpLinks('[data-js-jump-links]', {
@@ -117,15 +123,17 @@ describe('Jump-links Intersection Behavior', () => {
     const secondLink = document.querySelector('[data-js-jump-links-anchor][href="#section2"]');
     let receivedLink;
 
-    const MockIntersectionObserver = vi.fn((callback) => ({
-      observe: (element) => {
-        if (element === secondSection) {
-          callback([{ isIntersecting: true, target: secondSection }]);
-        }
-      },
-      disconnect: vi.fn(),
-      unobserve: vi.fn(),
-    }));
+    const MockIntersectionObserver = vi.fn(function(callback) {
+      return {
+        observe: (element) => {
+          if (element === secondSection) {
+            callback([{ isIntersecting: true, target: secondSection }]);
+          }
+        },
+        disconnect: vi.fn(),
+        unobserve: vi.fn(),
+      };
+    });
     vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 
     new JumpLinks('[data-js-jump-links]', {
