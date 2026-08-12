@@ -21,4 +21,4 @@ npm install @numiko/jump-links
 
 ## API
 
-See [documentation](https://v2-1-2--numiko-jumplinks.netlify.app) for more detail on how to use the package.
+See [documentation](https://v2-2-0--numiko-jumplinks.netlify.app) for more detail on how to use the package.

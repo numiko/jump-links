@@ -1,9 +1,42 @@
-export declare type IntersectionCallback = (params: {
+type JumpLinksElement = string | HTMLElement;
+type StickyTrigger = string | HTMLElement | null;
+type JumpLinksOptions = {
+    /**
+     * Whether to enable the progress UI. This will add a
+     * progress bar that tracks a user's progress through the jump-links.
+     */
+    progress: boolean;
+    stickyTriggerStart: StickyTrigger;
+    stickyTriggerEnd: StickyTrigger;
+    stickyTriggerStartOffset: number | (() => number);
+    stickyTriggerEndOffset: number | (() => number);
+    intersectionOptions: IntersectionObserverInit;
+    onStickyTrigger: string[] | StickyTriggerCallback;
+    onLinkClick: LinkClickCallback;
+    onIntersection: IntersectionCallback;
+};
+type JumpLinksState = {
+    lastActiveSection: string | null;
+    isSticky: boolean;
+    startOffset: number;
+    endOffset: number;
+    progress: number;
+};
+type StickyTriggerCallback = (params: {
+    jumpLinks: HTMLElement;
+    isSticky: boolean;
+    hasStartTriggered: boolean;
+    hasEndTriggered: boolean;
+}) => void;
+type LinkClickCallback = (params: {
+    link: HTMLAnchorElement;
+    target: HTMLElement;
+}) => void;
+type IntersectionCallback = (params: {
     intersectingSection: HTMLElement;
     intersectingLink: HTMLAnchorElement | undefined;
 }) => void;
-
-export declare class JumpLinks {
+declare class JumpLinks {
     private readonly jumpLinksAnchorSelector;
     private options;
     private jumpLinks;
@@ -37,45 +70,4 @@ export declare class JumpLinks {
     destroy(): void;
     getState(): JumpLinksState;
 }
-
-export declare type JumpLinksElement = string | HTMLElement;
-
-export declare type JumpLinksOptions = {
-    /**
-     * Whether to enable the progress UI. This will add a
-     * progress bar that tracks a user's progress through the jump-links.
-     */
-    progress: boolean;
-    stickyTriggerStart: StickyTrigger;
-    stickyTriggerEnd: StickyTrigger;
-    stickyTriggerStartOffset: number | (() => number);
-    stickyTriggerEndOffset: number | (() => number);
-    intersectionOptions: IntersectionObserverInit;
-    onStickyTrigger: string[] | StickyTriggerCallback;
-    onLinkClick: LinkClickCallback;
-    onIntersection: IntersectionCallback;
-};
-
-export declare type JumpLinksState = {
-    lastActiveSection: string | null;
-    isSticky: boolean;
-    startOffset: number;
-    endOffset: number;
-    progress: number;
-};
-
-export declare type LinkClickCallback = (params: {
-    link: HTMLAnchorElement;
-    target: HTMLElement;
-}) => void;
-
-export declare type StickyTrigger = string | HTMLElement | null;
-
-export declare type StickyTriggerCallback = (params: {
-    jumpLinks: HTMLElement;
-    isSticky: boolean;
-    hasStartTriggered: boolean;
-    hasEndTriggered: boolean;
-}) => void;
-
-export { }
+export { JumpLinks, type JumpLinksElement, type StickyTrigger, type JumpLinksOptions, type JumpLinksState, type StickyTriggerCallback, type LinkClickCallback, type IntersectionCallback };
