@@ -12,7 +12,7 @@
     "test:coverage": "vitest --coverage",
     "test:ci": "vitest --run --reporter junit --outputFile ./reports/results.xml --coverage.enabled --coverage.include lib --coverage.reporter=html --coverage.reportsDirectory ./reports/",
     "generate-docs": "typedoc lib/jumplinks.ts",
-    "deploy-docs": "netlify deploy --dir=docs --alias=v$(node -p \"require('./package.json').version\")",
+    "deploy-docs": "netlify deploy --dir=docs --site=0261dd31-4c5c-49c9-8789-be27864ed159 --alias=v$(node -p \"require('./package.json').version\") && netlify deploy --dir=docs --site=0261dd31-4c5c-49c9-8789-be27864ed159 --prod",
     "release": "release-it"
   },
   "main": "./dist/jumplinks.umd.js",
