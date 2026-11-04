@@ -321,7 +321,7 @@ class JumpLinks {
     }
 
     this.options.onLinkClick({ link, target });
-  }
+  };
 
   private handleScroll = () => {
     if (!this.ticking) {
@@ -332,12 +332,12 @@ class JumpLinks {
       });
       this.ticking = true;
     }
-  }
+  };
 
   private handleResize = () => {
     this.updateOffsets();
     this.updateProgressBar();
-  }
+  };
 
   public destroy() {
     this.sectionObserver?.disconnect();
