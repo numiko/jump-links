@@ -1,5 +1,5 @@
-import path from 'path';
 import dts from 'vite-plugin-dts';
+import path from 'path';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig } from 'vite';
 
