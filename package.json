@@ -4,6 +4,9 @@
   "description": "",
   "private": false,
   "type": "module",
+  "engines": {
+    "node": ">=26.12.1"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -38,22 +41,23 @@
     "lodash": "^4.18.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@j-ulrich/release-it-regex-bumper": "^5.6.0",
-    "@stylistic/eslint-plugin": "^2.6.2",
+    "@stylistic/eslint-plugin": "^5.6.1",
     "@types/node": "^26.2.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^9.9.0",
-    "globals": "^17.9.0",
-    "happy-dom": "^20.11.2",
-    "netlify-cli": "^23.15.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.10.0",
+    "happy-dom": "^21.0.4",
+    "netlify-cli": "^27.16.2",
     "release-it": "^21.0.2",
     "typedoc": "^0.28.20",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
     "vite": "^8.2.1",
-    "vite-plugin-dts": "^5.0.3",
+    "vite-plugin-dts": "^5.1.2",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.5"
   },
   "release-it": {
     "$schema": "https://unpkg.com/release-it/schema/release-it.json",
