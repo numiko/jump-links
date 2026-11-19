@@ -1,4 +1,4 @@
-//#region lib/jumplinks.ts
+// lib/jumplinks.ts
 var e = {
 	progress: !1,
 	stickyTriggerStart: null,
@@ -153,5 +153,4 @@ var e = {
 		return { ...this.state };
 	}
 };
-//#endregion
 export { n as JumpLinks };
