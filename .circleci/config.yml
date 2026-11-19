@@ -9,7 +9,7 @@ workflows:
 jobs:
   build-and-test:
     machine:
-      image: default
+      image: ubuntu-2404:2026.05.1
     resource_class: medium
 
     steps:

@@ -33,10 +33,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/numiko/jump-links.git"
+    "url": "git+https://github.com/numiko/jump-links.git"
+  },
+  "homepage": "https://github.com/numiko/jump-links#readme",
+  "bugs": {
+    "url": "https://github.com/numiko/jump-links/issues"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.18.1"
   },
